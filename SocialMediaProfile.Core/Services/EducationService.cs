@@ -52,6 +52,7 @@ namespace SocialMediaProfile.Core.Services
                         educationDTO = EducationMapper.EducationToEducationDTO(education);
                         return educationDTO;
                     }
+                    return null;
                 }
                 return null;
             }
@@ -74,7 +75,7 @@ namespace SocialMediaProfile.Core.Services
                     int response = await _unitOfWork.SaveChangesAsync();
 
                     if (response > 0) return true;
-                    else return false;
+                    return false;
                 }
                 return false;
             }
@@ -100,7 +101,7 @@ namespace SocialMediaProfile.Core.Services
                         int response = await _unitOfWork.SaveChangesAsync();
 
                         if (response > 0) return true;
-                        else return false;
+                        return false;
                     }
                 }
                 return false;
@@ -126,7 +127,7 @@ namespace SocialMediaProfile.Core.Services
                         int response = await _unitOfWork.SaveChangesAsync();
 
                         if (response > 0) return true;
-                        else return false;
+                        return false;
                     }
                 }
                 return false;
