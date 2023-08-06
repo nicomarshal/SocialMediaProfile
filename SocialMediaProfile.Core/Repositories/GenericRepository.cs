@@ -40,7 +40,7 @@ namespace SocialMediaProfile.Core.Repositories
             _entities.Remove(entity);
         }
 
-        //public async Task<bool> DeleteSoft(int id)
+        //public async Task<bool> SoftDelete(int id)
         //{
         //    try
         //    {

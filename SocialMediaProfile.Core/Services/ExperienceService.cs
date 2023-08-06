@@ -1,4 +1,8 @@
-﻿using SocialMediaProfile.Core.Services.Interfaces;
+﻿using SocialMediaProfile.Core.DTOs;
+using SocialMediaProfile.Core.Entities;
+using SocialMediaProfile.Core.Mappers;
+using SocialMediaProfile.Core.Repositories.Interfaces;
+using SocialMediaProfile.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +13,59 @@ namespace SocialMediaProfile.Core.Services
 {
     public class ExperienceService : IExperienceService
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ExperienceService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<List<ExperienceDTO>> GetAllAsync()
+        {
+            try
+            {
+                List<ExperienceDTO> experiencesDTO = new List<ExperienceDTO>();
+
+                IEnumerable<Experience> experiences = await _unitOfWork.ExperienceRepository.GetAllAsync();
+                IEnumerable<Experience> result = experiences.OrderByDescending(t => t.StartDate);
+
+                foreach (Experience experience in result)
+                {
+                    experiencesDTO.Add(ExperienceMapper.ExperienceToExperienceDTO(experience)
+                }
+
+                return experiencesDTO;
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+        }
+
+        public async Task<ExperienceDTO> GetByIdAsync(int id)
+        {
+            try
+            {
+                if (id > 0)
+                {
+                    ExperienceDTO experienceDTO = new ExperienceDTO();
+
+                    Experience experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+
+                    if (experience != null)
+                    {
+                        experienceDTO = ExperienceMapper.ExperienceToExperienceDTO(experience);
+                        return experienceDTO;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

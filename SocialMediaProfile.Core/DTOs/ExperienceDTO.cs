@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SocialMediaProfile.Core.DTOs
 {
-    internal class ExperienceDTO
+    public class ExperienceDTO
     {
         public string Logo { get; set; }
         public string Name { get; set; }
@@ -14,7 +14,7 @@ namespace SocialMediaProfile.Core.DTOs
         public DateTime StartDate { get; set; }
         public DateTime FinishDate { get; set; }
         public string Description { get; set; }
-        public int PersonID { get; set; }
+        //public int PersonID { get; set; }
 
         //public int ExperienceTypeID { get; set; }
     }
