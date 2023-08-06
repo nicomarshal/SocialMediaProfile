@@ -42,20 +42,32 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // POST api/<ExperienceController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post(ExperienceDTO experienceDTO)
         {
+            bool isExperienceCreated = await _experienceService.AddAsync(experienceDTO);
+
+            if (!isExperienceCreated) BadRequest();
+            return Ok(isExperienceCreated);
         }
 
         // PUT api/<ExperienceController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, ExperienceDTO experienceDTO)
         {
+            bool isExperienceUpdated = await _experienceService.UpdateAsync(id, experienceDTO);
+
+            if (!isExperienceUpdated) return BadRequest();
+            return Ok(isExperienceUpdated);
         }
 
         // DELETE api/<ExperienceController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            bool isExperienceDeleted = await _experienceService.Delete(id);
+
+            if (!isExperienceDeleted) return BadRequest();
+            return Ok(isExperienceDeleted);
         }
     }
 }
