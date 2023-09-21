@@ -15,7 +15,9 @@ namespace SocialMediaProfile.Core.Entities
         public DateTime StartDate { get; set; }
         public DateTime FinishDate { get; set; }
 
+        public int PersonId { get; set; }
         public Person Person { get; set; } //ManyToOne
+        
         //public EducationType EducationType { get; set; } //ManyToOne
     }
 }

@@ -6,10 +6,10 @@ namespace SocialMediaProfile.Core.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly SocialMediaContext _dbContext;
+        private readonly SocialMediaDbContext _dbContext;
         protected readonly DbSet<T> _entities;
 
-        public GenericRepository(SocialMediaContext dbContext)
+        public GenericRepository(SocialMediaDbContext dbContext)
         {
             _dbContext = dbContext;
             _entities = _dbContext.Set<T>();

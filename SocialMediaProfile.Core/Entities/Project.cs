@@ -15,6 +15,7 @@ namespace SocialMediaProfile.Core.Entities
         public string Images { get; set; }
         public string URL { get; set; }
 
+        public int PersonId { get; set; }
         public Person Person { get; set; } //ManyToOne
     }
 }

@@ -11,7 +11,7 @@ namespace SocialMediaProfile.Core.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly SocialMediaContext _dbContext;
+        private readonly SocialMediaDbContext _dbContext;
 
         private readonly IGenericRepository<Role> _roleRepository;
         private readonly IGenericRepository<User> _userRepository;
@@ -21,7 +21,7 @@ namespace SocialMediaProfile.Core.Repositories
         private readonly IGenericRepository<Project> _projectRepository;
         private readonly IGenericRepository<Skill> _skillRepository;
 
-        public UnitOfWork(SocialMediaContext dbContext)
+        public UnitOfWork(SocialMediaDbContext dbContext)
         {
             _dbContext = dbContext;
         }
