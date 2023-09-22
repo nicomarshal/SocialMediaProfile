@@ -2,17 +2,15 @@ using SocialMediaProfile.Core.Repositories;
 using SocialMediaProfile.Core.Repositories.Interfaces;
 using SocialMediaProfile.Core.Services;
 using SocialMediaProfile.Core.Services.Interfaces;
-using SocialMediaProfile.Core.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using SocialMediaProfile.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddDbContext<SocialMediaDbContext>(options =>
-{
-    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-});
+builder.Services.AddDbContext<SocialMediaDbContext>();
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEducationService, EducationService>();
 

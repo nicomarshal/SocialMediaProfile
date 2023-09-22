@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialMediaProfile.Core.Entities
+namespace SocialMediaProfile.DataAccess.Entities
 {
     public class Skill : EntityBase
     {
@@ -13,7 +13,7 @@ namespace SocialMediaProfile.Core.Entities
 
         public int PersonId { get; set; }
         public Person Person { get; set; } //ManyToOne
-        
+
         //public SkillType SkillType { get; set; } //ManyToOne
     }
 }

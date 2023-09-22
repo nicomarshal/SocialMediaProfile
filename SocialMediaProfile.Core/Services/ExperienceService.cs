@@ -1,8 +1,8 @@
 ﻿using SocialMediaProfile.Core.DTOs;
-using SocialMediaProfile.Core.Entities;
 using SocialMediaProfile.Core.Mappers;
 using SocialMediaProfile.Core.Repositories.Interfaces;
 using SocialMediaProfile.Core.Services.Interfaces;
+using SocialMediaProfile.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +43,7 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<ExperienceDTO> GetByIdAsync(int id)
+        public async Task<ExperienceDTO?> GetByIdAsync(int id)
         {
             try
             {

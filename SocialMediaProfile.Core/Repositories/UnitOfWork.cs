@@ -1,6 +1,6 @@
-﻿using SocialMediaProfile.Core.DataAccess;
-using SocialMediaProfile.Core.Entities;
-using SocialMediaProfile.Core.Repositories.Interfaces;
+﻿using SocialMediaProfile.Core.Repositories.Interfaces;
+using SocialMediaProfile.DataAccess;
+using SocialMediaProfile.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +13,13 @@ namespace SocialMediaProfile.Core.Repositories
     {
         private readonly SocialMediaDbContext _dbContext;
 
-        private readonly IGenericRepository<Role> _roleRepository;
-        private readonly IGenericRepository<User> _userRepository;
-        private readonly IGenericRepository<Person> _personRepository;
-        private readonly IGenericRepository<Education> _educationRepository;
-        private readonly IGenericRepository<Experience> _experienceRepository;
-        private readonly IGenericRepository<Project> _projectRepository;
-        private readonly IGenericRepository<Skill> _skillRepository;
+        private readonly IGenericRepository<Role>? _roleRepository;
+        private readonly IGenericRepository<User>? _userRepository;
+        private readonly IGenericRepository<Person>? _personRepository;
+        private readonly IGenericRepository<Education>? _educationRepository;
+        private readonly IGenericRepository<Experience>? _experienceRepository;
+        private readonly IGenericRepository<Project>? _projectRepository;
+        private readonly IGenericRepository<Skill>? _skillRepository;
 
         public UnitOfWork(SocialMediaDbContext dbContext)
         {

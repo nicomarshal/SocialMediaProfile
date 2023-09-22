@@ -10,7 +10,7 @@ namespace SocialMediaProfile.Core.Services.Interfaces
     public interface IEducationService
     {
         Task<List<EducationDTO>> GetAllAsync();
-        Task<EducationDTO> GetByIdAsync(int id);
+        Task<EducationDTO?> GetByIdAsync(int id);
         Task<bool> AddAsync(EducationDTO educationDTO);
         Task<bool> UpdateAsync(int id, EducationDTO educationDTO);
         Task<bool> Delete(int id);

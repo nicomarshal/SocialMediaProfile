@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialMediaProfile.Core.Entities
+namespace SocialMediaProfile.DataAccess.Entities
 {
     public class Person : EntityBase
     {
@@ -16,7 +16,6 @@ namespace SocialMediaProfile.Core.Entities
 
         public int UserId { get; set; }
         public User User { get; set; } //OneToOne
-
 
         public List<Experience> Experiencies { get; set; } //OneToMany
         public List<Education> Educations { get; set; } //OneToMany
