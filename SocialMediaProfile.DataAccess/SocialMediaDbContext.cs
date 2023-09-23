@@ -56,12 +56,13 @@ namespace SocialMediaProfile.DataAccess
                .HasForeignKey(x => x.PersonId)
                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            //modelBuilder.SeedRoles();
-            //modelBuilder.SeedUsers();
-            //modelBuilder.SeedExperiences();
-            //modelBuilder.SeedEducations();
-            //modelBuilder.SeedSkills();
-            //modelBuilder.SeedProjects();
+            modelBuilder.SeedRoles();
+            modelBuilder.SeedUsers();
+            modelBuilder.SeedPeople();
+            modelBuilder.SeedExperiences();
+            modelBuilder.SeedEducations();
+            modelBuilder.SeedSkills();
+            modelBuilder.SeedProjects();
         }
     }
 }

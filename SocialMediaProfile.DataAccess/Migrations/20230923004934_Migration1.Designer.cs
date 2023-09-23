@@ -12,7 +12,7 @@ using SocialMediaProfile.DataAccess;
 namespace SocialMediaProfile.DataAccess.Migrations
 {
     [DbContext(typeof(SocialMediaDbContext))]
-    [Migration("20230922203458_Migration1")]
+    [Migration("20230923004934_Migration1")]
     partial class Migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,6 +65,32 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("Educations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Career = "Licenciatura en Matemática",
+                            Description = "Carrera universitaria de 5 años",
+                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6814),
+                            IsDeleted = false,
+                            Logo = "imgEducGian",
+                            Name = "FAMAF - UNC",
+                            PersonId = 1,
+                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6813)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Career = "Ingenierìa en Computaciòn",
+                            Description = "Carrera universitaria de 5 años",
+                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6816),
+                            IsDeleted = false,
+                            Logo = "imgEducNico",
+                            Name = "FCEFyN - UNC",
+                            PersonId = 2,
+                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6815)
+                        });
                 });
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Experience", b =>
@@ -108,6 +134,32 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("Experiences");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Centro de investigaciòn nacional",
+                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6797),
+                            IsDeleted = false,
+                            Job = "Cientìfico",
+                            Logo = "imgExpGian",
+                            Name = "CONICET",
+                            PersonId = 1,
+                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6784)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Automatizaciones industriales",
+                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6799),
+                            IsDeleted = false,
+                            Job = "Desarrollador .NET",
+                            Logo = "imgExpNico",
+                            Name = "eFALCOM",
+                            PersonId = 2,
+                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6798)
+                        });
                 });
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Person", b =>
@@ -150,6 +202,30 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("People");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AboutMe = "Simpàtico y curioso",
+                            IsDeleted = false,
+                            Name = "Gian",
+                            Profession = "Matemàtico",
+                            ProfileImg = "imgGian",
+                            Surname = "Ledesma",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AboutMe = "Mùsico y curioso",
+                            IsDeleted = false,
+                            Name = "Nicolàs",
+                            Profession = "Desarrollador",
+                            ProfileImg = "imgNico",
+                            Surname = "Ledesma",
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Project", b =>
@@ -193,6 +269,32 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("Projects");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Robot construido con bloques",
+                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6837),
+                            Images = "ImagesGian",
+                            IsDeleted = false,
+                            Name = "Robot 3D",
+                            PersonId = 1,
+                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6836),
+                            URL = "https://"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "App de mensajerìa",
+                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6839),
+                            Images = "ImagesNico",
+                            IsDeleted = false,
+                            Name = "ChatApp",
+                            PersonId = 2,
+                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6838),
+                            URL = "https://"
+                        });
                 });
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Role", b =>
@@ -217,6 +319,22 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Usuario Administrador",
+                            IsDeleted = false,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Usuario Regular",
+                            IsDeleted = false,
+                            Name = "Regular"
+                        });
                 });
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Skill", b =>
@@ -245,6 +363,24 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("Skills");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDeleted = false,
+                            Name = "imgSKGian",
+                            Percentage = 95,
+                            PersonId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDeleted = false,
+                            Name = "imgSkNico",
+                            Percentage = 95,
+                            PersonId = 2
+                        });
                 });
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.User", b =>
@@ -278,6 +414,26 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "gianledesma@gmail.com",
+                            IsDeleted = false,
+                            Password = "gian123",
+                            RoleId = 1,
+                            Username = "Gian123"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "nicoledesma@gmail.com",
+                            IsDeleted = false,
+                            Password = "nico123",
+                            RoleId = 2,
+                            Username = "Nico123"
+                        });
                 });
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Education", b =>
