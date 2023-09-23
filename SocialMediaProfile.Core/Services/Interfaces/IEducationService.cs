@@ -1,4 +1,4 @@
-﻿using SocialMediaProfile.Core.DTOs;
+﻿using SocialMediaProfile.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

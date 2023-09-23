@@ -1,8 +1,8 @@
-﻿using SocialMediaProfile.Core.DTOs;
-using SocialMediaProfile.Core.Mappers;
-using SocialMediaProfile.Core.Repositories.Interfaces;
+﻿using SocialMediaProfile.Core.Mappers;
+using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
 using SocialMediaProfile.DataAccess.Entities;
+using SocialMediaProfile.Repositories.Interfaces;
 
 namespace SocialMediaProfile.Core.Services
 {
@@ -45,7 +45,7 @@ namespace SocialMediaProfile.Core.Services
                 {
                     EducationDTO educationDTO = new EducationDTO();
 
-                    Education education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+                    Education? education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
 
                     if (education != null)
                     {
@@ -91,7 +91,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0 && educationDTO != null)
                 {
-                    Education education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+                    Education? education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
                     if (education != null)
                     {
                         education = EducationMapper.EducationDTOToEducation(educationDTO, education);
@@ -118,7 +118,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0)
                 {
-                    Education education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+                    Education? education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
 
                     if (education != null)
                     {

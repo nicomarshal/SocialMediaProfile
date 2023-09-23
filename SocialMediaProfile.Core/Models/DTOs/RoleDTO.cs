@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialMediaProfile.Core.DTOs
+namespace SocialMediaProfile.Core.Models.DTOs
 {
     public class RoleDTO
     {

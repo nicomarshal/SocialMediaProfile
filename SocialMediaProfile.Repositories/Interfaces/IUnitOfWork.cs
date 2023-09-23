@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialMediaProfile.Core.Repositories.Interfaces
+namespace SocialMediaProfile.Repositories.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

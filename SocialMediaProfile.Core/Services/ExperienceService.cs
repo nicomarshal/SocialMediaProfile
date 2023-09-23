@@ -1,13 +1,8 @@
-﻿using SocialMediaProfile.Core.DTOs;
-using SocialMediaProfile.Core.Mappers;
-using SocialMediaProfile.Core.Repositories.Interfaces;
+﻿using SocialMediaProfile.Core.Mappers;
+using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
 using SocialMediaProfile.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SocialMediaProfile.Repositories.Interfaces;
 
 namespace SocialMediaProfile.Core.Services
 {
@@ -51,7 +46,7 @@ namespace SocialMediaProfile.Core.Services
                 {
                     ExperienceDTO experienceDTO = new ExperienceDTO();
 
-                    Experience experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                    Experience? experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
 
                     if (experience != null)
                     {
@@ -97,7 +92,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0 && experienceDTO != null)
                 {
-                    Experience experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                    Experience? experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
                     if (experience != null)
                     {
                         experience = ExperienceMapper.ExperienceDTOToExperience(experienceDTO, experience);
@@ -124,7 +119,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0)
                 {
-                    Experience experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                    Experience? experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
 
                     if (experience != null)
                     {

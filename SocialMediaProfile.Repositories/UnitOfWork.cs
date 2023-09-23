@@ -1,13 +1,8 @@
-﻿using SocialMediaProfile.Core.Repositories.Interfaces;
-using SocialMediaProfile.DataAccess;
+﻿using SocialMediaProfile.DataAccess;
 using SocialMediaProfile.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SocialMediaProfile.Repositories.Interfaces;
 
-namespace SocialMediaProfile.Core.Repositories
+namespace SocialMediaProfile.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {

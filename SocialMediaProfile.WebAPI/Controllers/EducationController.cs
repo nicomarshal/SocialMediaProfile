@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SocialMediaProfile.Core.DTOs;
+using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers

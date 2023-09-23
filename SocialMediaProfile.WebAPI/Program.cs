@@ -1,9 +1,8 @@
-using SocialMediaProfile.Core.Repositories;
-using SocialMediaProfile.Core.Repositories.Interfaces;
 using SocialMediaProfile.Core.Services;
 using SocialMediaProfile.Core.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using SocialMediaProfile.DataAccess;
+using SocialMediaProfile.Repositories.Interfaces;
+using SocialMediaProfile.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SocialMediaProfile.Core.Repositories.Interfaces;
 using SocialMediaProfile.DataAccess;
+using SocialMediaProfile.Repositories.Interfaces;
 
-namespace SocialMediaProfile.Core.Repositories
+namespace SocialMediaProfile.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
@@ -20,7 +20,7 @@ namespace SocialMediaProfile.Core.Repositories
             return await _entities.ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T?> GetByIdAsync(int id)
         {
             return await _entities.FindAsync(id);
         }
