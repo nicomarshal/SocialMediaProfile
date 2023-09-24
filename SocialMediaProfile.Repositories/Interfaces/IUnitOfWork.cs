@@ -10,7 +10,7 @@ namespace SocialMediaProfile.Repositories.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IGenericRepository<Role> RoleRepository { get; }
-        IGenericRepository<User> UserRepository { get; }
+        UserRepository UserRepository { get; }
         IGenericRepository<Person> PersonRepository { get; }
         IGenericRepository<Education> EducationRepository { get; }
         IGenericRepository<Experience> ExperienceRepository { get; }

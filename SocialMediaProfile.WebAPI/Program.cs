@@ -6,16 +6,27 @@ using SocialMediaProfile.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddDbContext<SocialMediaDbContext>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddDbContext<SocialMediaDbContext>(options =>
+{
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")); // SocialMediaProfile.DataAccess
+});
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // SocialMediaProfile.Repositories
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IExperienceService, ExperienceService>();
+builder.Services.AddScoped<IPersonService, PersonService>(); 
+builder.Services.AddScoped<IExperienceService, ExperienceService>(); // SocialMediaProfile.Core
 builder.Services.AddScoped<IEducationService, EducationService>();
+builder.Services.AddScoped<ISkillService, SkillService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

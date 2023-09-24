@@ -16,7 +16,8 @@ namespace SocialMediaProfile.Core.Mappers
             {
                 Username = user.Username,
                 Password = user.Password,
-                Email = user.Email
+                Email = user.Email,
+                RoleId = user.RoleId
             };
             return userDTO;
         }
@@ -27,7 +28,8 @@ namespace SocialMediaProfile.Core.Mappers
             {
                 Username = userDTO.Username,
                 Password = userDTO.Password,
-                Email = userDTO.Email
+                Email = userDTO.Email,
+                RoleId = userDTO.RoleId
             };
             return user;
         }
@@ -37,6 +39,7 @@ namespace SocialMediaProfile.Core.Mappers
             user.Username = userDTO.Username;
             user.Password = userDTO.Password;
             user.Email = userDTO.Email;
+            user.RoleId = userDTO.RoleId;
 
             return user;
         }

@@ -14,7 +14,8 @@ namespace SocialMediaProfile.Core.Mappers
                 Description = education.Description,
                 Career = education.Career,
                 StartDate = education.StartDate,
-                FinishDate = education.FinishDate
+                FinishDate = education.FinishDate,
+                PersonId = education.PersonId
             };
             return educationDTO;
         }
@@ -28,7 +29,8 @@ namespace SocialMediaProfile.Core.Mappers
                 Description = educationDTO.Description,
                 Career = educationDTO.Career,
                 StartDate = educationDTO.StartDate,
-                FinishDate = educationDTO.FinishDate
+                FinishDate = educationDTO.FinishDate,
+                PersonId = educationDTO.PersonId
             };
             return education;
         }
@@ -41,6 +43,7 @@ namespace SocialMediaProfile.Core.Mappers
             education.Career = educationDTO.Career;
             education.StartDate = educationDTO.StartDate;
             education.FinishDate = educationDTO.FinishDate;
+            education.PersonId = educationDTO.PersonId;
 
             return education;
         }

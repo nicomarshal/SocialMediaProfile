@@ -21,7 +21,7 @@ namespace SocialMediaProfile.Core.Services
 
         public async Task<string> Login(LoginDTO loginDTO)
         {
-            IEnumerable<User> users = await _unitOfWork.UserRepository.GetAllAsync();
+            IEnumerable<User> users = await _unitOfWork.UserRepository.GetUsersWithRoleAsync();
             User user = users.Where(u => u.Username == loginDTO.Username && u.Password == loginDTO.Password).FirstOrDefault();
 
             if (user != null)

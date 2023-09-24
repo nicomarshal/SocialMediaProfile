@@ -20,20 +20,21 @@ namespace SocialMediaProfile.Core.Helpers
         {
             var authClaims = new List<Claim>
             {
+                new Claim("Id", user.Id.ToString()),
+                new Claim("Username", user.Username),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role.Name),
-                new Claim("UserId", user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SecretKey"]));
             var credentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256);
 
             var securityToken = new JwtSecurityToken
             (
                 issuer: _configuration["JWT:ValidIssuer"],
                 audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddHours(24),
+                expires: DateTime.Now.AddMinutes(30),
                 claims: authClaims,
                 signingCredentials: credentials
             );

@@ -8,13 +8,13 @@ namespace SocialMediaProfile.Repositories
     {
         private readonly SocialMediaDbContext _dbContext;
 
-        private readonly IGenericRepository<Role>? _roleRepository;
-        private readonly IGenericRepository<User>? _userRepository;
-        private readonly IGenericRepository<Person>? _personRepository;
-        private readonly IGenericRepository<Education>? _educationRepository;
-        private readonly IGenericRepository<Experience>? _experienceRepository;
-        private readonly IGenericRepository<Project>? _projectRepository;
-        private readonly IGenericRepository<Skill>? _skillRepository;
+        private readonly IGenericRepository<Role> _roleRepository;
+        private readonly UserRepository _userRepository;
+        private readonly IGenericRepository<Person> _personRepository;
+        private readonly IGenericRepository<Education> _educationRepository;
+        private readonly IGenericRepository<Experience> _experienceRepository;
+        private readonly IGenericRepository<Project> _projectRepository;
+        private readonly IGenericRepository<Skill> _skillRepository;
 
         public UnitOfWork(SocialMediaDbContext dbContext)
         {
@@ -24,8 +24,8 @@ namespace SocialMediaProfile.Repositories
         public IGenericRepository<Role> RoleRepository =>
             _roleRepository ?? new GenericRepository<Role>(_dbContext);
 
-        public IGenericRepository<User> UserRepository =>
-            _userRepository ?? new GenericRepository<User>(_dbContext);
+        public UserRepository UserRepository =>
+            _userRepository ?? new UserRepository(_dbContext);
 
         public IGenericRepository<Person> PersonRepository =>
             _personRepository ?? new GenericRepository<Person>(_dbContext);
@@ -56,7 +56,6 @@ namespace SocialMediaProfile.Repositories
                 _dbContext.Dispose();
             }
         }
-
 
         public int SaveChanges()
         {
