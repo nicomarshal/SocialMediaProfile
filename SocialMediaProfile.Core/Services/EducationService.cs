@@ -37,7 +37,7 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<EducationDTO?> GetByIdAsync(int id)
+        public async Task<EducationDTO> GetByIdAsync(int id)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace SocialMediaProfile.Core.Services
                 {
                     EducationDTO educationDTO = new EducationDTO();
 
-                    Education? education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+                    Education education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
 
                     if (education != null)
                     {
@@ -91,7 +91,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0 && educationDTO != null)
                 {
-                    Education? education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+                    Education education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
                     if (education != null)
                     {
                         education = EducationMapper.EducationDTOToEducation(educationDTO, education);
@@ -118,7 +118,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0)
                 {
-                    Education? education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+                    Education education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
 
                     if (education != null)
                     {

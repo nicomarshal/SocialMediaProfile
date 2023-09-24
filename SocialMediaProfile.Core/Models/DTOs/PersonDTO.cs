@@ -13,6 +13,7 @@ namespace SocialMediaProfile.Core.Models.DTOs
         public string Surname { get; set; }
         public string Profession { get; set; }
         public string AboutMe { get; set; }
-        public int UserID { get; set; }
+
+        //public int UserId { get; set; }
     }
 }

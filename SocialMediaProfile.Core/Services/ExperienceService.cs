@@ -38,7 +38,7 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<ExperienceDTO?> GetByIdAsync(int id)
+        public async Task<ExperienceDTO> GetByIdAsync(int id)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace SocialMediaProfile.Core.Services
                 {
                     ExperienceDTO experienceDTO = new ExperienceDTO();
 
-                    Experience? experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                    Experience experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
 
                     if (experience != null)
                     {
@@ -92,7 +92,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0 && experienceDTO != null)
                 {
-                    Experience? experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                    Experience experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
                     if (experience != null)
                     {
                         experience = ExperienceMapper.ExperienceDTOToExperience(experienceDTO, experience);
@@ -119,7 +119,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0)
                 {
-                    Experience? experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                    Experience experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
 
                     if (experience != null)
                     {

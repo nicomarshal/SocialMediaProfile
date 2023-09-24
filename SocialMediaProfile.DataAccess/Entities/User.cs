@@ -12,9 +12,9 @@ namespace SocialMediaProfile.DataAccess.Entities
         public string Password { get; set; }
         public string Email { get; set; }
 
-        public Person Person { get; set; } //OneToOne
-
         public int RoleId { get; set; }
-        public Role Role { get; set; } //ManyToOne      
+        public Role Role { get; set; } //ManyToOne
+
+        public Person Person { get; set; } //OneToOne    
     }
 }

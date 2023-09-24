@@ -14,7 +14,8 @@ namespace SocialMediaProfile.Core.Models.DTOs
         public DateTime StartDate { get; set; }
         public DateTime FinishDate { get; set; }
         public string Description { get; set; }
-        //public int PersonID { get; set; }
+
+        //public int PersonId { get; set; }
 
         //public int ExperienceTypeID { get; set; }
     }

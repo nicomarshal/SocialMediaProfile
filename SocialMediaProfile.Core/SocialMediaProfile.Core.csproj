@@ -10,8 +10,4 @@
     <ProjectReference Include="..\SocialMediaProfile.Repositories\SocialMediaProfile.Repositories.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
-
 </Project>
