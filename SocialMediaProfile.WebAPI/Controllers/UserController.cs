@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
 
@@ -19,6 +20,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // GET: api/<UserController>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Get()
         {
             List<UserDTO> usersDTO = await _userService.GetAllAsync();
