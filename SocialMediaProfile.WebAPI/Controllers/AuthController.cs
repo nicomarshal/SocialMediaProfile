@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SocialMediaProfile.WebAPI.Controllers
 {
@@ -21,6 +18,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // POST api/<AuthenticationController>
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Post(LoginDTO loginDTO)
         {
             string token = await _authService.Login(loginDTO);

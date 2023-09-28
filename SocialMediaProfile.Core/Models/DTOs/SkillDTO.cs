@@ -10,8 +10,7 @@ namespace SocialMediaProfile.Core.Models.DTOs
     {
         public string Name { get; set; }
         public int Percentage { get; set; }
-
-        //public int PersonId { get; set; }
+        public int PersonId { get; set; }
 
         //public int SkillTypeID { get; set; }
     }

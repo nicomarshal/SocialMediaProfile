@@ -32,6 +32,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Regular")]
         public async Task<IActionResult> Get(int id)
         {
             UserDTO userDTO = await _userService.GetByIdAsync(id);
@@ -42,7 +43,8 @@ namespace SocialMediaProfile.WebAPI.Controllers
         }
 
         // POST api/<UserController>
-        [HttpPost]
+        [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Post(UserDTO userDTO)
         {
             bool isUserCreated = await _userService.AddAsync(userDTO);
@@ -53,6 +55,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Regular")]
         public async Task<IActionResult> Put(int id, UserDTO userDTO)
         {
             bool isUserUpdated = await _userService.UpdateAsync(id, userDTO);
@@ -63,6 +66,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             bool isUserDeleted = await _userService.Delete(id);

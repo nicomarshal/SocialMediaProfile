@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialMediaProfile.Core.Models.DTOs;
-using SocialMediaProfile.Core.Services;
 using SocialMediaProfile.Core.Services.Interfaces;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SocialMediaProfile.WebAPI.Controllers
 {
@@ -42,6 +40,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // POST api/<ExperienceController>
         [HttpPost]
+        [Authorize(Roles = "Regular")]
         public async Task<IActionResult> Post(ExperienceDTO experienceDTO)
         {
             bool isExperienceCreated = await _experienceService.AddAsync(experienceDTO);
@@ -52,6 +51,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // PUT api/<ExperienceController>/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Regular")]
         public async Task<IActionResult> Put(int id, ExperienceDTO experienceDTO)
         {
             bool isExperienceUpdated = await _experienceService.UpdateAsync(id, experienceDTO);
@@ -62,6 +62,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // DELETE api/<ExperienceController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Regular")]
         public async Task<IActionResult> Delete(int id)
         {
             bool isExperienceDeleted = await _experienceService.Delete(id);

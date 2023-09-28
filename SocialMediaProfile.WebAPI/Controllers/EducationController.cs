@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
 
@@ -39,6 +40,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // POST api/<EducationController>
         [HttpPost]
+        [Authorize(Roles = "Regular")]
         public async Task<IActionResult> Post(EducationDTO educationDTO)
         {
             bool isEducationCreated = await _educationService.AddAsync(educationDTO);
@@ -49,6 +51,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // PUT api/<EducationController>/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Regular")]
         public async Task<IActionResult> Put(int id, EducationDTO educationDTO)
         {
             bool isEducationUpdated = await _educationService.UpdateAsync(id, educationDTO);
@@ -59,6 +62,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // DELETE api/<EducationController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Regular")]
         public async Task<IActionResult> Delete(int id)
         {
             bool isEducationDeleted = await _educationService.Delete(id);
