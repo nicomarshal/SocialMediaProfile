@@ -1,0 +1,71 @@
+﻿.banner {
+    min-height: 60vh;
+}
+
+.personalInfo {
+    min-height: 40vh;
+}
+
+.fs {
+    font-size: 1.1rem!important;
+}
+
+@media screen and (min-width: 576px) {
+
+    .banner-sm {
+        min-height: 70vh;
+    }
+
+    .personalInfo-sm {
+        min-height: 30vh;
+    }
+
+    .fixed-sm-top {
+        top: 0;
+        bottom: unset;
+    }
+
+    .fs-sm-5 {
+        font-size: 1.20rem!important;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .border-md {
+        ...
+    }
+
+    .border-md-0 {
+        ...
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .border-lg {
+        ...
+    }
+
+    .border-lg-0 {
+        ...
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .border-xl {
+        ...
+    }
+
+    .border-xl-0 {
+        ...
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .border-xxl {
+        ...
+    }
+
+    .border-xxl-0 {
+        ...
+    }
+}
