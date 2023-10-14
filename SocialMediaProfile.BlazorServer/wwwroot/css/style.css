@@ -1,16 +1,37 @@
-﻿.banner {
-    min-height: 60vh;
+﻿.fs {
+    font-size: 1.1rem !important;
+}
+
+.border-nav {
+    border-top: 1px solid #495057;
+}
+
+.banner {
+    min-height: 65vh;
 }
 
 .personalInfo {
-    min-height: 40vh;
+    min-height: 35vh;
 }
 
-.fs {
-    font-size: 1.1rem!important;
+.bg-experiences {
+    background: #212529;
+    background: linear-gradient(180deg, #212529, #000000);
+}
+
+.bg-educations {
+    background: #212529;
+    background: linear-gradient(0deg, #212529, #000000);
 }
 
 @media screen and (min-width: 576px) {
+    .fs-sm {
+        font-size: 1.20rem !important;
+    }
+
+    .border-sm-nav {
+        border-bottom: 1px solid #495057;
+    }
 
     .banner-sm {
         min-height: 70vh;
@@ -23,10 +44,6 @@
     .fixed-sm-top {
         top: 0;
         bottom: unset;
-    }
-
-    .fs-sm-5 {
-        font-size: 1.20rem!important;
     }
 }
 
