@@ -28,7 +28,7 @@ namespace SocialMediaProfile.Core.Helpers
             };
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SecretKey"]));
-            var credentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256Signature);
 
             var securityToken = new JwtSecurityToken
             (

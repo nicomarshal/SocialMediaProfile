@@ -5,7 +5,7 @@ using SocialMediaProfile.Core.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth/")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
         {
             string token = await _authService.Login(loginDTO);
 
-            if (token == null) Unauthorized();
+            if (token == null) return Unauthorized();
             return Ok(token);
         }
     }

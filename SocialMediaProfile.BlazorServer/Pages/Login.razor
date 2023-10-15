@@ -1,0 +1,58 @@
+﻿@page "/login"
+@using Newtonsoft.Json;
+@using SocialMediaProfile.Core.Models.DTOs;
+@using System.Text;
+@inject IHttpClientFactory HttpClientFactory;
+
+<section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <EditForm Model="loginDTO" OnValidSubmit="HandleLogin">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <InputText id="email" type="email" class="form-control" @bind-Value="loginDTO.Email" />
+            <ValidationMessage For="() => loginDTO.Email"></ValidationMessage>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <InputText id="password" type="password" class="form-control" @bind-Value="loginDTO.Password" />
+            <ValidationMessage For="() => loginDTO.Password"></ValidationMessage>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+    </EditForm>
+</section>
+
+
+@code {
+    private LoginDTO loginDTO = new LoginDTO();
+
+    private async Task HandleLogin()
+    {
+        try
+        {
+            Console.WriteLine($"{loginDTO.Email} : {loginDTO.Password}");
+
+            var httpClient = HttpClientFactory.CreateClient("WebApi");
+            var endpoint = "api/Auth/login";
+
+            var json = JsonConvert.SerializeObject(loginDTO);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync(endpoint, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine(response.StatusCode);
+                return;
+            }
+
+            var token = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Token: " + token);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+}
