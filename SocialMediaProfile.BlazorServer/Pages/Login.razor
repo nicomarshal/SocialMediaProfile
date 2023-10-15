@@ -1,8 +1,9 @@
-﻿@page "/login"
+﻿@page "/login";
 @using Newtonsoft.Json;
 @using SocialMediaProfile.Core.Models.DTOs;
 @using System.Text;
 @inject IHttpClientFactory HttpClientFactory;
+@inject IJSRuntime JSRuntime;
 
 <section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
     <EditForm Model="loginDTO" OnValidSubmit="HandleLogin">
@@ -34,7 +35,7 @@
             Console.WriteLine($"{loginDTO.Email} : {loginDTO.Password}");
 
             var httpClient = HttpClientFactory.CreateClient("WebApi");
-            var endpoint = "api/Auth/login";
+            var endpoint = "api/auth/login";
 
             var json = JsonConvert.SerializeObject(loginDTO);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -43,12 +44,27 @@
 
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine(response.StatusCode);
+                await JSRuntime.InvokeVoidAsync("alert", "Las credenciales ingresadas son incorrectas.");
+                Console.WriteLine($"StatusCode: {response.StatusCode}");
                 return;
             }
 
             var token = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Token: " + token);
+
+            await StoreToken(token);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+
+    private async Task StoreToken(string token)
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "jwtToken", token);
+            await JSRuntime.InvokeVoidAsync("alert", "Inicio de sesión exitoso.");
         }
         catch (Exception ex)
         {

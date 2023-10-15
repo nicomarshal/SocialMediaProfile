@@ -9,8 +9,8 @@ namespace SocialMediaProfile.Core.Models.DTOs
 {
     public class LoginDTO
     {
-        [Required(ErrorMessage = "El campo de email es obligatorio.")]
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Debes indicar un email válido")]
+        [Required(ErrorMessage = "El campo de correo electrónico es obligatorio.")]
+        [EmailAddress(ErrorMessage = "Por favor, ingrese una dirección de correo electrónico válida.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "El campo de contraseña es obligatorio.")]
