@@ -32,8 +32,8 @@ namespace SocialMediaProfile.DataAccess
         public static void SeedExperiences(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Experience>().HasData(
-                new Experience { Id = 1, Logo = "imgExpGian", Name = "CONICET", Job = "Cientìfico", StartDate = DateTime.Now, FinishDate = DateTime.Now, Description = "Centro de investigaciòn nacional", PersonId = 1 },
-                new Experience { Id = 2, Logo = "imgExpNico", Name = "eFALCOM", Job = "Desarrollador .NET", StartDate = DateTime.Now, FinishDate = DateTime.Now, Description = "Automatizaciones industriales", PersonId = 2 }
+                new Experience { Id = 1, Logo = "imgExpGian", Name = "CONICET", Job = "Cientìfico", StartDate = DateTime.Now, FinishDate = DateTime.Now, Description = "Centro de investigaciòn nacional", UserId = 1 },
+                new Experience { Id = 2, Logo = "imgExpNico", Name = "eFALCOM", Job = "Desarrollador .NET", StartDate = DateTime.Now, FinishDate = DateTime.Now, Description = "Automatizaciones industriales", UserId = 2 }
                 );
         }
 

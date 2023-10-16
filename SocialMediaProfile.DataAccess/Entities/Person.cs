@@ -17,7 +17,7 @@ namespace SocialMediaProfile.DataAccess.Entities
         public int UserId { get; set; }
         public User User { get; set; } //OneToOne
 
-        public List<Experience> Experiencies { get; set; } //OneToMany
+        //public List<Experience> Experiencies { get; set; } //OneToMany
         public List<Education> Educations { get; set; } //OneToMany
         public List<Skill> Skills { get; set; } //OneToMany
         public List<Project> Projects { get; set; } //OneToMany

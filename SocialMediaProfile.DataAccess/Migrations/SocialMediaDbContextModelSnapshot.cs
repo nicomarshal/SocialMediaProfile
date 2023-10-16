@@ -31,11 +31,9 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Career")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FinishDate")
@@ -45,11 +43,9 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Logo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PersonId")
@@ -70,24 +66,24 @@ namespace SocialMediaProfile.DataAccess.Migrations
                             Id = 1,
                             Career = "Licenciatura en Matemática",
                             Description = "Carrera universitaria de 5 años",
-                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6814),
+                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4032),
                             IsDeleted = false,
                             Logo = "imgEducGian",
                             Name = "FAMAF - UNC",
                             PersonId = 1,
-                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6813)
+                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4031)
                         },
                         new
                         {
                             Id = 2,
                             Career = "Ingenierìa en Computaciòn",
                             Description = "Carrera universitaria de 5 años",
-                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6816),
+                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4034),
                             IsDeleted = false,
                             Logo = "imgEducNico",
                             Name = "FCEFyN - UNC",
                             PersonId = 2,
-                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6815)
+                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4034)
                         });
                 });
 
@@ -100,7 +96,6 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FinishDate")
@@ -110,26 +105,23 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Job")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Logo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Experiences");
 
@@ -138,25 +130,25 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         {
                             Id = 1,
                             Description = "Centro de investigaciòn nacional",
-                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6797),
+                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4020),
                             IsDeleted = false,
                             Job = "Cientìfico",
                             Logo = "imgExpGian",
                             Name = "CONICET",
-                            PersonId = 1,
-                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6784)
+                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4005),
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Description = "Automatizaciones industriales",
-                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6799),
+                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4022),
                             IsDeleted = false,
                             Job = "Desarrollador .NET",
                             Logo = "imgExpNico",
                             Name = "eFALCOM",
-                            PersonId = 2,
-                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6798)
+                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4021),
+                            UserId = 2
                         });
                 });
 
@@ -169,26 +161,21 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AboutMe")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Profession")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfileImg")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
@@ -235,21 +222,18 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FinishDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Images")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PersonId")
@@ -259,7 +243,6 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("URL")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -273,24 +256,24 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         {
                             Id = 1,
                             Description = "Robot construido con bloques",
-                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6837),
+                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4055),
                             Images = "ImagesGian",
                             IsDeleted = false,
                             Name = "Robot 3D",
                             PersonId = 1,
-                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6836),
+                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4054),
                             URL = "https://"
                         },
                         new
                         {
                             Id = 2,
                             Description = "App de mensajerìa",
-                            FinishDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6839),
+                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4057),
                             Images = "ImagesNico",
                             IsDeleted = false,
                             Name = "ChatApp",
                             PersonId = 2,
-                            StartDate = new DateTime(2023, 9, 22, 21, 49, 33, 967, DateTimeKind.Local).AddTicks(6838),
+                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4056),
                             URL = "https://"
                         });
                 });
@@ -304,14 +287,12 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -347,7 +328,6 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Percentage")
@@ -390,21 +370,18 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -446,12 +423,12 @@ namespace SocialMediaProfile.DataAccess.Migrations
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Experience", b =>
                 {
-                    b.HasOne("SocialMediaProfile.DataAccess.Entities.Person", "Person")
+                    b.HasOne("SocialMediaProfile.DataAccess.Entities.User", "User")
                         .WithMany("Experiencies")
-                        .HasForeignKey("PersonId")
+                        .HasForeignKey("UserId")
                         .IsRequired();
 
-                    b.Navigation("Person");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Person", b =>
@@ -499,8 +476,6 @@ namespace SocialMediaProfile.DataAccess.Migrations
                 {
                     b.Navigation("Educations");
 
-                    b.Navigation("Experiencies");
-
                     b.Navigation("Projects");
 
                     b.Navigation("Skills");
@@ -513,8 +488,9 @@ namespace SocialMediaProfile.DataAccess.Migrations
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.User", b =>
                 {
-                    b.Navigation("Person")
-                        .IsRequired();
+                    b.Navigation("Experiencies");
+
+                    b.Navigation("Person");
                 });
 #pragma warning restore 612, 618
         }

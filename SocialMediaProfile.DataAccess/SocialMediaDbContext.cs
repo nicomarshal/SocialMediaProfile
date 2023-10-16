@@ -33,9 +33,9 @@ namespace SocialMediaProfile.DataAccess
                .OnDelete(DeleteBehavior.ClientSetNull);   
 
             modelBuilder.Entity<Experience>() //OneToMany
-               .HasOne(x => x.Person)
+               .HasOne(x => x.User)
                .WithMany(y => y.Experiencies)
-               .HasForeignKey(x => x.PersonId)
+               .HasForeignKey(x => x.UserId)
                .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Education>() //OneToMany

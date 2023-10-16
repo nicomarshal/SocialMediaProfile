@@ -15,8 +15,8 @@ namespace SocialMediaProfile.DataAccess.Entities
         public DateTime FinishDate { get; set; }
         public string Description { get; set; }
 
-        public int PersonId { get; set; }
-        public Person Person { get; set; } //ManyToOne
+        public int UserId { get; set; }
+        public User User { get; set; } //ManyToOne
 
 
         //public ExperienceType ExperienceType { get; set; } //ManyToOne

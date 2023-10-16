@@ -16,5 +16,7 @@ namespace SocialMediaProfile.DataAccess.Entities
         public Role Role { get; set; } //ManyToOne
 
         public Person Person { get; set; } //OneToOne    
+
+        public List<Experience> Experiencies { get; set; } //OneToMany
     }
 }

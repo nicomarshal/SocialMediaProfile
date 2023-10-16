@@ -21,7 +21,7 @@ namespace SocialMediaProfile.Core.Mappers
                 StartDate = experience.StartDate,
                 FinishDate = experience.FinishDate,
                 Description = experience.Description,
-                PersonId = experience.PersonId
+                UserId = experience.UserId
             };
             return experienceDTO;
         }
@@ -36,7 +36,7 @@ namespace SocialMediaProfile.Core.Mappers
                 StartDate = experienceDTO.StartDate,
                 FinishDate = experienceDTO.FinishDate,
                 Description = experienceDTO.Description,
-                PersonId = experienceDTO.PersonId
+                UserId = experienceDTO.UserId
             };
             return experience;
         }
@@ -49,7 +49,7 @@ namespace SocialMediaProfile.Core.Mappers
             experience.StartDate = experienceDTO.StartDate;
             experience.FinishDate = experienceDTO.FinishDate;
             experience.Description = experienceDTO.Description;
-            experience.PersonId = experienceDTO.PersonId;
+            experience.UserId = experienceDTO.UserId;
 
             return experience;
         }
