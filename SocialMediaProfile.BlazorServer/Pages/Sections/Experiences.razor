@@ -1,78 +1,68 @@
-﻿@using SocialMediaProfile.DataAccess.Entities;
+﻿@using SocialMediaProfile.Core.Models.DTOs;
+@inject IJSRuntime JSRuntime;
+@inject IHttpClientFactory HttpClientFactory;
+
 <section class="experiences bg-experiences p-4">
     <article class="container d-flex flex-column row-gap-4">
         <h2 class="mb-4 text-center text-sm-start">Experiencia</h2>
-        <div class="experience row">
-            <div class="logo col-3 col-md-2 position-relative">
-                <img class="object-fit-cover rounded-circle position-absolute top-0 start-50 translate-middle-x" style="width: 70px; height: 70px;" src="efalcom.png" alt="Logo">
-            </div>
-            <div class="position-relative col-9 col-md-10">
-                <h4 class="companyName w-50 text-break">eFALCOM</h4>
-                <h4 class="job">Desarrollador .NET</h4>
-                <h6 class="period">02/2023-Actualidad</h6>
-                <p class="description" style="max-width:576px">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Facere itaque aut sunt placeat rem,
-                    possimus impedit esse numquam quaerat accusamus non natus obcaecati soluta,
-                    eveniet reiciendis laboriosam tempora mollitia distinctio.
-                </p>
-                <div class="position-absolute top-0 end-0" style="margin-right: 12px;">
-                    <button class="edit btn btn-primary rounded-circle p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil" viewBox="0 0 16 16">
-                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                        </svg>
-                    </button>
-                    <button class="delete btn btn-primary rounded-circle p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
-                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                        </svg>
-                    </button>
+            @foreach (var exp in _experiences)
+            {
+                <div class="experience row">
+                    <div class="logo col-3 col-md-2 position-relative">
+                        <img class="object-fit-cover rounded-circle position-absolute top-0 start-50 translate-middle-x" style="width: 70px; height: 70px;" src="efalcom.png" alt="Logo">
+                    </div>
+                    <div class="position-relative col-9 col-md-10">
+                        <h4 class="companyName w-50 text-break">@(exp.Name)</h4>
+                        <h4 class="job">@(exp.Job)</h4>
+                        <h6 class="period">@(exp.StartDate.Date)-@(exp.FinishDate.Date)</h6>
+                        <p class="description" style="max-width:576px">@(exp.Description)</p>
+                        <div class="position-absolute top-0 end-0" style="margin-right: 12px;">
+                            <button class="edit btn btn-primary rounded-circle p-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil" viewBox="0 0 16 16">
+                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                                </svg>
+                            </button>
+                            <button class="delete btn btn-primary rounded-circle p-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="experience row">
-            <div class="logo col-3 col-md-2 position-relative">
-                <img class="object-fit-cover rounded-circle position-absolute top-0 start-50 translate-middle-x" style="width: 70px; height: 70px;" src="efalcom.png" alt="Logo">
-            </div>
-            <div class="position-relative col-9 col-md-10">
-                <h4 class="companyName w-50 text-break">eFALCOM</h4>
-                <h4 class="job">Desarrollador .NET</h4>
-                <h6 class="period">02/2023-Actualidad</h6>
-                <p class="description" style="max-width:576px">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Facere itaque aut sunt placeat rem,
-                    possimus impedit esse numquam quaerat accusamus non natus obcaecati soluta,
-                    eveniet reiciendis laboriosam tempora mollitia distinctio.
-                </p>
-                <div class="position-absolute top-0 end-0" style="margin-right: 12px;">
-                    <button class="edit btn btn-primary rounded-circle p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil" viewBox="0 0 16 16">
-                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                        </svg>
-                    </button>
-                    <button class="delete btn btn-primary rounded-circle p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
-                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
+            }     
     </article>
 </section>
 
 @code {
-    List<Experience> _experiences;
+    private string _jwtToken;
+    private List<ExperienceDTO> _experiences = new List<ExperienceDTO>();
 
     protected override async Task OnInitializedAsync()
     {
-        _experiences = new List<Experience>();
-        await Task.CompletedTask;        
+        _experiences = await GetExperiences();
     }
 
-    private async Task<List<Experience>> GetExperiences()
+    private async Task<List<ExperienceDTO>> GetExperiences()
     {
-        await Task.CompletedTask;
-        return _experiences;
+        var httpClient = HttpClientFactory.CreateClient("WebApi");
+        var endpoint = "api/experience";
+
+        var experiences = await httpClient.GetFromJsonAsync<List<ExperienceDTO>>(endpoint);
+
+        return experiences;
+    }
+
+    private async Task<string> GetToken()
+    {
+        try
+        {
+            return await JSRuntime.InvokeAsync<string>("localStorage.getItem", "jwtToken");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+            return null;
+        }
     }
 }

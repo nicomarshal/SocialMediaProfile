@@ -5,7 +5,7 @@ using SocialMediaProfile.Core.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/experience")]
     [ApiController]
     public class ExperienceController : ControllerBase
     {
