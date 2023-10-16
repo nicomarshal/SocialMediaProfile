@@ -1,0 +1,65 @@
+﻿@using SocialMediaProfile.Core.Models.DTOs;
+
+<EditForm Model="experienceDTO" OnSubmit="HandleAddExperience">
+    <section class="modal fade" id="addExperience" tabindex="-1" aria-labelledby="addExperienceLabel" aria-hidden="true">
+        <article class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header" data-bs-theme="dark">
+                    <h1 class="modal-title fs-5" id="addExperienceLabel">Agregar Experiencia</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="companyName">Company</label>
+                        <InputText id="companyName" class="form-control" @bind-Value="experienceDTO.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="job">Job</label>
+                        <InputText id="job" class="form-control" @bind-Value="experienceDTO.Job" />
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <InputDate id="startDate" class="form-control" @bind-Value="experienceDTO.StartDate" />
+                        
+                        <label for="finshDate">Finish Date</label>
+                        <InputDate id="finshDate" class="form-control" @bind-Value="experienceDTO.FinishDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <InputTextArea id="description" class="form-control" @bind-Value="experienceDTO.Description" />
+                    </div>
+
+@*                <EditForm Model="loginDTO" OnValidSubmit="HandleLogin">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <InputText id="email" type="email" class="form-control" @bind-Value="loginDTO.Email" />
+                        <ValidationMessage For="() => loginDTO.Email"></ValidationMessage>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <InputText id="password" type="password" class="form-control" @bind-Value="loginDTO.Password" />
+                        <ValidationMessage For="() => loginDTO.Password"></ValidationMessage>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </EditForm>*@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </div>
+            </div>
+        </article>
+    </section>
+</EditForm>
+
+@code {
+    private ExperienceDTO experienceDTO = new ExperienceDTO();
+
+    private async Task HandleAddExperience()
+    {
+        await Task.CompletedTask;
+    }
+}
