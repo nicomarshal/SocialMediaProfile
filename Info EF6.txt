@@ -1,0 +1,4 @@
+https://www.yogihosting.com/introduction-entity-framework-core/
+
+dotnet ef migrations add Initial
+dotnet ef database update

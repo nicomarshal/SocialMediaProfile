@@ -9,7 +9,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
     [ApiController]
     public class ExperienceController : ControllerBase
     {
-        public readonly IExperienceService _experienceService;
+        private readonly IExperienceService _experienceService;
 
         public ExperienceController(IExperienceService experiencieService)
         {
@@ -18,6 +18,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // GET: api/<ExperienceController>
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
             List<ExperienceDTO> experiencesDTO = await _experienceService.GetAllAsync();
@@ -29,6 +30,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // GET api/<ExperienceController>/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Get(int id)
         {
             ExperienceDTO experienceDTO = await _experienceService.GetByIdAsync(id);
@@ -40,13 +42,13 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // POST api/<ExperienceController>
         [HttpPost]
-        [Authorize(Roles = "Regular")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post(ExperienceDTO experienceDTO)
         {
             bool isExperienceCreated = await _experienceService.AddAsync(experienceDTO);
 
             if (!isExperienceCreated) BadRequest();
-            return Ok(isExperienceCreated);
+            return Ok();
         }
 
         // PUT api/<ExperienceController>/5

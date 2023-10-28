@@ -34,10 +34,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // Adding Authorize for Swagger
-builder.Services.AddSwaggerGen(option =>
+builder.Services.AddSwaggerGen(options =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "SocialMediaAPI", Version = "v1" });
-    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "SocialMediaAPI", Version = "v1" });
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
         Description = "Please enter a valid token",
@@ -46,15 +46,15 @@ builder.Services.AddSwaggerGen(option =>
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
-    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 }
             },
             new string[]{}
@@ -81,6 +81,19 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = configuration["JWT:ValidIssuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:SecretKey"]))
     };
+    #region EventsCookies
+    //options.Events = new JwtBearerEvents
+    //{
+    //    OnMessageReceived = context =>
+    //    {
+    //        if (context.Request.Cookies.ContainsKey("token"))
+    //        {
+    //            context.Token = context.Request.Cookies["token"];
+    //        }
+    //        return Task.CompletedTask;
+    //    }
+    //};
+    #endregion
 });
 
 // Adding JWT Authorization
@@ -88,6 +101,19 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
     options.AddPolicy("RegularPolicy", policy => policy.RequireRole("Regular"));
+});
+
+const string policy = "defaultPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(policy,
+        builder =>
+        {
+            builder.AllowAnyHeader();
+            builder.AllowAnyMethod();
+            builder.AllowAnyHeader();
+            builder.AllowAnyOrigin();
+        });
 });
 
 var app = builder.Build();
@@ -100,6 +126,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(policy);
 
 app.UseAuthentication();
 

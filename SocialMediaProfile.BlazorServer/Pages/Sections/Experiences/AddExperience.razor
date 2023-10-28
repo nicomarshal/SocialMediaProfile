@@ -1,6 +1,8 @@
 ﻿@using SocialMediaProfile.Core.Models.DTOs;
+@using System.Net.Http.Headers;
+@inject IHttpClientFactory HttpClientFactory;
 
-<EditForm Model="experienceDTO" OnValidSubmit="HandleAddExperience">
+<EditForm Model="_experienceDTO" OnValidSubmit="() => CreateExperience(_experienceDTO)">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <section class="modal fade" id="addExperience" tabindex="-1" aria-labelledby="addExperienceLabel" aria-hidden="true">
         <article class="modal-dialog modal-dialog-centered">
@@ -12,25 +14,25 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="companyName">Company</label>
-                        <InputText id="companyName" class="form-control" @bind-Value="experienceDTO.Name" />
-                        <ValidationMessage For="() => experienceDTO.Name"></ValidationMessage>
+                        <InputText id="companyName" class="form-control" @bind-Value="_experienceDTO.Name" />
+                        <ValidationMessage For="() => _experienceDTO.Name"></ValidationMessage>
                     </div>
                     <div class="form-group">
                         <label for="job">Job</label>
-                        <InputText id="job" class="form-control" @bind-Value="experienceDTO.Job" />
-                        <ValidationMessage For="() => experienceDTO.Job"></ValidationMessage>
+                        <InputText id="job" class="form-control" @bind-Value="_experienceDTO.Job" />
+                        <ValidationMessage For="() => _experienceDTO.Job"></ValidationMessage>
                     </div>
                     <div class="form-group">
                         <label for="startDate">Start Date</label>
-                        <InputDate id="startDate" class="form-control" @bind-Value="experienceDTO.StartDate" />
-                        <ValidationMessage For="() => experienceDTO.StartDate"></ValidationMessage>
+                        <InputDate id="startDate" class="form-control" @bind-Value="_experienceDTO.StartDate" />
+                        <ValidationMessage For="() => _experienceDTO.StartDate"></ValidationMessage>
                         
                         <label for="finshDate">Finish Date</label>
-                        <InputDate id="finshDate" class="form-control" @bind-Value="experienceDTO.FinishDate" />
+                        <InputDate id="finshDate" class="form-control" @bind-Value="_experienceDTO.FinishDate" />
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <InputTextArea id="description" class="form-control" @bind-Value="experienceDTO.Description" />
+                        <InputTextArea id="description" class="form-control" @bind-Value="_experienceDTO.Description" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -43,10 +45,27 @@
 </EditForm>
 
 @code {
-    private ExperienceDTO experienceDTO = new ExperienceDTO();
+    private ExperienceDTO _experienceDTO = new ExperienceDTO();
 
-    private async Task HandleAddExperience()
+    //TODO: Falta obtener el UserId del Token, el cual es un campo necesario para la entidad Experience
+    private async Task CreateExperience(ExperienceDTO experienceDTO)
     {
-        await Task.CompletedTask;
+        //var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "jwtToken");
+
+        var httpClient = HttpClientFactory.CreateClient("WebApi");
+        //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        
+        var endpoint = "api/experience";
+        var response = await httpClient.PostAsJsonAsync(endpoint, experienceDTO);
+
+        //if (!response.IsSuccessStatusCode)
+        //{
+        //    await JSRuntime.InvokeVoidAsync("alert", $"{response.StatusCode} - La experiencia laboral no pudo ser agregada.");
+        //    return;
+        //}
+
+        //await JSRuntime.InvokeVoidAsync("alert", $"{response.StatusCode} - La experiencia laboral fue agregada con éxito.");
+
+
     }
 }

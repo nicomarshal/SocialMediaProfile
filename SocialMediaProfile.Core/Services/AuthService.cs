@@ -19,7 +19,7 @@ namespace SocialMediaProfile.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<string> Login(LoginDTO loginDTO)
+        public async Task<string> LoginAsync(LoginDTO loginDTO)
         {
             IEnumerable<User> users = await _unitOfWork.UserRepository.GetUsersWithRoleAsync();
             User user = users.Where(u => u.Email == loginDTO.Email && u.Password == loginDTO.Password).FirstOrDefault();
@@ -29,7 +29,6 @@ namespace SocialMediaProfile.Core.Services
                 JsonWebToken jwt = new JsonWebToken(_configuration);
 
                 string token = jwt.CreateToken(user);
-
                 return token;
             }
             return null;

@@ -20,7 +20,7 @@ namespace SocialMediaProfile.Core.Helpers
         {
             var authClaims = new List<Claim>
             {
-                new Claim("Id", user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.Role.Name),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -32,7 +32,7 @@ namespace SocialMediaProfile.Core.Helpers
             (
                 issuer: _configuration["JWT:ValidIssuer"],
                 audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.UtcNow.AddMinutes(30),
                 claims: authClaims,
                 signingCredentials: credentials
             );

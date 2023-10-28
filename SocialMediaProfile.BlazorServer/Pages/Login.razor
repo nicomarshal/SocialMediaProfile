@@ -1,57 +1,47 @@
 ﻿@page "/login";
+@using Blazored.LocalStorage;
 @using Newtonsoft.Json;
+@using SocialMediaProfile.BlazorServer.Data.Interfaces;
 @using SocialMediaProfile.Core.Models.DTOs;
 @using System.Text;
-@inject IHttpClientFactory HttpClientFactory;
-@inject IJSRuntime JSRuntime;
+@inject IAuthWebService AuthService;
+@inject NavigationManager NavigationManager;
 
 <section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <EditForm Model="loginDTO" OnValidSubmit="HandleLogin">
+    <EditForm Model="_loginDTO" OnValidSubmit="SubmitLogin">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <div class="form-group">
             <label for="email">Email</label>
-            <InputText id="email" type="email" class="form-control" @bind-Value="loginDTO.Email" />
-            <ValidationMessage For="() => loginDTO.Email"></ValidationMessage>
+            <InputText id="email" type="email" class="form-control" @bind-Value="_loginDTO.Email" />
+            <ValidationMessage For="() => _loginDTO.Email"></ValidationMessage>
         </div>
-
         <div class="form-group">
             <label for="password">Contraseña</label>
-            <InputText id="password" type="password" class="form-control" @bind-Value="loginDTO.Password" />
-            <ValidationMessage For="() => loginDTO.Password"></ValidationMessage>
+            <InputText id="password" type="password" class="form-control" @bind-Value="_loginDTO.Password" />
+            <ValidationMessage For="() => _loginDTO.Password"></ValidationMessage>
         </div>
-
         <button type="submit" class="btn btn-primary">Login</button>
     </EditForm>
 </section>
 
-
 @code {
-    private LoginDTO loginDTO = new LoginDTO();
+    private LoginDTO _loginDTO = new LoginDTO();
+    private bool _isLoggedIn = false;
 
-    private async Task HandleLogin()
+    [Parameter]
+    public EventCallback<bool> LoginChange { get; set; }
+
+    private async Task SubmitLogin()
     {
         try
         {
-            Console.WriteLine($"{loginDTO.Email} : {loginDTO.Password}");
+            _isLoggedIn = await AuthService.LoginAsync(_loginDTO);
 
-            var httpClient = HttpClientFactory.CreateClient("WebApi");
-            var endpoint = "api/auth/login";
-
-            var json = JsonConvert.SerializeObject(loginDTO);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await httpClient.PostAsync(endpoint, content);
-
-            if (!response.IsSuccessStatusCode)
+            if (_isLoggedIn)
             {
-                await JSRuntime.InvokeVoidAsync("alert", "Las credenciales ingresadas son incorrectas.");
-                Console.WriteLine($"StatusCode: {response.StatusCode}");
-                return;
+                await LoginChange.InvokeAsync(_isLoggedIn);
+                //NavigationManager.NavigateTo("/", true);
             }
-
-            var token = await response.Content.ReadAsStringAsync();
-
-            await StoreToken(token);
         }
         catch (Exception ex)
         {
@@ -59,16 +49,4 @@
         }
     }
 
-    private async Task StoreToken(string token)
-    {
-        try
-        {
-            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "jwtToken", token);
-            await JSRuntime.InvokeVoidAsync("alert", "Inicio de sesión exitoso.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error: " + ex.Message);
-        }
-    }
 }

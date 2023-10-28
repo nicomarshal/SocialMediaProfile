@@ -9,6 +9,6 @@ namespace SocialMediaProfile.Core.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<string> Login(LoginDTO loginDTO);
+        Task<string> LoginAsync(LoginDTO loginDTO);
     }
 }

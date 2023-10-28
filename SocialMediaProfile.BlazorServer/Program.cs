@@ -1,18 +1,23 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Blazored.LocalStorage;
 using SocialMediaProfile.BlazorServer.Data;
+using SocialMediaProfile.BlazorServer.Data.Interfaces;
+using SocialMediaProfile.BlazorServer.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
+ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 
-builder.Services.AddHttpClient("WebApi", client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7006/");
-});
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<IAuthWebService, AuthWebService>();
+
+builder.Services.AddTransient<AuthWebHandler>();
+builder.Services.AddHttpClient("WebApi")
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration["ApiUrl"]))
+                .AddHttpMessageHandler<AuthWebHandler>();
 
 var app = builder.Build();
 

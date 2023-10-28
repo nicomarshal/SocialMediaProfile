@@ -1,15 +1,34 @@
-﻿@page "/"
+﻿@page "/";
+@using SocialMediaProfile.BlazorServer.Data.Interfaces;
+@inject IAuthWebService AuthService;
 
 <PageTitle>SocialMedia</PageTitle>
 
-<Banner></Banner>
-<PersonalInfo></PersonalInfo>
-<Experiences></Experiences>
-<Educations></Educations>
-<Skills></Skills>
-<Projects></Projects>
+@if (!_isLoggedIn)
+{
+    <Login LoginChange="HandleLogin"></Login>
+}
+else
+{
+@*   <Banner></Banner>
+    <PersonalInfo></PersonalInfo>
+    <Experiences></Experiences>
+    <Educations></Educations>
+    <Skills></Skills>
+    <Projects></Projects>*@
+}
 
 @code {
-    //Les paso por paràmetro a cada uno de los componentes el userId o personId
-    //Luego, cada componente utiliza ese dato para obtener los listados de experiencias, estudios, etc referidos a ese userId
+    private bool _isLoggedIn = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.CompletedTask;
+    }
+
+    private async Task HandleLogin(bool isLoggedIn)
+    {
+        _isLoggedIn = isLoggedIn;
+        await InvokeAsync(StateHasChanged);
+    }
 }

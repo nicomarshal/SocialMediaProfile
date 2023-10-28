@@ -80,9 +80,10 @@ namespace SocialMediaProfile.Core.Services
                 }
                 return false;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
+                Console.WriteLine("Error: " + ex.Message);
+                return false;
             }
         }
 
