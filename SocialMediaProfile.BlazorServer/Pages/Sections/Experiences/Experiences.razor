@@ -49,35 +49,34 @@
 @code {
     private string _jwtToken;
     private List<ExperienceDTO> _experiences = new List<ExperienceDTO>();
-    private HttpClient _httpClient;
 
     protected override async Task OnInitializedAsync()
     {
-        _httpClient = HttpClientFactory.CreateClient("WebApi");
         _experiences = await GetAllExperiences();
     }
 
     private async Task<List<ExperienceDTO>> GetAllExperiences()
-    {       
-        var endpoint = "api/experience";
+    { 
+        var httpClient = HttpClientFactory.CreateClient("WebApi");
+        var endpoint = "/api/experience";
 
-        var experiences = await _httpClient.GetFromJsonAsync<List<ExperienceDTO>>(endpoint);
+        var experiences = await httpClient.GetFromJsonAsync<List<ExperienceDTO>>(endpoint);
 
         return experiences;
     }
 
-    private async Task<bool> UpdateExperience(int id, ExperienceDTO experienceDTO)
-    {
-        var endpoint = $"api/experience/{id}";
+    //private async Task<bool> UpdateExperience(int id, ExperienceDTO experienceDTO)
+    //{
+    //    var endpoint = $"api/experience/{id}";
 
-        var response = await _httpClient.PutAsJsonAsync(endpoint, experienceDTO);
+    //    var response = await _httpClient.PutAsJsonAsync(endpoint, experienceDTO);
 
-        if (response.IsSuccessStatusCode)
-        {
+    //    if (response.IsSuccessStatusCode)
+    //    {
             
-            var content = await response.Content.ReadFromJsonAsync<bool>();
-            return content;
-        }
-        return false;
-    }
+    //        var content = await response.Content.ReadFromJsonAsync<bool>();
+    //        return content;
+    //    }
+    //    return false;
+    //}
 }

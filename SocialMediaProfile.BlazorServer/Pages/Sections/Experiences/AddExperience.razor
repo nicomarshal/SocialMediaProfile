@@ -1,6 +1,9 @@
-﻿@using SocialMediaProfile.Core.Models.DTOs;
+﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
+@using SocialMediaProfile.Core.Models.DTOs;
 @using System.Net.Http.Headers;
 @inject IHttpClientFactory HttpClientFactory;
+@inject IAuthWebService AuthWebService;
+@inject IJSRuntime JSRuntime;
 
 <EditForm Model="_experienceDTO" OnValidSubmit="() => CreateExperience(_experienceDTO)">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -46,26 +49,38 @@
 
 @code {
     private ExperienceDTO _experienceDTO = new ExperienceDTO();
+    private HttpClient _httpClient;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var token = await AuthWebService.GetJwtAsync();
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient = HttpClientFactory.CreateClient("WebApi");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var userId = AuthWebService.GetUserId(token);
+                _experienceDTO.UserId = userId;
+            }
+        }
+    }
 
     //TODO: Falta obtener el UserId del Token, el cual es un campo necesario para la entidad Experience
     private async Task CreateExperience(ExperienceDTO experienceDTO)
-    {
-        //var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "jwtToken");
+    {   
 
-        var httpClient = HttpClientFactory.CreateClient("WebApi");
-        //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        
-        var endpoint = "api/experience";
-        var response = await httpClient.PostAsJsonAsync(endpoint, experienceDTO);
+        var endpoint = "/api/experience/add";
+        var response = await _httpClient.PostAsJsonAsync(endpoint, experienceDTO);
 
-        //if (!response.IsSuccessStatusCode)
-        //{
-        //    await JSRuntime.InvokeVoidAsync("alert", $"{response.StatusCode} - La experiencia laboral no pudo ser agregada.");
-        //    return;
-        //}
+        if (!response.IsSuccessStatusCode)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"{response.StatusCode} - La experiencia laboral no pudo ser cargada.");
+            return;
+        }
 
-        //await JSRuntime.InvokeVoidAsync("alert", $"{response.StatusCode} - La experiencia laboral fue agregada con éxito.");
-
-
+        await JSRuntime.InvokeVoidAsync("alert", $"{response.StatusCode} - La experiencia laboral fue cargada con éxito.");
     }
 }

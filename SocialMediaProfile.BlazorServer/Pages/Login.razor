@@ -1,10 +1,7 @@
 ﻿@page "/login";
-@using Blazored.LocalStorage;
-@using Newtonsoft.Json;
 @using SocialMediaProfile.BlazorServer.Data.Interfaces;
 @using SocialMediaProfile.Core.Models.DTOs;
-@using System.Text;
-@inject IAuthWebService AuthService;
+@inject IAuthWebService AuthWebService;
 @inject NavigationManager NavigationManager;
 
 <section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
@@ -26,21 +23,17 @@
 
 @code {
     private LoginDTO _loginDTO = new LoginDTO();
-    private bool _isLoggedIn = false;
-
-    [Parameter]
-    public EventCallback<bool> LoginChange { get; set; }
+    private bool _isLoggedIn;
 
     private async Task SubmitLogin()
     {
         try
         {
-            _isLoggedIn = await AuthService.LoginAsync(_loginDTO);
+            _isLoggedIn = await AuthWebService.LoginAsync(_loginDTO);
 
             if (_isLoggedIn)
             {
-                await LoginChange.InvokeAsync(_isLoggedIn);
-                //NavigationManager.NavigateTo("/", true);
+                NavigationManager.NavigateTo("/");
             }
         }
         catch (Exception ex)

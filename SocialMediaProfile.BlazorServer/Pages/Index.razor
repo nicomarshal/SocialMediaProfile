@@ -1,34 +1,17 @@
 ﻿@page "/";
-@using SocialMediaProfile.BlazorServer.Data.Interfaces;
-@inject IAuthWebService AuthService;
 
 <PageTitle>SocialMedia</PageTitle>
 
-@if (!_isLoggedIn)
-{
-    <Login LoginChange="HandleLogin"></Login>
-}
-else
-{
-@*   <Banner></Banner>
-    <PersonalInfo></PersonalInfo>
-    <Experiences></Experiences>
-    <Educations></Educations>
-    <Skills></Skills>
-    <Projects></Projects>*@
-}
+<Banner></Banner>
+<PersonalInfo></PersonalInfo>
+<Experiences></Experiences>
+<Educations></Educations>
+<Skills></Skills>
+<Projects></Projects>
 
 @code {
-    private bool _isLoggedIn = false;
-
     protected override async Task OnInitializedAsync()
     {
         await Task.CompletedTask;
-    }
-
-    private async Task HandleLogin(bool isLoggedIn)
-    {
-        _isLoggedIn = isLoggedIn;
-        await InvokeAsync(StateHasChanged);
     }
 }

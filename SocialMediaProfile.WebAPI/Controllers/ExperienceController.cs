@@ -41,7 +41,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
         }
 
         // POST api/<ExperienceController>
-        [HttpPost]
+        [HttpPost("add")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post(ExperienceDTO experienceDTO)
         {

@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using SocialMediaProfile.BlazorServer.Data.Interfaces;
 using SocialMediaProfile.Core.Models.DTOs;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace SocialMediaProfile.BlazorServer.Data
@@ -9,38 +11,53 @@ namespace SocialMediaProfile.BlazorServer.Data
     public class AuthWebService : IAuthWebService
     {
         private const string JWT_KEY = "jwtToken";
-
+        
+        private readonly ILocalStorageService _localStorageService;
         private readonly IHttpClientFactory _httpClientFactory;
-        private ILocalStorageService _localStorageService;
+        private readonly HttpClient _httpClient;
 
-        private string _jwtCache;        
+        private string _jwtCache;
+
+        public event Action<string> LoginChange;
 
         public AuthWebService(IHttpClientFactory httpClientFactory, ILocalStorageService localStorageService)
         {
-            _httpClientFactory = httpClientFactory;
             _localStorageService = localStorageService;
+            _httpClientFactory = httpClientFactory;
+            _httpClient = _httpClientFactory.CreateClient("WebApi");
         }
 
         public async Task<string> GetJwtAsync()
         {
             if (string.IsNullOrEmpty(_jwtCache))
             {
-                _jwtCache = await _localStorageService.GetItemAsStringAsync(_jwtCache);
+                _jwtCache = await _localStorageService.GetItemAsync<string>(JWT_KEY);
             }
 
             return _jwtCache;
         }
 
+        public int GetUserId(string token)
+        {
+            var jwt = new JwtSecurityToken(token);
+            var nameIdentifier = jwt.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;          
+            var userId = int.Parse(nameIdentifier);
+
+            return userId;
+        }
+
+        private string GetRole(string token)
+        {
+            var jwt = new JwtSecurityToken(token);
+            var role = jwt.Claims.First(c => c.Type == ClaimTypes.Role).Value;
+
+            return role;
+        }
+
         public async Task<bool> LoginAsync(LoginDTO loginDTO)
         {
-
-            var httpClient = _httpClientFactory.CreateClient("WebApi");
             var endpoint = "/api/auth/login";
-
-            var json = JsonConvert.SerializeObject(loginDTO);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await httpClient.PostAsync(endpoint, content);
+            var response = await _httpClient.PostAsJsonAsync(endpoint, loginDTO);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -49,15 +66,19 @@ namespace SocialMediaProfile.BlazorServer.Data
             }
 
             var token = await response.Content.ReadAsStringAsync();
-            await _localStorageService.SetItemAsStringAsync(JWT_KEY, token);
+            await _localStorageService.SetItemAsync(JWT_KEY, token);
+
+            LoginChange.Invoke(GetRole(token));
 
             Console.WriteLine("Inicio de sesión exitoso.");
             return true;
         }
 
-        public Task LogoutAsync()
+        public async Task LogoutAsync()
         {
-            throw new NotImplementedException();
+            await _localStorageService.RemoveItemAsync(JWT_KEY);
+            _jwtCache = null;
+            LoginChange.Invoke(null);
         }
 
         public Task<bool> RefreshAsync()

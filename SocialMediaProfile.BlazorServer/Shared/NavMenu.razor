@@ -1,6 +1,9 @@
-﻿<nav class="navbar navbar-expand-lg bg-dark border-nav border-sm-nav fixed-bottom fixed-sm-top" data-bs-theme="dark">
+﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
+@inject IAuthWebService AuthWebService;
+
+<nav class="navbar navbar-expand-lg bg-dark border-nav border-sm-nav fixed-bottom fixed-sm-top" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="order-2 order-sm-1 navbar-brand text-white" href="#">
+        <a class="order-2 order-sm-1 navbar-brand text-white" href="/">
             <svg id="Capa_1" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="white" viewBox="0 0 152.25 133.22" class="d-inline-block">
                 <path d="M0,19.03C0,8.52,8.52,0,19.03,0h114.19c10.5,0,19.03,8.52,19.03,19.03V114.19c0,10.5-8.53,19.03-19.03,19.03H19.03c-10.51,0-19.03-8.53-19.03-19.03V19.03Zm30.42,16.59c-2.66,2.91-2.46,7.4,.45,10.08l22.81,20.9-22.81,20.9c-2.91,2.68-3.11,7.17-.45,10.08,2.68,2.65,7.17,3.09,10.08,.45l28.55-26.17c1.49-1.37,2.32-3.27,2.32-5.53,0-1.72-.83-3.63-2.32-5l-28.55-26.17c-2.91-2.65-7.4-2.47-10.08,.45Zm43.33,54.77c-3.96,0-7.14,3.18-7.14,7.14s3.18,7.14,7.14,7.14h42.82c3.96,0,7.14-3.18,7.14-7.14s-3.18-7.14-7.14-7.14h-42.82Z"></path>
             </svg>
@@ -36,12 +39,25 @@
                     </a>
                 </li>
                 <li class="nav-item p-2">
-                    <a class="nav-link text-white" href="/login">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-person-fill" viewBox="0 0 16 16">
-                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                        </svg>
-                        Login
-                    </a>
+                    @if (_isLoggedIn)
+                    {
+                        <a class="nav-link text-white" href="/" @onclick="LogoutAsync">
+                            <span>Bienvenido, @_role!</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                            </svg>
+                            Logout
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="nav-link text-white" href="/login">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                            </svg>
+                            Login
+                        </a>
+                    }
                 </li>
             </ul>
         </div>
@@ -49,5 +65,22 @@
 </nav>
 
 @code {
+    private string _role;
+    private bool _isLoggedIn => _role is not null;
 
+    protected override async Task OnInitializedAsync()
+    {
+        AuthWebService.LoginChange += role =>
+        {
+            _role = role;
+            InvokeAsync(StateHasChanged);
+        };
+
+        await Task.CompletedTask;
+    }
+
+    private async Task LogoutAsync()
+    {
+        await AuthWebService.LogoutAsync();       
+    }
 }
