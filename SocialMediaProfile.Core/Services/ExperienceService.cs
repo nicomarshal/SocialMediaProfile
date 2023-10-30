@@ -1,5 +1,6 @@
 ﻿using SocialMediaProfile.Core.Mappers;
 using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
 using SocialMediaProfile.DataAccess.Entities;
 using SocialMediaProfile.Repositories.Interfaces;
@@ -63,27 +64,24 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<bool> AddAsync(ExperienceDTO experienceDTO)
+        public async Task<ExperienceResponseDTO> AddAsync(ExperienceDTO experienceDTO)
         {
             try
             {
-                if (experienceDTO != null)
-                {
-                    Experience experience = ExperienceMapper.ExperienceDTOToExperience(experienceDTO);
+                Experience experience = ExperienceMapper.ExperienceDTOToExperience(experienceDTO);
 
-                    await _unitOfWork.ExperienceRepository.AddAsync(experience);
+                await _unitOfWork.ExperienceRepository.AddAsync(experience);
 
-                    int response = await _unitOfWork.SaveChangesAsync();
+                bool isCreated = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
 
-                    if (response > 0) return true;
-                    return false;
-                }
-                return false;
+                ExperienceResponseDTO experienceResponseDTO = 
+                    new ExperienceResponseDTO() { IsCreated = isCreated };
+          
+                return experienceResponseDTO;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + ex.Message);
-                return false;
+                throw new Exception(e.Message);
             }
         }
 
@@ -114,7 +112,7 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             try
             {

@@ -1,4 +1,5 @@
 ﻿using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace SocialMediaProfile.Core.Services.Interfaces
     {
         Task<List<ExperienceDTO>> GetAllAsync();
         Task<ExperienceDTO> GetByIdAsync(int id);
-        Task<bool> AddAsync(ExperienceDTO experienceDTO);
+        Task<ExperienceResponseDTO> AddAsync(ExperienceDTO experienceDTO);
         Task<bool> UpdateAsync(int id, ExperienceDTO experienceDTO);
-        Task<bool> Delete(int id);
+        Task<bool> DeleteAsync(int id);
     }
 }

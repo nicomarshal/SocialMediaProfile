@@ -1,4 +1,5 @@
 ﻿using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.DataAccess.Entities;
 using System;
 using System.Collections.Generic;

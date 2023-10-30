@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
@@ -19,42 +20,41 @@ namespace SocialMediaProfile.WebAPI.Controllers
         // GET: api/<ExperienceController>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAllAsync()
         {
             List<ExperienceDTO> experiencesDTO = await _experienceService.GetAllAsync();
 
-            if (experiencesDTO == null) return NotFound();
-
+            if (experiencesDTO == null) return BadRequest();
             return Ok(experiencesDTO);
         }
 
         // GET api/<ExperienceController>/5
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
             ExperienceDTO experienceDTO = await _experienceService.GetByIdAsync(id);
 
             if (experienceDTO == null) return BadRequest();
-
             return Ok(experienceDTO);
         }
 
         // POST api/<ExperienceController>
         [HttpPost("add")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Post(ExperienceDTO experienceDTO)
+        public async Task<IActionResult> AddAsync(ExperienceDTO experienceDTO)
         {
-            bool isExperienceCreated = await _experienceService.AddAsync(experienceDTO);
-
-            if (!isExperienceCreated) BadRequest();
-            return Ok();
+            ExperienceResponseDTO experienceResponseDTO = await _experienceService.AddAsync(experienceDTO);
+            bool isExperienceCreated = experienceResponseDTO.IsCreated;
+           
+            if (!isExperienceCreated) return BadRequest();
+            return Ok(experienceResponseDTO);
         }
 
         // PUT api/<ExperienceController>/5
         [HttpPut("{id}")]
         [Authorize(Roles = "Regular")]
-        public async Task<IActionResult> Put(int id, ExperienceDTO experienceDTO)
+        public async Task<IActionResult> UpdateAsync(int id, ExperienceDTO experienceDTO)
         {
             bool isExperienceUpdated = await _experienceService.UpdateAsync(id, experienceDTO);
 
@@ -65,9 +65,9 @@ namespace SocialMediaProfile.WebAPI.Controllers
         // DELETE api/<ExperienceController>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Regular")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            bool isExperienceDeleted = await _experienceService.Delete(id);
+            bool isExperienceDeleted = await _experienceService.DeleteAsync(id);
 
             if (!isExperienceDeleted) return BadRequest();
             return Ok(isExperienceDeleted);

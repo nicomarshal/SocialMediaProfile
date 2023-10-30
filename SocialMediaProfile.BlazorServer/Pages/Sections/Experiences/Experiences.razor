@@ -1,5 +1,6 @@
-﻿@using SocialMediaProfile.Core.Models.DTOs;
-@inject IHttpClientFactory HttpClientFactory;
+﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
+@using SocialMediaProfile.Core.Models.DTOs;
+@inject IExperienceWebService ExperienceWebService;
 
 <section class="experiences bg-experiences p-4">
     <article class="container d-flex flex-column row-gap-4">
@@ -47,22 +48,11 @@
 <DeleteExperience></DeleteExperience>
 
 @code {
-    private string _jwtToken;
     private List<ExperienceDTO> _experiences = new List<ExperienceDTO>();
 
     protected override async Task OnInitializedAsync()
     {
-        _experiences = await GetAllExperiences();
-    }
-
-    private async Task<List<ExperienceDTO>> GetAllExperiences()
-    { 
-        var httpClient = HttpClientFactory.CreateClient("WebApi");
-        var endpoint = "/api/experience";
-
-        var experiences = await httpClient.GetFromJsonAsync<List<ExperienceDTO>>(endpoint);
-
-        return experiences;
+        _experiences = await ExperienceWebService.GetAllAsync();
     }
 
     //private async Task<bool> UpdateExperience(int id, ExperienceDTO experienceDTO)

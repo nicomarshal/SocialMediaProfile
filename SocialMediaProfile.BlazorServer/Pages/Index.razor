@@ -1,17 +1,58 @@
 ﻿@page "/";
+@using SocialMediaProfile.BlazorServer.Data.Interfaces;
+@using System.Net.Http.Headers;
+@inject IGlobalWebService GlobalWebService;
+@inject IAuthWebService AuthWebService;
+@inject IHttpClientFactory HttpClientFactory;
 
 <PageTitle>SocialMedia</PageTitle>
 
-<Banner></Banner>
-<PersonalInfo></PersonalInfo>
-<Experiences></Experiences>
-<Educations></Educations>
-<Skills></Skills>
-<Projects></Projects>
+@if (!GlobalWebService.IsReady)
+{
+    <section class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <article class="row">
+            <div class="col">
+                <p class="text-white">Cargando...</p>
+            </div>
+        </article>
+    </section>
+}
+else
+{
+    <Banner></Banner>
+    <PersonalInfo></PersonalInfo>
+    <Experiences></Experiences>
+    <Educations></Educations>
+    <Skills></Skills>
+    <Projects></Projects>
+}
 
 @code {
+
     protected override async Task OnInitializedAsync()
     {
+        if (GlobalWebService.HttpClient is null)
+        {
+            GlobalWebService.HttpClient = HttpClientFactory.CreateClient("WebApi");
+            GlobalWebService.IsReady = true;
+        }
+
         await Task.CompletedTask;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var token = await AuthWebService.GetJwtAsync();
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                GlobalWebService.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var userId = AuthWebService.GetUserId(token);
+                GlobalWebService.UserId = userId;                   
+            }            
+        }
     }
 }

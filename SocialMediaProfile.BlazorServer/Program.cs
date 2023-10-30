@@ -11,6 +11,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 
+builder.Services.AddSingleton<IGlobalWebService, GlobalWebService>();
+builder.Services.AddSingleton<IExperienceWebService, ExperienceWebService>();
+
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<IAuthWebService, AuthWebService>();
 

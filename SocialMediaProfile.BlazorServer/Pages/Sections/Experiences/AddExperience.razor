@@ -1,8 +1,8 @@
 ﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
 @using SocialMediaProfile.Core.Models.DTOs;
 @using System.Net.Http.Headers;
-@inject IHttpClientFactory HttpClientFactory;
-@inject IAuthWebService AuthWebService;
+@inject IExperienceWebService ExperienceWebService;
+@inject NavigationManager NavigationManager;
 @inject IJSRuntime JSRuntime;
 
 <EditForm Model="_experienceDTO" OnValidSubmit="() => CreateExperience(_experienceDTO)">
@@ -40,7 +40,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Agregar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
                 </div>
             </div>
         </article>
@@ -49,38 +49,19 @@
 
 @code {
     private ExperienceDTO _experienceDTO = new ExperienceDTO();
-    private HttpClient _httpClient;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            var token = await AuthWebService.GetJwtAsync();
-
-            if (!string.IsNullOrEmpty(token))
-            {
-                _httpClient = HttpClientFactory.CreateClient("WebApi");
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                var userId = AuthWebService.GetUserId(token);
-                _experienceDTO.UserId = userId;
-            }
-        }
-    }
-
-    //TODO: Falta obtener el UserId del Token, el cual es un campo necesario para la entidad Experience
     private async Task CreateExperience(ExperienceDTO experienceDTO)
-    {   
+    {
+        var result = await ExperienceWebService.AddAsync(experienceDTO);
 
-        var endpoint = "/api/experience/add";
-        var response = await _httpClient.PostAsJsonAsync(endpoint, experienceDTO);
-
-        if (!response.IsSuccessStatusCode)
+        if (!result.IsCreated)
         {
-            await JSRuntime.InvokeVoidAsync("alert", $"{response.StatusCode} - La experiencia laboral no pudo ser cargada.");
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral no pudo ser cargada.");
             return;
         }
 
-        await JSRuntime.InvokeVoidAsync("alert", $"{response.StatusCode} - La experiencia laboral fue cargada con éxito.");
+        await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral fue cargada con éxito.");
+
+        NavigationManager.NavigateTo("/", true);
     }
 }

@@ -13,18 +13,16 @@ namespace SocialMediaProfile.BlazorServer.Data
         private const string JWT_KEY = "jwtToken";
         
         private readonly ILocalStorageService _localStorageService;
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly HttpClient _httpClient;
+        private IGlobalWebService _globalWebService;
 
         private string _jwtCache;
 
         public event Action<string> LoginChange;
 
-        public AuthWebService(IHttpClientFactory httpClientFactory, ILocalStorageService localStorageService)
+        public AuthWebService(ILocalStorageService localStorageService, IGlobalWebService globalWebService)
         {
             _localStorageService = localStorageService;
-            _httpClientFactory = httpClientFactory;
-            _httpClient = _httpClientFactory.CreateClient("WebApi");
+            _globalWebService = globalWebService;
         }
 
         public async Task<string> GetJwtAsync()
@@ -57,7 +55,7 @@ namespace SocialMediaProfile.BlazorServer.Data
         public async Task<bool> LoginAsync(LoginDTO loginDTO)
         {
             var endpoint = "/api/auth/login";
-            var response = await _httpClient.PostAsJsonAsync(endpoint, loginDTO);
+            var response = await _globalWebService.HttpClient.PostAsJsonAsync(endpoint, loginDTO);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -78,6 +76,8 @@ namespace SocialMediaProfile.BlazorServer.Data
         {
             await _localStorageService.RemoveItemAsync(JWT_KEY);
             _jwtCache = null;
+            _globalWebService.HttpClient.DefaultRequestHeaders.Remove("Authorization");
+            _globalWebService.UserId = 0;
             LoginChange.Invoke(null);
         }
 
