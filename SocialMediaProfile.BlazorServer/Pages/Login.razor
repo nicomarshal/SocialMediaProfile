@@ -2,6 +2,7 @@
 @using SocialMediaProfile.BlazorServer.Data.Interfaces;
 @using SocialMediaProfile.Core.Models.DTOs;
 @inject IAuthWebService AuthWebService;
+@inject IJSRuntime JSRuntime;
 @inject NavigationManager NavigationManager;
 
 <section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
@@ -31,10 +32,14 @@
         {
             _isLoggedIn = await AuthWebService.LoginAsync(_loginDTO);
 
-            if (_isLoggedIn)
+            if (!_isLoggedIn)
             {
-                NavigationManager.NavigateTo("/");
+                await JSRuntime.InvokeVoidAsync("alert", "Las credenciales ingresadas son incorrectas.");
+                return;
             }
+
+            await JSRuntime.InvokeVoidAsync("alert", "Inicio de sesión exitoso.");
+            NavigationManager.NavigateTo("/");
         }
         catch (Exception ex)
         {

@@ -7,6 +7,7 @@ namespace SocialMediaProfile.BlazorServer.Data.Interfaces
         event Action<string> LoginChange;
         Task<string> GetJwtAsync();
         int GetUserId(string token);
+        string GetRole(string token);
         Task<bool> LoginAsync(LoginDTO loginDTO);
         Task LogoutAsync();
         Task<bool> RefreshAsync();

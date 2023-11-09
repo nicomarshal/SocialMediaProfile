@@ -1,5 +1,6 @@
 ﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
 @inject IAuthWebService AuthWebService;
+@inject IJSRuntime JSRuntime;
 @inject NavigationManager NavigationManager;
 
 <nav class="navbar navbar-expand-lg bg-dark border-nav border-sm-nav fixed-bottom fixed-sm-top" data-bs-theme="dark">
@@ -71,6 +72,13 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var token = await AuthWebService.GetJwtAsync();
+
+        if (!string.IsNullOrEmpty(token))
+        {
+            _role = AuthWebService.GetRole(token);
+        }
+
         AuthWebService.LoginChange += role =>
         {
             _role = role;
@@ -83,6 +91,7 @@
     private async Task LogoutAsync()
     {
         await AuthWebService.LogoutAsync();
+        await JSRuntime.InvokeVoidAsync("alert", "Cierre de sesión exitoso.");
         NavigationManager.NavigateTo("/", true);
     }
 }

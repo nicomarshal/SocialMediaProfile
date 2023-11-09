@@ -13,11 +13,11 @@ namespace SocialMediaProfile.BlazorServer.Data
         private const string JWT_KEY = "jwtToken";
         
         private readonly ILocalStorageService _localStorageService;
-        private IGlobalWebService _globalWebService;
+        private readonly IGlobalWebService _globalWebService;
 
         private string _jwtCache;
 
-        public event Action<string> LoginChange;
+        public event Action<string> LoginChange; //Este evento està siendo escuchado por la page NavMenu
 
         public AuthWebService(ILocalStorageService localStorageService, IGlobalWebService globalWebService)
         {
@@ -44,7 +44,7 @@ namespace SocialMediaProfile.BlazorServer.Data
             return userId;
         }
 
-        private string GetRole(string token)
+        public string GetRole(string token)
         {
             var jwt = new JwtSecurityToken(token);
             var role = jwt.Claims.First(c => c.Type == ClaimTypes.Role).Value;
@@ -59,16 +59,13 @@ namespace SocialMediaProfile.BlazorServer.Data
 
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine("Las credenciales ingresadas son incorrectas.");
                 return false;
             }
 
             var token = await response.Content.ReadAsStringAsync();
             await _localStorageService.SetItemAsync(JWT_KEY, token);
+            LoginChange.Invoke(GetRole(token)); //Este evento està siendo escuchado por la page NavMenu
 
-            LoginChange.Invoke(GetRole(token));
-
-            Console.WriteLine("Inicio de sesión exitoso.");
             return true;
         }
 
