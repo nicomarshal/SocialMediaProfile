@@ -9,7 +9,7 @@ namespace SocialMediaProfile.Core.Models.DTOs
 {
     public class ExperienceDTO
     {
-        public string? Logo { get; set; } = "";
+        public string Logo { get; set; } = "";
 
         [Required(ErrorMessage = "El campo Empresa es obligatorio.")]
         public string Name { get; set; }

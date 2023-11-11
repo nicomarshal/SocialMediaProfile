@@ -11,8 +11,8 @@ namespace SocialMediaProfile.DataAccess.Entities
         public string Name { get; set; }
         public int Percentage { get; set; }
 
-        public int PersonId { get; set; }
-        public Person Person { get; set; } //ManyToOne
+        public int UserId { get; set; }
+        public User User { get; set; } //ManyToOne
 
         //public SkillType SkillType { get; set; } //ManyToOne
     }

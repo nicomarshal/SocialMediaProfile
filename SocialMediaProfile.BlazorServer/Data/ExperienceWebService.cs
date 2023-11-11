@@ -1,4 +1,5 @@
-﻿using SocialMediaProfile.BlazorServer.Data.Interfaces;
+﻿using Blazored.LocalStorage;
+using SocialMediaProfile.BlazorServer.Data.Interfaces;
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 
@@ -16,6 +17,14 @@ namespace SocialMediaProfile.BlazorServer.Data
         public async Task<List<ExperienceDTO>> GetAllAsync()
         {
             var endpoint = "/api/experience";
+            var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<ExperienceDTO>>(endpoint);
+
+            return result;
+        }
+
+        public async Task<List<ExperienceDTO>> GetAllByAliasAsync(string alias)
+        {
+            var endpoint = $"/api/experience/alias/{alias}";
             var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<ExperienceDTO>>(endpoint);
 
             return result;

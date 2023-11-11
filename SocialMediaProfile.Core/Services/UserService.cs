@@ -36,7 +36,28 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<UserDTO?> GetByIdAsync(int id)
+        public async Task<List<UserAliasDTO>> GetAllAliasAsync()
+        {
+            try
+            {
+                List<UserAliasDTO> usersDTO = new List<UserAliasDTO>();
+
+                IEnumerable<User> users = await _unitOfWork.UserRepository.GetAllAsync();
+
+                foreach (User user in users)
+                {
+                    usersDTO.Add(UserMapper.UserToUserAliasDTO(user));
+                }
+
+                return usersDTO;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public async Task<UserDTO> GetByIdAsync(int id)
         {
             try
             {
@@ -111,7 +132,7 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             try
             {

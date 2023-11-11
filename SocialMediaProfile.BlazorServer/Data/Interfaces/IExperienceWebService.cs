@@ -6,6 +6,7 @@ namespace SocialMediaProfile.BlazorServer.Data.Interfaces
     public interface IExperienceWebService
     {
         Task<List<ExperienceDTO>> GetAllAsync();
+        Task<List<ExperienceDTO>> GetAllByAliasAsync(string alias);
         Task<ExperienceResponseDTO> AddAsync(ExperienceDTO experienceDTO);
     }
 }

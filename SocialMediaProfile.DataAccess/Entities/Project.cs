@@ -15,7 +15,7 @@ namespace SocialMediaProfile.DataAccess.Entities
         public string Images { get; set; }
         public string URL { get; set; }
 
-        public int PersonId { get; set; }
-        public Person Person { get; set; } //ManyToOne
+        public int UserId { get; set; }
+        public User User { get; set; } //ManyToOne
     }
 }

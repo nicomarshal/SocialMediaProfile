@@ -1,4 +1,6 @@
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
+using SocialMediaProfile.BlazorServer.AuthState;
 using SocialMediaProfile.BlazorServer.Data;
 using SocialMediaProfile.BlazorServer.Data.Interfaces;
 using SocialMediaProfile.BlazorServer.Handlers;
@@ -9,13 +11,15 @@ ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 
-builder.Services.AddSingleton<IGlobalWebService, GlobalWebService>();
-builder.Services.AddSingleton<IExperienceWebService, ExperienceWebService>();
+builder.Services.AddSingleton<WeatherForecastService>(); //TODO Borrar
 
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<IAuthWebService, AuthWebService>();
+builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
+builder.Services.AddSingleton<IGlobalWebService, GlobalWebService>();
+builder.Services.AddSingleton<IUserWebService, UserWebService>();
+builder.Services.AddSingleton<IExperienceWebService, ExperienceWebService>();
 
 builder.Services.AddTransient<AuthWebHandler>();
 builder.Services.AddHttpClient("WebApi")

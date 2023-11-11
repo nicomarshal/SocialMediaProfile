@@ -39,6 +39,29 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
+        public async Task<List<ExperienceDTO>> GetAllByAliasAsync(string alias)
+        {
+            try
+            {
+                List<ExperienceDTO> experiencesDTO = new List<ExperienceDTO>();
+
+                IEnumerable<Experience> experiences = await _unitOfWork.ExperienceRepository.GetAllByAliasAsync(alias);
+                IEnumerable<Experience> result = experiences.OrderByDescending(t => t.StartDate);
+
+                foreach (Experience experience in result)
+                {
+                    experiencesDTO.Add(ExperienceMapper.ExperienceToExperienceDTO(experience));
+                }
+
+                return experiencesDTO;
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+        }
+
         public async Task<ExperienceDTO> GetByIdAsync(int id)
         {
             try

@@ -39,21 +39,21 @@ namespace SocialMediaProfile.DataAccess
                .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Education>() //OneToMany
-               .HasOne(x => x.Person)
+               .HasOne(x => x.User)
                .WithMany(y => y.Educations)
-               .HasForeignKey(x => x.PersonId)
+               .HasForeignKey(x => x.UserId)
                .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Skill>() //OneToMany
-               .HasOne(x => x.Person)
+               .HasOne(x => x.User)
                .WithMany(y => y.Skills)
-               .HasForeignKey(x => x.PersonId)
+               .HasForeignKey(x => x.UserId)
                .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Project>() //OneToMany
-               .HasOne(x => x.Person)
+               .HasOne(x => x.User)
                .WithMany(y => y.Projects)
-               .HasForeignKey(x => x.PersonId)
+               .HasForeignKey(x => x.UserId)
                .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.SeedRoles();

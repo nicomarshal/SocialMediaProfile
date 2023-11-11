@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace SocialMediaProfile.Core.Models.DTOs
 {
-    public class UserDTO
+    public class UserAliasDTO
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
         public string Alias { get; set; }
-        public int RoleId { get; set; }
     }
 }

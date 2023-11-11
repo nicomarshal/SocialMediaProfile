@@ -11,6 +11,7 @@ namespace SocialMediaProfile.Core.Services.Interfaces
     public interface IExperienceService
     {
         Task<List<ExperienceDTO>> GetAllAsync();
+        Task<List<ExperienceDTO>> GetAllByAliasAsync(string alias);
         Task<ExperienceDTO> GetByIdAsync(int id);
         Task<ExperienceResponseDTO> AddAsync(ExperienceDTO experienceDTO);
         Task<bool> UpdateAsync(int id, ExperienceDTO experienceDTO);

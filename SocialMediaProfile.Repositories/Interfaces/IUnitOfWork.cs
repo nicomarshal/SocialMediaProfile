@@ -13,7 +13,7 @@ namespace SocialMediaProfile.Repositories.Interfaces
         UserRepository UserRepository { get; }
         IGenericRepository<Person> PersonRepository { get; }
         IGenericRepository<Education> EducationRepository { get; }
-        IGenericRepository<Experience> ExperienceRepository { get; }
+        ExperienceRepository ExperienceRepository { get; }
         IGenericRepository<Project> ProjectRepository { get; }
         IGenericRepository<Skill> SkillRepository { get; }
 

@@ -18,7 +18,6 @@ namespace SocialMediaProfile.DataAccess.Entities
         public int UserId { get; set; }
         public User User { get; set; } //ManyToOne
 
-
         //public ExperienceType ExperienceType { get; set; } //ManyToOne
     }
 }

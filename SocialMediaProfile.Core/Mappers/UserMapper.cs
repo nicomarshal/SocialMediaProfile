@@ -22,6 +22,15 @@ namespace SocialMediaProfile.Core.Mappers
             return userDTO;
         }
 
+        public static UserAliasDTO UserToUserAliasDTO(User user)
+        {
+            UserAliasDTO userDTO = new UserAliasDTO()
+            {
+                Alias = user.Alias
+            };
+            return userDTO;
+        }
+
         public static User UserDTOToUser(UserDTO userDTO)
         {
             User user = new User()

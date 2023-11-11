@@ -1,0 +1,5 @@
+Autenticación y autorización de ASP.NET Core Blazor
+https://learn.microsoft.com/en-us/aspnet/core/blazor/security/?view=aspnetcore-7.0
+
+Aplicaciones Blazor Server ASP.NET Core seguras
+https://learn.microsoft.com/en-us/aspnet/core/blazor/security/server/?view=aspnetcore-7.0&tabs=visual-studio

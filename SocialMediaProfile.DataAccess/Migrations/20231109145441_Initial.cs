@@ -33,6 +33,7 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Alias = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -43,6 +44,31 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Educations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Logo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Career = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FinishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Educations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Educations_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -97,31 +123,6 @@ namespace SocialMediaProfile.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Educations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Logo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Career = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FinishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PersonId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Educations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Educations_People_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "People",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -133,16 +134,16 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     FinishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Images = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     URL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PersonId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Projects_People_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "People",
+                        name: "FK_Projects_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -154,16 +155,16 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Percentage = table.Column<int>(type: "int", nullable: false),
-                    PersonId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Skills", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Skills_People_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "People",
+                        name: "FK_Skills_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -179,21 +180,30 @@ namespace SocialMediaProfile.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Email", "IsDeleted", "Password", "RoleId", "Username" },
-                values: new object[] { 1, "gianledesma@gmail.com", false, "gian123", 1, "Gian123" });
+                columns: new[] { "Id", "Alias", "Email", "IsDeleted", "Password", "RoleId", "Username" },
+                values: new object[] { 1, "giancito", "gianledesma@gmail.com", false, "gian123", 1, "Gian123" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Email", "IsDeleted", "Password", "RoleId", "Username" },
-                values: new object[] { 2, "nicoledesma@gmail.com", false, "nico123", 2, "Nico123" });
+                columns: new[] { "Id", "Alias", "Email", "IsDeleted", "Password", "RoleId", "Username" },
+                values: new object[] { 2, "niquito", "nicoledesma@gmail.com", false, "nico123", 2, "Nico123" });
+
+            migrationBuilder.InsertData(
+                table: "Educations",
+                columns: new[] { "Id", "Career", "Description", "FinishDate", "IsDeleted", "Logo", "Name", "StartDate", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Licenciatura en Matemática", "Carrera universitaria de 5 años", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4328), false, "imgEducGian", "FAMAF - UNC", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4327), 1 },
+                    { 2, "Ingenierìa en Computaciòn", "Carrera universitaria de 5 años", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4330), false, "imgEducNico", "FCEFyN - UNC", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4330), 2 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Experiences",
                 columns: new[] { "Id", "Description", "FinishDate", "IsDeleted", "Job", "Logo", "Name", "StartDate", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Centro de investigaciòn nacional", new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4020), false, "Cientìfico", "imgExpGian", "CONICET", new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4005), 1 },
-                    { 2, "Automatizaciones industriales", new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4022), false, "Desarrollador .NET", "imgExpNico", "eFALCOM", new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4021), 2 }
+                    { 1, "Centro de investigaciòn nacional", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4312), false, "Cientìfico", "imgExpGian", "CONICET", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4298), 1 },
+                    { 2, "Automatizaciones industriales", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4314), false, "Desarrollador .NET", "imgExpNico", "eFALCOM", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4314), 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -206,26 +216,17 @@ namespace SocialMediaProfile.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Educations",
-                columns: new[] { "Id", "Career", "Description", "FinishDate", "IsDeleted", "Logo", "Name", "PersonId", "StartDate" },
-                values: new object[,]
-                {
-                    { 1, "Licenciatura en Matemática", "Carrera universitaria de 5 años", new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4032), false, "imgEducGian", "FAMAF - UNC", 1, new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4031) },
-                    { 2, "Ingenierìa en Computaciòn", "Carrera universitaria de 5 años", new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4034), false, "imgEducNico", "FCEFyN - UNC", 2, new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4034) }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Projects",
-                columns: new[] { "Id", "Description", "FinishDate", "Images", "IsDeleted", "Name", "PersonId", "StartDate", "URL" },
+                columns: new[] { "Id", "Description", "FinishDate", "Images", "IsDeleted", "Name", "StartDate", "URL", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Robot construido con bloques", new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4055), "ImagesGian", false, "Robot 3D", 1, new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4054), "https://" },
-                    { 2, "App de mensajerìa", new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4057), "ImagesNico", false, "ChatApp", 2, new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4056), "https://" }
+                    { 1, "Robot construido con bloques", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4352), "ImagesGian", false, "Robot 3D", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4352), "https://", 1 },
+                    { 2, "App de mensajerìa", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4355), "ImagesNico", false, "ChatApp", new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4354), "https://", 2 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Skills",
-                columns: new[] { "Id", "IsDeleted", "Name", "Percentage", "PersonId" },
+                columns: new[] { "Id", "IsDeleted", "Name", "Percentage", "UserId" },
                 values: new object[,]
                 {
                     { 1, false, "imgSKGian", 95, 1 },
@@ -233,9 +234,9 @@ namespace SocialMediaProfile.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Educations_PersonId",
+                name: "IX_Educations_UserId",
                 table: "Educations",
-                column: "PersonId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Experiences_UserId",
@@ -249,14 +250,14 @@ namespace SocialMediaProfile.DataAccess.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_PersonId",
+                name: "IX_Projects_UserId",
                 table: "Projects",
-                column: "PersonId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Skills_PersonId",
+                name: "IX_Skills_UserId",
                 table: "Skills",
-                column: "PersonId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
@@ -273,13 +274,13 @@ namespace SocialMediaProfile.DataAccess.Migrations
                 name: "Experiences");
 
             migrationBuilder.DropTable(
+                name: "People");
+
+            migrationBuilder.DropTable(
                 name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Skills");
-
-            migrationBuilder.DropTable(
-                name: "People");
 
             migrationBuilder.DropTable(
                 name: "Users");

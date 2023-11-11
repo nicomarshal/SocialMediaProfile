@@ -1,0 +1,17 @@
+﻿@page "/{alias}"
+@using SocialMediaProfile.BlazorServer.Data.Interfaces;
+@using SocialMediaProfile.Core.Models.DTOs;
+
+<h3>User</h3>
+
+<Banner></Banner>
+<PersonalInfo></PersonalInfo>
+<Experiences Alias="@(Alias)"></Experiences>
+<Educations></Educations>
+<Skills></Skills>
+<Projects></Projects>
+
+@code {
+    [Parameter]
+    public string Alias { get; set; }
+}

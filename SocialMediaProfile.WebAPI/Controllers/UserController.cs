@@ -3,11 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace SocialMediaProfile.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -21,7 +19,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
         // GET: api/<UserController>
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAllAsync()
         {
             List<UserDTO> usersDTO = await _userService.GetAllAsync();
 
@@ -30,14 +28,26 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(usersDTO);
         }
 
+        // GET: api/<UserController>/alias
+        [HttpGet("alias")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllAliasAsync()
+        {
+            List<UserAliasDTO> usersDTO = await _userService.GetAllAliasAsync();
+
+            if (usersDTO == null) return NotFound();
+
+            return Ok(usersDTO);
+        }
+
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Regular")]
-        public async Task<IActionResult> Get(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
             UserDTO userDTO = await _userService.GetByIdAsync(id);
 
-            if (userDTO == null) return BadRequest();
+            if (userDTO == null) return NotFound();
 
             return Ok(userDTO);
         }
@@ -45,7 +55,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
         // POST api/<UserController>
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Post(UserDTO userDTO)
+        public async Task<IActionResult> AddAsync(UserDTO userDTO)
         {
             bool isUserCreated = await _userService.AddAsync(userDTO);
 
@@ -55,8 +65,8 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Regular")]
-        public async Task<IActionResult> Put(int id, UserDTO userDTO)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateAsync(int id, UserDTO userDTO)
         {
             bool isUserUpdated = await _userService.UpdateAsync(id, userDTO);
 
@@ -67,9 +77,9 @@ namespace SocialMediaProfile.WebAPI.Controllers
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            bool isUserDeleted = await _userService.Delete(id);
+            bool isUserDeleted = await _userService.DeleteAsync(id);
 
             if (!isUserDeleted) return BadRequest();
             return Ok(isUserDeleted);

@@ -14,7 +14,7 @@ namespace SocialMediaProfile.Core.Models.DTOs
         public string Career { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime FinishDate { get; set; }
-        public int PersonId { get; set; }
+        public int UserId { get; set; }
 
         //public int EducationTypeId { get; set; }
     }

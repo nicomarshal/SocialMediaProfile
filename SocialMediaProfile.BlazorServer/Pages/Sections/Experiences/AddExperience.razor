@@ -48,6 +48,9 @@
 </EditForm>
 
 @code {
+    [Parameter]
+    public string Alias { get; set; }
+
     private ExperienceDTO _experienceDTO = new ExperienceDTO();
 
     private async Task CreateExperience(ExperienceDTO experienceDTO)
@@ -62,6 +65,6 @@
 
         await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral fue cargada con éxito.");
 
-        NavigationManager.NavigateTo("/", true);
+        NavigationManager.NavigateTo($"/{Alias}", true);
     }
 }

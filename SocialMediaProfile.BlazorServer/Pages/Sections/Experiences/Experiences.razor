@@ -43,16 +43,19 @@
     </article>
 </section>
 
-<AddExperience></AddExperience>
+<AddExperience Alias="@(Alias)"></AddExperience>
 <EditExperience></EditExperience>
 <DeleteExperience></DeleteExperience>
 
 @code {
+    [Parameter]
+    public string Alias { get; set; }
+
     private List<ExperienceDTO> _experiences = new List<ExperienceDTO>();
 
     protected override async Task OnInitializedAsync()
     {
-        _experiences = await ExperienceWebService.GetAllAsync();
+        _experiences = await ExperienceWebService.GetAllByAliasAsync(Alias);
     }
 
     //private async Task<bool> UpdateExperience(int id, ExperienceDTO experienceDTO)

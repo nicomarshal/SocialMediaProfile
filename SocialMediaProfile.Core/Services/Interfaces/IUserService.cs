@@ -10,10 +10,11 @@ namespace SocialMediaProfile.Core.Services.Interfaces
     public interface IUserService
     {
         Task<List<UserDTO>> GetAllAsync();
+        Task<List<UserAliasDTO>> GetAllAliasAsync();
         Task<UserDTO> GetByIdAsync(int id);
         Task<bool> AddAsync(UserDTO userDTO);
         Task<bool> UpdateAsync(int id, UserDTO userDTO);
-        Task<bool> Delete(int id);
+        Task<bool> DeleteAsync(int id);
 
         //Task<bool> DeleteSoft(int id);
     }

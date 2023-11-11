@@ -1,8 +1,10 @@
 ﻿@page "/";
 @using SocialMediaProfile.BlazorServer.Data.Interfaces;
 @using System.Net.Http.Headers;
+@using SocialMediaProfile.Core.Models.DTOs;
 @inject IGlobalWebService GlobalWebService;
 @inject IAuthWebService AuthWebService;
+@inject IUserWebService UserWebService;
 @inject IHttpClientFactory HttpClientFactory;
 
 <PageTitle>SocialMedia</PageTitle>
@@ -19,25 +21,39 @@
 }
 else
 {
-    <Banner></Banner>
-    <PersonalInfo></PersonalInfo>
-    <Experiences></Experiences>
-    <Educations></Educations>
-    <Skills></Skills>
-    <Projects></Projects>
+    <section class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <article class="row">
+            <div class="col">
+                @foreach (var alias in Alias)
+                {
+                    <a href="/@(alias.Alias)">@(alias.Alias)</a>
+                }
+                <AuthorizeView>
+                    <Authorized>
+                        This content is displayed only if the user is Authorized
+                    </Authorized>
+                    <NotAuthorized>
+                        This content is displayed if the user is Not Authorized
+                    </NotAuthorized>
+                </AuthorizeView>
+            </div>
+        </article>
+    </section>
 }
 
 @code {
+
+    private List<UserAliasDTO> Alias = new List<UserAliasDTO>();
 
     protected override async Task OnInitializedAsync()
     {
         if (GlobalWebService.HttpClient is null)
         {
-            GlobalWebService.HttpClient = HttpClientFactory.CreateClient("WebApi");
-            GlobalWebService.IsReady = true;
+            GlobalWebService.HttpClient = HttpClientFactory.CreateClient("WebApi");          
         }
 
-        await Task.CompletedTask;
+        Alias = await UserWebService.GetAllAliasAsync();
+        GlobalWebService.IsReady = true;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -48,15 +48,15 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Educations");
 
@@ -66,24 +66,24 @@ namespace SocialMediaProfile.DataAccess.Migrations
                             Id = 1,
                             Career = "Licenciatura en Matemática",
                             Description = "Carrera universitaria de 5 años",
-                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4032),
+                            FinishDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4328),
                             IsDeleted = false,
                             Logo = "imgEducGian",
                             Name = "FAMAF - UNC",
-                            PersonId = 1,
-                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4031)
+                            StartDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4327),
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Career = "Ingenierìa en Computaciòn",
                             Description = "Carrera universitaria de 5 años",
-                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4034),
+                            FinishDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4330),
                             IsDeleted = false,
                             Logo = "imgEducNico",
                             Name = "FCEFyN - UNC",
-                            PersonId = 2,
-                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4034)
+                            StartDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4330),
+                            UserId = 2
                         });
                 });
 
@@ -130,24 +130,24 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         {
                             Id = 1,
                             Description = "Centro de investigaciòn nacional",
-                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4020),
+                            FinishDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4312),
                             IsDeleted = false,
                             Job = "Cientìfico",
                             Logo = "imgExpGian",
                             Name = "CONICET",
-                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4005),
+                            StartDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4298),
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Description = "Automatizaciones industriales",
-                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4022),
+                            FinishDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4314),
                             IsDeleted = false,
                             Job = "Desarrollador .NET",
                             Logo = "imgExpNico",
                             Name = "eFALCOM",
-                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4021),
+                            StartDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4314),
                             UserId = 2
                         });
                 });
@@ -236,18 +236,18 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("URL")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Projects");
 
@@ -256,25 +256,25 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         {
                             Id = 1,
                             Description = "Robot construido con bloques",
-                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4055),
+                            FinishDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4352),
                             Images = "ImagesGian",
                             IsDeleted = false,
                             Name = "Robot 3D",
-                            PersonId = 1,
-                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4054),
-                            URL = "https://"
+                            StartDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4352),
+                            URL = "https://",
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Description = "App de mensajerìa",
-                            FinishDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4057),
+                            FinishDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4355),
                             Images = "ImagesNico",
                             IsDeleted = false,
                             Name = "ChatApp",
-                            PersonId = 2,
-                            StartDate = new DateTime(2023, 10, 16, 19, 7, 27, 417, DateTimeKind.Local).AddTicks(4056),
-                            URL = "https://"
+                            StartDate = new DateTime(2023, 11, 9, 11, 54, 41, 601, DateTimeKind.Local).AddTicks(4354),
+                            URL = "https://",
+                            UserId = 2
                         });
                 });
 
@@ -333,12 +333,12 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     b.Property<int>("Percentage")
                         .HasColumnType("int");
 
-                    b.Property<int>("PersonId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Skills");
 
@@ -349,7 +349,7 @@ namespace SocialMediaProfile.DataAccess.Migrations
                             IsDeleted = false,
                             Name = "imgSKGian",
                             Percentage = 95,
-                            PersonId = 1
+                            UserId = 1
                         },
                         new
                         {
@@ -357,7 +357,7 @@ namespace SocialMediaProfile.DataAccess.Migrations
                             IsDeleted = false,
                             Name = "imgSkNico",
                             Percentage = 95,
-                            PersonId = 2
+                            UserId = 2
                         });
                 });
 
@@ -368,6 +368,9 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Alias")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -394,6 +397,7 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         new
                         {
                             Id = 1,
+                            Alias = "giancito",
                             Email = "gianledesma@gmail.com",
                             IsDeleted = false,
                             Password = "gian123",
@@ -403,6 +407,7 @@ namespace SocialMediaProfile.DataAccess.Migrations
                         new
                         {
                             Id = 2,
+                            Alias = "niquito",
                             Email = "nicoledesma@gmail.com",
                             IsDeleted = false,
                             Password = "nico123",
@@ -413,12 +418,12 @@ namespace SocialMediaProfile.DataAccess.Migrations
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Education", b =>
                 {
-                    b.HasOne("SocialMediaProfile.DataAccess.Entities.Person", "Person")
+                    b.HasOne("SocialMediaProfile.DataAccess.Entities.User", "User")
                         .WithMany("Educations")
-                        .HasForeignKey("PersonId")
+                        .HasForeignKey("UserId")
                         .IsRequired();
 
-                    b.Navigation("Person");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Experience", b =>
@@ -444,22 +449,22 @@ namespace SocialMediaProfile.DataAccess.Migrations
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Project", b =>
                 {
-                    b.HasOne("SocialMediaProfile.DataAccess.Entities.Person", "Person")
+                    b.HasOne("SocialMediaProfile.DataAccess.Entities.User", "User")
                         .WithMany("Projects")
-                        .HasForeignKey("PersonId")
+                        .HasForeignKey("UserId")
                         .IsRequired();
 
-                    b.Navigation("Person");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Skill", b =>
                 {
-                    b.HasOne("SocialMediaProfile.DataAccess.Entities.Person", "Person")
+                    b.HasOne("SocialMediaProfile.DataAccess.Entities.User", "User")
                         .WithMany("Skills")
-                        .HasForeignKey("PersonId")
+                        .HasForeignKey("UserId")
                         .IsRequired();
 
-                    b.Navigation("Person");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.User", b =>
@@ -472,15 +477,6 @@ namespace SocialMediaProfile.DataAccess.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Person", b =>
-                {
-                    b.Navigation("Educations");
-
-                    b.Navigation("Projects");
-
-                    b.Navigation("Skills");
-                });
-
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.Role", b =>
                 {
                     b.Navigation("Users");
@@ -488,9 +484,15 @@ namespace SocialMediaProfile.DataAccess.Migrations
 
             modelBuilder.Entity("SocialMediaProfile.DataAccess.Entities.User", b =>
                 {
+                    b.Navigation("Educations");
+
                     b.Navigation("Experiencies");
 
                     b.Navigation("Person");
+
+                    b.Navigation("Projects");
+
+                    b.Navigation("Skills");
                 });
 #pragma warning restore 612, 618
         }
