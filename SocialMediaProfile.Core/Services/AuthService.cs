@@ -4,7 +4,7 @@ using SocialMediaProfile.Core.Services.Interfaces;
 using SocialMediaProfile.DataAccess.Entities;
 using SocialMediaProfile.Repositories.Interfaces;
 using SocialMediaProfile.Core.Helpers;
-
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 
 namespace SocialMediaProfile.Core.Services
 {
@@ -19,19 +19,29 @@ namespace SocialMediaProfile.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<string> LoginAsync(LoginDTO loginDTO)
+        public async Task<LoginResponseDTO> LoginAsync(LoginDTO loginDTO)
         {
-            IEnumerable<User> users = await _unitOfWork.UserRepository.GetUsersWithRoleAsync();
-            User user = users.Where(u => u.Email == loginDTO.Email && u.Password == loginDTO.Password).FirstOrDefault();
-
-            if (user != null)
+            try
             {
-                JsonWebToken jwt = new JsonWebToken(_configuration);
+                IEnumerable<User> users = await _unitOfWork.UserRepository.GetAllWithRoleAsync();
+                User user = users.Where(u => u.Email == loginDTO.Email && u.Password == loginDTO.Password).FirstOrDefault();
 
-                string token = jwt.CreateToken(user);
-                return token;
+                var response = new LoginResponseDTO();
+
+                if (user is not null)
+                {
+                    var jwt = new JsonWebToken(_configuration);
+
+                    response.Token = jwt.CreateToken(user);
+
+                    return response;
+                }
+                return response;
             }
-            return null;
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

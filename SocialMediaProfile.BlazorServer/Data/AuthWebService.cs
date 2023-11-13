@@ -1,10 +1,8 @@
 ﻿using Blazored.LocalStorage;
-using Newtonsoft.Json;
 using SocialMediaProfile.BlazorServer.Data.Interfaces;
 using SocialMediaProfile.Core.Models.DTOs;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace SocialMediaProfile.BlazorServer.Data
 {
@@ -14,10 +12,7 @@ namespace SocialMediaProfile.BlazorServer.Data
         
         private readonly ILocalStorageService _localStorageService;
         private readonly IGlobalWebService _globalWebService;
-
         private string _jwtCache;
-
-        public event Action<string> LoginChange; //Este evento està siendo escuchado por la page NavMenu
 
         public AuthWebService(ILocalStorageService localStorageService, IGlobalWebService globalWebService)
         {
@@ -64,7 +59,6 @@ namespace SocialMediaProfile.BlazorServer.Data
 
             var token = await response.Content.ReadAsStringAsync();
             await _localStorageService.SetItemAsync(JWT_KEY, token);
-            LoginChange.Invoke(GetRole(token)); //Este evento està siendo escuchado por la page NavMenu
 
             return true;
         }
@@ -75,7 +69,6 @@ namespace SocialMediaProfile.BlazorServer.Data
             _jwtCache = null;
             _globalWebService.HttpClient.DefaultRequestHeaders.Remove("Authorization");
             _globalWebService.UserId = 0;
-            LoginChange.Invoke(null);
         }
 
         public Task<bool> RefreshAsync()

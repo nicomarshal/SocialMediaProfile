@@ -5,13 +5,13 @@ using SocialMediaProfile.Repositories.Interfaces;
 
 namespace SocialMediaProfile.Repositories
 {
-    public class ExperienceRepository : GenericRepository<Experience>, IExperienceRepository
+    public class EducationRepository : GenericRepository<Education>, IEducationRepository
     {
-        public ExperienceRepository(SocialMediaDbContext dbContext) : base(dbContext)
+        public EducationRepository(SocialMediaDbContext dbContext) : base(dbContext)
         {
         }
 
-        public async Task<IEnumerable<Experience>> GetAllByAliasAsync(string alias)
+        public async Task<IEnumerable<Education>> GetAllByAliasAsync(string alias)
         {
             return await _entities.Include(u => u.User).Where(v => v.User.Alias == alias).ToListAsync();
         }

@@ -1,19 +1,16 @@
 ﻿using SocialMediaProfile.Core.Models.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 
 namespace SocialMediaProfile.Core.Services.Interfaces
 {
     public interface IEducationService
     {
         Task<List<EducationDTO>> GetAllAsync();
+        Task<List<EducationDTO>> GetAllByAliasAsync(string alias);
         Task<EducationDTO> GetByIdAsync(int id);
-        Task<bool> AddAsync(EducationDTO educationDTO);
+        Task<EducationResponseDTO> AddAsync(EducationDTO educationDTO);
         Task<bool> UpdateAsync(int id, EducationDTO educationDTO);
-        Task<bool> Delete(int id);
+        Task<bool> DeleteAsync(int id);
 
         //Task<bool> DeleteSoft(int id);
     }

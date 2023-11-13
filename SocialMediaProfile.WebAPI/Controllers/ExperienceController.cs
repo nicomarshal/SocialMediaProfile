@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaProfile.Core.Models.DTOs;
-using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
-using SocialMediaProfile.Core.Services;
 using SocialMediaProfile.Core.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
@@ -18,71 +16,65 @@ namespace SocialMediaProfile.WebAPI.Controllers
             _experienceService = experiencieService;
         }
 
-        // GET: api/<ExperienceController>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllAsync()
         {
-            List<ExperienceDTO> experiencesDTO = await _experienceService.GetAllAsync();
+            var result = await _experienceService.GetAllAsync();
 
-            if (experiencesDTO == null) return NotFound();
-            return Ok(experiencesDTO);
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // GET: api/<ExperienceController>/alias
         [HttpGet("alias/{alias}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllByAliasAsync(string alias)
         {
-            List<ExperienceDTO> experiencesDTO = await _experienceService.GetAllByAliasAsync(alias);
+            var result = await _experienceService.GetAllByAliasAsync(alias);
 
-            if (experiencesDTO == null) return NotFound();
-            return Ok(experiencesDTO);
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // GET api/<ExperienceController>/5
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
-            ExperienceDTO experienceDTO = await _experienceService.GetByIdAsync(id);
+            var result = await _experienceService.GetByIdAsync(id);
 
-            if (experienceDTO == null) return NotFound();
-            return Ok(experienceDTO);
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // POST api/<ExperienceController>
         [HttpPost("add")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddAsync(ExperienceDTO experienceDTO)
+        public async Task<IActionResult> AddAsync([FromBody] ExperienceDTO experienceDTO)
         {
-            ExperienceResponseDTO experienceResponseDTO = await _experienceService.AddAsync(experienceDTO);
-            bool isExperienceCreated = experienceResponseDTO.IsCreated;
+            var result = await _experienceService.AddAsync(experienceDTO);
+            var isCreated = result.IsCreated;
            
-            if (!isExperienceCreated) return BadRequest();
-            return Ok(experienceResponseDTO);
+            if (!isCreated) return BadRequest();
+            return Ok(isCreated);
         }
 
-        // PUT api/<ExperienceController>/5
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateAsync(int id, ExperienceDTO experienceDTO)
+        public async Task<IActionResult> UpdateAsync(int id, [FromBody] ExperienceDTO experienceDTO)
         {
-            bool isExperienceUpdated = await _experienceService.UpdateAsync(id, experienceDTO);
+            var isUpdated = await _experienceService.UpdateAsync(id, experienceDTO);
 
-            if (!isExperienceUpdated) return BadRequest();
-            return Ok(isExperienceUpdated);
+            if (!isUpdated) return BadRequest();
+            return Ok(isUpdated);
         }
 
-        // DELETE api/<ExperienceController>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            bool isExperienceDeleted = await _experienceService.DeleteAsync(id);
+            var isDeleted = await _experienceService.DeleteAsync(id);
 
-            if (!isExperienceDeleted) return BadRequest();
-            return Ok(isExperienceDeleted);
+            if (!isDeleted) return BadRequest();
+            return Ok(isDeleted);
         }
     }
 }

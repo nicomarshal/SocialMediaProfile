@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace SocialMediaProfile.Repositories.Interfaces
 {
-    public interface IUserRepository : IGenericRepository<User>
+    public interface IEducationRepository : IGenericRepository<Education>
     {
-        Task<IEnumerable<User>> GetAllWithRoleAsync();
+        Task<IEnumerable<Education>> GetAllByAliasAsync(string alias);
     }
 }

@@ -39,11 +39,11 @@
             }
 
             await JSRuntime.InvokeVoidAsync("alert", "Inicio de sesión exitoso.");
-            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/", true);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Console.WriteLine("Error: " + ex.Message);
+            throw new Exception(e.Message);
         }
     }
 

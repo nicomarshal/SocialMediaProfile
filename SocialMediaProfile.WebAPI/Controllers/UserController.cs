@@ -16,73 +16,65 @@ namespace SocialMediaProfile.WebAPI.Controllers
             _userService = userService;
         }
 
-        // GET: api/<UserController>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllAsync()
         {
-            List<UserDTO> usersDTO = await _userService.GetAllAsync();
+            var result = await _userService.GetAllAsync();
 
-            if (usersDTO == null) return NotFound();
-
-            return Ok(usersDTO);
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // GET: api/<UserController>/alias
         [HttpGet("alias")]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllAliasAsync()
         {
-            List<UserAliasDTO> usersDTO = await _userService.GetAllAliasAsync();
+            var result = await _userService.GetAllAliasAsync();
 
-            if (usersDTO == null) return NotFound();
-
-            return Ok(usersDTO);
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // GET api/<UserController>/5
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
-            UserDTO userDTO = await _userService.GetByIdAsync(id);
+            var result = await _userService.GetByIdAsync(id);
 
-            if (userDTO == null) return NotFound();
-
-            return Ok(userDTO);
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // POST api/<UserController>
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> AddAsync(UserDTO userDTO)
+        public async Task<IActionResult> AddAsync([FromBody] UserDTO userDTO)
         {
-            bool isUserCreated = await _userService.AddAsync(userDTO);
+            var result = await _userService.AddAsync(userDTO);
+            var isCreated = result.IsCreated;
 
-            if (!isUserCreated) BadRequest();
-            return Ok(isUserCreated);
+            if (!isCreated) BadRequest();
+            return Ok(isCreated);
         }
 
-        // PUT api/<UserController>/5
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateAsync(int id, UserDTO userDTO)
+        public async Task<IActionResult> UpdateAsync(int id, [FromBody] UserDTO userDTO)
         {
-            bool isUserUpdated = await _userService.UpdateAsync(id, userDTO);
+            var isUpdated = await _userService.UpdateAsync(id, userDTO);
 
-            if (!isUserUpdated) return BadRequest();
-            return Ok(isUserUpdated);
+            if (!isUpdated) return BadRequest();
+            return Ok(isUpdated);
         }
 
-        // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            bool isUserDeleted = await _userService.DeleteAsync(id);
+            var isDeleted = await _userService.DeleteAsync(id);
 
-            if (!isUserDeleted) return BadRequest();
-            return Ok(isUserDeleted);
+            if (!isDeleted) return BadRequest();
+            return Ok(isDeleted);
         }
     }
 }

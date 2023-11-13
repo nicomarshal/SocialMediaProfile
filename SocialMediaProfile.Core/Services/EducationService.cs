@@ -1,7 +1,7 @@
 ﻿using SocialMediaProfile.Core.Mappers;
 using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
-using SocialMediaProfile.DataAccess.Entities;
 using SocialMediaProfile.Repositories.Interfaces;
 
 namespace SocialMediaProfile.Core.Services
@@ -19,17 +19,39 @@ namespace SocialMediaProfile.Core.Services
         {
             try
             {
-                List<EducationDTO> educationsDTO = new List<EducationDTO>();
+                var result = new List<EducationDTO>();
 
-                IEnumerable<Education> educations = await _unitOfWork.EducationRepository.GetAllAsync();
-                IEnumerable<Education> result = educations.OrderByDescending(t => t.StartDate);
+                var response = await _unitOfWork.EducationRepository.GetAllAsync();
+                response = response.OrderByDescending(t => t.StartDate);
 
-                foreach (Education education in result)
+                foreach (var item in response)
                 {
-                    educationsDTO.Add(EducationMapper.EducationToEducationDTO(education));
+                    result.Add(EducationMapper.EducationToEducationDTO(item));
                 }
 
-                return educationsDTO;
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public async Task<List<EducationDTO>> GetAllByAliasAsync(string alias)
+        {
+            try
+            {
+                var result = new List<EducationDTO>();
+
+                var response = await _unitOfWork.EducationRepository.GetAllByAliasAsync(alias);
+                response = response.OrderByDescending(t => t.StartDate);
+
+                foreach (var item in response)
+                {
+                    result.Add(EducationMapper.EducationToEducationDTO(item));
+                }
+
+                return result;
             }
             catch (Exception e)
             {
@@ -43,15 +65,16 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0)
                 {
-                    EducationDTO educationDTO = new EducationDTO();
+                    var result = new EducationDTO();
 
-                    Education education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+                    var response = await _unitOfWork.EducationRepository.GetByIdAsync(id);
 
-                    if (education != null)
+                    if (response is not null)
                     {
-                        educationDTO = EducationMapper.EducationToEducationDTO(education);
-                        return educationDTO;
+                        result = EducationMapper.EducationToEducationDTO(response);
+                        return result;
                     }
+
                     return null;
                 }
                 return null;
@@ -62,22 +85,19 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<bool> AddAsync(EducationDTO educationDTO)
+        public async Task<EducationResponseDTO> AddAsync(EducationDTO educationDTO)
         {
             try
             {
-                if (educationDTO != null)
-                {
-                    Education education = EducationMapper.EducationDTOToEducation(educationDTO);
+                var entity = EducationMapper.EducationDTOToEducation(educationDTO);
 
-                    await _unitOfWork.EducationRepository.AddAsync(education);
+                await _unitOfWork.EducationRepository.AddAsync(entity);
 
-                    int response = await _unitOfWork.SaveChangesAsync();
+                var isCreated = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
 
-                    if (response > 0) return true;
-                    return false;
-                }
-                return false;
+                var result = new EducationResponseDTO() { IsCreated = isCreated };
+
+                return result;
             }
             catch (Exception e)
             {
@@ -91,16 +111,17 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0 && educationDTO != null)
                 {
-                    Education education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
-                    if (education != null)
+                    var entity = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+
+                    if (entity is not null)
                     {
-                        education = EducationMapper.EducationDTOToEducation(educationDTO, education);
+                        entity = EducationMapper.EducationDTOToEducation(educationDTO, entity);
 
-                        _unitOfWork.EducationRepository.Update(education);
+                        _unitOfWork.EducationRepository.Update(entity);
 
-                        int response = await _unitOfWork.SaveChangesAsync();
+                        var result = await _unitOfWork.SaveChangesAsync();
 
-                        if (response > 0) return true;
+                        if (result > 0) return true;
                         return false;
                     }
                 }
@@ -112,21 +133,21 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             try
             {
                 if (id > 0)
                 {
-                    Education education = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+                    var entity = await _unitOfWork.EducationRepository.GetByIdAsync(id);
 
-                    if (education != null)
+                    if (entity is not null)
                     {
-                        _unitOfWork.EducationRepository.Delete(education);
+                        _unitOfWork.EducationRepository.Delete(entity);
 
-                        int response = await _unitOfWork.SaveChangesAsync();
+                        var result = await _unitOfWork.SaveChangesAsync();
 
-                        if (response > 0) return true;
+                        if (result > 0) return true;
                         return false;
                     }
                 }

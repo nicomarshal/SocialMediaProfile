@@ -16,7 +16,7 @@ namespace SocialMediaProfile.Repositories
         {
         }
 
-        public async Task<IEnumerable<User>> GetUsersWithRoleAsync()
+        public async Task<IEnumerable<User>> GetAllWithRoleAsync()
         {
             return await _entities.Include(u => u.Role).ToListAsync();
         }

@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
-using Newtonsoft.Json;
-using SocialMediaProfile.BlazorServer.Data;
 using SocialMediaProfile.BlazorServer.Data.Interfaces;
 using System.Security.Claims;
 
@@ -31,12 +29,13 @@ namespace SocialMediaProfile.BlazorServer.AuthState
                 };
 
                 var identity = new ClaimsIdentity(claims, "Authentication");
-
                 var user = new ClaimsPrincipal(identity);
+                var state = new AuthenticationState(user);
 
-                return await Task.FromResult(new AuthenticationState(user));
+                NotifyAuthenticationStateChanged(Task.FromResult(state));
+
+                return await Task.FromResult(state);
             }
-
             return await Task.FromResult(new AuthenticationState(new ClaimsPrincipal()));
         }
     }

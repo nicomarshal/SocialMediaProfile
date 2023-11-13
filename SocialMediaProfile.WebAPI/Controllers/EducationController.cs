@@ -16,59 +16,65 @@ namespace SocialMediaProfile.WebAPI.Controllers
             _educationService = educationService;
         }
 
-        // GET: api/<EducationController>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllAsync()
         {
-            List<EducationDTO> educationsDTO = await _educationService.GetAllAsync();
+            var result = await _educationService.GetAllAsync();
 
-            if (educationsDTO == null) return NotFound();
-
-            return Ok(educationsDTO);
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // GET api/<EducationController>/5
+        [HttpGet("alias/{alias}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllByAliasAsync(string alias)
+        {
+            var result = await _educationService.GetAllByAliasAsync(alias);
+
+            if (result is null) return NotFound();
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            EducationDTO educationDTO = await _educationService.GetByIdAsync(id);
+            var result = await _educationService.GetByIdAsync(id);
 
-            if (educationDTO == null) return BadRequest();
-
-            return Ok(educationDTO);
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // POST api/<EducationController>
-        [HttpPost]
-        [Authorize(Roles = "Regular")]
-        public async Task<IActionResult> Post(EducationDTO educationDTO)
+        [HttpPost("add")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddAsync([FromBody] EducationDTO educationDTO)
         {
-            bool isEducationCreated = await _educationService.AddAsync(educationDTO);
+            var result = await _educationService.AddAsync(educationDTO);
+            var isCreated = result.IsCreated;
 
-            if (!isEducationCreated) BadRequest();
-            return Ok(isEducationCreated);
+            if (!isCreated) return BadRequest();
+            return Ok(isCreated);
         }
 
-        // PUT api/<EducationController>/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Regular")]
-        public async Task<IActionResult> Put(int id, EducationDTO educationDTO)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateAsync(int id, [FromBody] EducationDTO educationDTO)
         {
-            bool isEducationUpdated = await _educationService.UpdateAsync(id, educationDTO);
+            var isUpdated = await _educationService.UpdateAsync(id, educationDTO);
 
-            if (!isEducationUpdated) return BadRequest();
-            return Ok(isEducationUpdated);
+            if (!isUpdated) return BadRequest();
+            return Ok(isUpdated);
         }
 
-        // DELETE api/<EducationController>/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Regular")]
-        public async Task<IActionResult> Delete(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            bool isEducationDeleted = await _educationService.Delete(id);
+            var isDeleted = await _educationService.DeleteAsync(id);
 
-            if (!isEducationDeleted) return BadRequest();
-            return Ok(isEducationDeleted);
+            if (!isDeleted) return BadRequest();
+            return Ok(isDeleted);
         }
     }
 }

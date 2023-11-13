@@ -1,4 +1,5 @@
 ﻿using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace SocialMediaProfile.Core.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<string> LoginAsync(LoginDTO loginDTO);
+        Task<LoginResponseDTO> LoginAsync(LoginDTO loginDTO);
     }
 }

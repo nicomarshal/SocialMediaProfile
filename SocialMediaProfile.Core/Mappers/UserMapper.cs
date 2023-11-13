@@ -1,4 +1,5 @@
 ﻿using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,9 @@ namespace SocialMediaProfile.Core.Mappers
             return userDTO;
         }
 
-        public static UserAliasDTO UserToUserAliasDTO(User user)
+        public static UserAliasResponseDTO UserToUserAliasDTO(User user)
         {
-            UserAliasDTO userDTO = new UserAliasDTO()
+            UserAliasResponseDTO userDTO = new UserAliasResponseDTO()
             {
                 Alias = user.Alias
             };

@@ -1,4 +1,5 @@
 ﻿using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace SocialMediaProfile.Core.Services.Interfaces
     public interface IUserService
     {
         Task<List<UserDTO>> GetAllAsync();
-        Task<List<UserAliasDTO>> GetAllAliasAsync();
+        Task<List<UserAliasResponseDTO>> GetAllAliasAsync();
         Task<UserDTO> GetByIdAsync(int id);
-        Task<bool> AddAsync(UserDTO userDTO);
+        Task<UserResponseDTO> AddAsync(UserDTO userDTO);
         Task<bool> UpdateAsync(int id, UserDTO userDTO);
         Task<bool> DeleteAsync(int id);
 

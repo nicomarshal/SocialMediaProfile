@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialMediaProfile.Core.Models.DTOs
+namespace SocialMediaProfile.Core.Models.DTOs.ResponseDTOs
 {
-    public class UserAliasDTO
+    public class LoginResponseDTO
     {
-        public string Alias { get; set; }
+        public string Token { get; set; }
     }
 }

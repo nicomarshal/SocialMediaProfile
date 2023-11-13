@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
@@ -16,26 +17,14 @@ namespace SocialMediaProfile.WebAPI.Controllers
             _authService = authService;
         }
 
-        #region GetUser
-        //// GET: api/<ExperienceController>
-        //[HttpGet]
-        //[Authorize(Roles = "Admin")]
-        //public async Task<IActionResult> Get()
-        //{
-        //    var userId = User.Claims
-        //        .Where(c => c.Type == ClaimTypes.NameIdentifier)
-        //        .Select(c => c.Value)
-        //        .ToList();
-        //    return Ok(userId);
-        //}
-        #endregion
-
         // POST api/<AuthController>
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDTO loginDTO)
         {
-            string token = await _authService.LoginAsync(loginDTO);
+            var response = await _authService.LoginAsync(loginDTO);
+            
+            var token = response.Token;
 
             #region AppendCookies
             //Response.Cookies.Append("token", token, new CookieOptions()
@@ -49,7 +38,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
             //});
             #endregion
 
-            if (token == null) return Unauthorized();
+            if (string.IsNullOrEmpty(token)) return Unauthorized();
             return Ok(token);
         }
     }

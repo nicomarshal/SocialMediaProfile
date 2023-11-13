@@ -11,7 +11,7 @@ namespace SocialMediaProfile.Repositories
         private readonly IGenericRepository<Role> _roleRepository;
         private readonly UserRepository _userRepository;
         private readonly IGenericRepository<Person> _personRepository;
-        private readonly IGenericRepository<Education> _educationRepository;
+        private readonly EducationRepository _educationRepository;
         private readonly ExperienceRepository _experienceRepository;
         private readonly IGenericRepository<Project> _projectRepository;
         private readonly IGenericRepository<Skill> _skillRepository;
@@ -30,8 +30,8 @@ namespace SocialMediaProfile.Repositories
         public IGenericRepository<Person> PersonRepository =>
             _personRepository ?? new GenericRepository<Person>(_dbContext);
 
-        public IGenericRepository<Education> EducationRepository =>
-            _educationRepository ?? new GenericRepository<Education>(_dbContext);
+        public EducationRepository EducationRepository =>
+            _educationRepository ?? new EducationRepository(_dbContext);
 
         public ExperienceRepository ExperienceRepository =>
             _experienceRepository ?? new ExperienceRepository(_dbContext);

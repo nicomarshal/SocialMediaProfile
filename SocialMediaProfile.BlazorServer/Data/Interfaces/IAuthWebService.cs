@@ -4,7 +4,6 @@ namespace SocialMediaProfile.BlazorServer.Data.Interfaces
 {
     public interface IAuthWebService
     {
-        event Action<string> LoginChange;
         Task<string> GetJwtAsync();
         int GetUserId(string token);
         string GetRole(string token);

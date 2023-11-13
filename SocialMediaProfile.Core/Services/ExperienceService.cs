@@ -2,7 +2,6 @@
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
-using SocialMediaProfile.DataAccess.Entities;
 using SocialMediaProfile.Repositories.Interfaces;
 
 namespace SocialMediaProfile.Core.Services
@@ -20,21 +19,20 @@ namespace SocialMediaProfile.Core.Services
         {
             try
             {
-                List<ExperienceDTO> experiencesDTO = new List<ExperienceDTO>();
+                var result = new List<ExperienceDTO>();
 
-                IEnumerable<Experience> experiences = await _unitOfWork.ExperienceRepository.GetAllAsync();
-                IEnumerable<Experience> result = experiences.OrderByDescending(t => t.StartDate);
+                var response = await _unitOfWork.ExperienceRepository.GetAllAsync();
+                response = response.OrderByDescending(t => t.StartDate);
 
-                foreach (Experience experience in result)
+                foreach (var item in response)
                 {
-                    experiencesDTO.Add(ExperienceMapper.ExperienceToExperienceDTO(experience));
+                    result.Add(ExperienceMapper.ExperienceToExperienceDTO(item));
                 }
 
-                return experiencesDTO;
+                return result;
             }
             catch (Exception e)
             {
-
                 throw new Exception(e.Message);
             }
         }
@@ -43,21 +41,20 @@ namespace SocialMediaProfile.Core.Services
         {
             try
             {
-                List<ExperienceDTO> experiencesDTO = new List<ExperienceDTO>();
+                var result = new List<ExperienceDTO>();
 
-                IEnumerable<Experience> experiences = await _unitOfWork.ExperienceRepository.GetAllByAliasAsync(alias);
-                IEnumerable<Experience> result = experiences.OrderByDescending(t => t.StartDate);
+                var response = await _unitOfWork.ExperienceRepository.GetAllByAliasAsync(alias);
+                response = response.OrderByDescending(t => t.StartDate);
 
-                foreach (Experience experience in result)
+                foreach (var item in response)
                 {
-                    experiencesDTO.Add(ExperienceMapper.ExperienceToExperienceDTO(experience));
+                    result.Add(ExperienceMapper.ExperienceToExperienceDTO(item));
                 }
 
-                return experiencesDTO;
+                return result;
             }
             catch (Exception e)
             {
-
                 throw new Exception(e.Message);
             }
         }
@@ -68,15 +65,16 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0)
                 {
-                    ExperienceDTO experienceDTO = new ExperienceDTO();
+                    var result = new ExperienceDTO();
 
-                    Experience experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                    var response = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
 
-                    if (experience != null)
+                    if (response is not null)
                     {
-                        experienceDTO = ExperienceMapper.ExperienceToExperienceDTO(experience);
-                        return experienceDTO;
+                        result = ExperienceMapper.ExperienceToExperienceDTO(response);
+                        return result;
                     }
+
                     return null;
                 }
                 return null;
@@ -91,16 +89,15 @@ namespace SocialMediaProfile.Core.Services
         {
             try
             {
-                Experience experience = ExperienceMapper.ExperienceDTOToExperience(experienceDTO);
+                var entity = ExperienceMapper.ExperienceDTOToExperience(experienceDTO);
 
-                await _unitOfWork.ExperienceRepository.AddAsync(experience);
+                await _unitOfWork.ExperienceRepository.AddAsync(entity);
 
-                bool isCreated = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
+                var isCreated = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
 
-                ExperienceResponseDTO experienceResponseDTO = 
-                    new ExperienceResponseDTO() { IsCreated = isCreated };
+                var result = new ExperienceResponseDTO() { IsCreated = isCreated };
           
-                return experienceResponseDTO;
+                return result;
             }
             catch (Exception e)
             {
@@ -112,18 +109,19 @@ namespace SocialMediaProfile.Core.Services
         {
             try
             {
-                if (id > 0 && experienceDTO != null)
+                if (id > 0 && experienceDTO is not null)
                 {
-                    Experience experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
-                    if (experience != null)
+                    var entity = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                    
+                    if (entity is not null)
                     {
-                        experience = ExperienceMapper.ExperienceDTOToExperience(experienceDTO, experience);
+                        entity = ExperienceMapper.ExperienceDTOToExperience(experienceDTO, entity);
 
-                        _unitOfWork.ExperienceRepository.Update(experience);
+                        _unitOfWork.ExperienceRepository.Update(entity);
 
-                        int response = await _unitOfWork.SaveChangesAsync();
+                        var result = await _unitOfWork.SaveChangesAsync();
 
-                        if (response > 0) return true;
+                        if (result > 0) return true;
                         return false;
                     }
                 }
@@ -141,15 +139,15 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0)
                 {
-                    Experience experience = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                    var entity = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
 
-                    if (experience != null)
+                    if (entity is not null)
                     {
-                        _unitOfWork.ExperienceRepository.Delete(experience);
+                        _unitOfWork.ExperienceRepository.Delete(entity);
 
-                        int response = await _unitOfWork.SaveChangesAsync();
+                        var result = await _unitOfWork.SaveChangesAsync();
 
-                        if (response > 0) return true;
+                        if (result > 0) return true;
                         return false;
                     }
                 }

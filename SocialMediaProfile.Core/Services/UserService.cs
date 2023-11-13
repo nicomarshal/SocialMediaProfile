@@ -1,7 +1,7 @@
 ﻿using SocialMediaProfile.Core.Mappers;
 using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
-using SocialMediaProfile.DataAccess.Entities;
 using SocialMediaProfile.Repositories.Interfaces;
 
 namespace SocialMediaProfile.Core.Services
@@ -19,16 +19,16 @@ namespace SocialMediaProfile.Core.Services
         {
             try
             {
-                List<UserDTO> usersDTO = new List<UserDTO>();
+                var result = new List<UserDTO>();
 
-                IEnumerable<User> users = await _unitOfWork.UserRepository.GetAllAsync();
+                var response = await _unitOfWork.UserRepository.GetAllAsync();
 
-                foreach (User user in users)
+                foreach (var item in response)
                 {
-                    usersDTO.Add(UserMapper.UserToUserDTO(user));
+                    result.Add(UserMapper.UserToUserDTO(item));
                 }
 
-                return usersDTO;
+                return result;
             }
             catch (Exception e)
             {
@@ -36,20 +36,20 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<List<UserAliasDTO>> GetAllAliasAsync()
+        public async Task<List<UserAliasResponseDTO>> GetAllAliasAsync()
         {
             try
             {
-                List<UserAliasDTO> usersDTO = new List<UserAliasDTO>();
+                var result = new List<UserAliasResponseDTO>();
 
-                IEnumerable<User> users = await _unitOfWork.UserRepository.GetAllAsync();
+                var response = await _unitOfWork.UserRepository.GetAllAsync();
 
-                foreach (User user in users)
+                foreach (var item in response)
                 {
-                    usersDTO.Add(UserMapper.UserToUserAliasDTO(user));
+                    result.Add(UserMapper.UserToUserAliasDTO(item));
                 }
 
-                return usersDTO;
+                return result;
             }
             catch (Exception e)
             {
@@ -63,16 +63,17 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0)
                 {
-                    UserDTO userDTO = new UserDTO();
+                    var result = new UserDTO();
 
-                    User user = await _unitOfWork.UserRepository.GetByIdAsync(id);
+                    var response = await _unitOfWork.UserRepository.GetByIdAsync(id);
 
-                    if (user != null)
+                    if (response is not null)
                     {
-                        userDTO = UserMapper.UserToUserDTO(user);
-                        return userDTO;
+                        result = UserMapper.UserToUserDTO(response);
+                        return result;
                     }
-                    return null;
+
+                    return result;
                 }
                 return null;
             }
@@ -82,22 +83,19 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<bool> AddAsync(UserDTO userDTO)
+        public async Task<UserResponseDTO> AddAsync(UserDTO userDTO)
         {
             try
             {
-                if (userDTO != null)
-                {
-                    User user = UserMapper.UserDTOToUser(userDTO);
+                var entity = UserMapper.UserDTOToUser(userDTO);
 
-                    await _unitOfWork.UserRepository.AddAsync(user);
+                await _unitOfWork.UserRepository.AddAsync(entity);
 
-                    int response = await _unitOfWork.SaveChangesAsync();
+                var isCreated = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
 
-                    if (response > 0) return true;
-                    return false;
-                }
-                return false;
+                var result = new UserResponseDTO() { IsCreated = isCreated };
+
+                return result;
             }
             catch (Exception e)
             {
@@ -109,18 +107,19 @@ namespace SocialMediaProfile.Core.Services
         {
             try
             {
-                if (id > 0 && userDTO != null)
+                if (id > 0 && userDTO is not null)
                 {
-                    User user = await _unitOfWork.UserRepository.GetByIdAsync(id);
-                    if (user != null)
+                    var entity = await _unitOfWork.UserRepository.GetByIdAsync(id);
+
+                    if (entity is not null)
                     {
-                        user = UserMapper.UserDTOToUser(userDTO, user);
+                        entity = UserMapper.UserDTOToUser(userDTO, entity);
 
-                        _unitOfWork.UserRepository.Update(user);
+                        _unitOfWork.UserRepository.Update(entity);
 
-                        int response = await _unitOfWork.SaveChangesAsync();
+                        var result = await _unitOfWork.SaveChangesAsync();
 
-                        if (response > 0) return true;
+                        if (result > 0) return true;
                         return false;
                     }
                 }
@@ -138,15 +137,15 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0)
                 {
-                    User user = await _unitOfWork.UserRepository.GetByIdAsync(id);
+                    var entity = await _unitOfWork.UserRepository.GetByIdAsync(id);
 
-                    if (user != null)
+                    if (entity is not null)
                     {
-                        _unitOfWork.UserRepository.Delete(user);
+                        _unitOfWork.UserRepository.Delete(entity);
 
-                        int response = await _unitOfWork.SaveChangesAsync();
+                        var result = await _unitOfWork.SaveChangesAsync();
 
-                        if (response > 0) return true;
+                        if (result > 0) return true;
                         return false;
                     }
                 }

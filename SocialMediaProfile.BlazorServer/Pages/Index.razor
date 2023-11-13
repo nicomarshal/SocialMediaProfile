@@ -2,6 +2,7 @@
 @using SocialMediaProfile.BlazorServer.Data.Interfaces;
 @using System.Net.Http.Headers;
 @using SocialMediaProfile.Core.Models.DTOs;
+@using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 @inject IGlobalWebService GlobalWebService;
 @inject IAuthWebService AuthWebService;
 @inject IUserWebService UserWebService;
@@ -43,7 +44,7 @@ else
 
 @code {
 
-    private List<UserAliasDTO> Alias = new List<UserAliasDTO>();
+    private List<UserAliasResponseDTO> Alias = new List<UserAliasResponseDTO>();
 
     protected override async Task OnInitializedAsync()
     {
