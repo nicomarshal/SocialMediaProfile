@@ -14,7 +14,7 @@ namespace SocialMediaProfile.Core.Services.Interfaces
         Task<List<ExperienceDTO>> GetAllByAliasAsync(string alias);
         Task<ExperienceDTO> GetByIdAsync(int id);
         Task<ExperienceResponseDTO> AddAsync(ExperienceDTO experienceDTO);
-        Task<bool> UpdateAsync(int id, ExperienceDTO experienceDTO);
-        Task<bool> DeleteAsync(int id);
+        Task<ExperienceResponseDTO> UpdateAsync(int id, ExperienceDTO experienceDTO);
+        Task<ExperienceResponseDTO> DeleteAsync(int id);
     }
 }

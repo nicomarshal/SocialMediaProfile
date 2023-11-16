@@ -1,21 +1,89 @@
-﻿<section class="modal fade" id="editExperience" tabindex="-1" aria-labelledby="editExperienceLabel" aria-hidden="true">
-    <article class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editExperienceLabel">Editar Experiencia</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Probando modal
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Editar</button>
-            </div>
-        </div>
-    </article>
-</section>
+﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
+@using SocialMediaProfile.Core.Models.DTOs;
+@using System.Net.Http.Headers;
+@inject IExperienceWebService ExperienceWebService;
+@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+
+@if (_experienceDTO is not null)
+{
+    <EditForm Model="_experienceDTO" OnValidSubmit="() => UpdateExperience(_experienceDTO)">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <section class="modal fade" id="updateExperience" tabindex="-1" aria-labelledby="updateExperienceLabel" aria-hidden="true">
+            <article class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header" data-bs-theme="dark">
+                        <h1 class="modal-title fs-5" id="updateExperienceLabel">Editar Experiencia</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="companyName">Company</label>
+                            <InputText id="companyName" class="form-control" @bind-Value="_experienceDTO.Name" />
+                            <ValidationMessage For="() => _experienceDTO.Name"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label for="job">Job</label>
+                            <InputText id="job" class="form-control" @bind-Value="_experienceDTO.Job" />
+                            <ValidationMessage For="() => _experienceDTO.Job"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Start Date</label>
+                            <InputDate id="startDate" class="form-control" @bind-Value="_experienceDTO.StartDate" />
+                            <ValidationMessage For="() => _experienceDTO.StartDate"></ValidationMessage>
+
+                            <label for="finshDate">Finish Date</label>
+                            <InputDate id="finshDate" class="form-control" @bind-Value="_experienceDTO.FinishDate" />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <InputTextArea id="description" class="form-control" @bind-Value="_experienceDTO.Description" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </EditForm>
+}
+
 
 @code {
+    [Parameter]
+    public string Alias { get; set; }
 
+    private ExperienceDTO _experienceDTO { get; set; }
+
+    private async Task UpdateExperience(ExperienceDTO experienceDTO)
+    {
+        try
+        {
+            var result = await ExperienceWebService.UpdateAsync(experienceDTO);
+            var isEdited = result.IsOk;
+
+            if (!isEdited)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral no pudo ser actualizada.");
+                return;
+            }
+
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral fue actualizada con éxito.");
+            NavigationManager.NavigateTo($"/{Alias}", true);
+            
+            //await InvokeAsync(StateHasChanged); TODO: Còmo actualizar solamente la exp editada y evitar tener que recargar la pàg?
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
+    public async Task GetExperienceSelected(ExperienceDTO experienceDTO)
+    {
+        _experienceDTO = experienceDTO;
+        await InvokeAsync(StateHasChanged);
+    }
 }

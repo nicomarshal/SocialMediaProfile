@@ -1,4 +1,5 @@
 ﻿using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 
 namespace SocialMediaProfile.BlazorServer.Data.Interfaces
 {
@@ -7,7 +8,8 @@ namespace SocialMediaProfile.BlazorServer.Data.Interfaces
         Task<string> GetJwtAsync();
         int GetUserId(string token);
         string GetRole(string token);
-        Task<bool> LoginAsync(LoginDTO loginDTO);
+        Task<RegisterResponseDTO> RegisterAsync(RegisterDTO registerDTO);
+        Task<LoginResponseDTO> LoginAsync(LoginDTO loginDTO);
         Task LogoutAsync();
         Task<bool> RefreshAsync();
     }

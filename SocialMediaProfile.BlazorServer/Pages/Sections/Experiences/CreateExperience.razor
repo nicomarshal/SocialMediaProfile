@@ -5,7 +5,7 @@
 @inject NavigationManager NavigationManager;
 @inject IJSRuntime JSRuntime;
 
-<EditForm Model="_experienceDTO" OnValidSubmit="() => CreateExperience(_experienceDTO)">
+<EditForm Model="_experienceDTO" OnValidSubmit="() => AddExperience(_experienceDTO)">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <section class="modal fade" id="addExperience" tabindex="-1" aria-labelledby="addExperienceLabel" aria-hidden="true">
         <article class="modal-dialog modal-dialog-centered">
@@ -53,18 +53,25 @@
 
     private ExperienceDTO _experienceDTO = new ExperienceDTO();
 
-    private async Task CreateExperience(ExperienceDTO experienceDTO)
+    private async Task AddExperience(ExperienceDTO experienceDTO)
     {
-        var result = await ExperienceWebService.AddAsync(experienceDTO);
-
-        if (!result.IsCreated)
+        try
         {
-            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral no pudo ser cargada.");
-            return;
+            var result = await ExperienceWebService.AddAsync(experienceDTO);
+            var isCreated = result.IsOk;
+
+            if (!isCreated)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral no pudo ser cargada.");
+                return;
+            }
+
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral fue cargada con éxito.");
+            NavigationManager.NavigateTo($"/{Alias}", true);
         }
-
-        await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral fue cargada con éxito.");
-
-        NavigationManager.NavigateTo($"/{Alias}", true);
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
     }
 }

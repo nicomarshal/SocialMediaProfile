@@ -11,5 +11,6 @@ namespace SocialMediaProfile.Core.Services.Interfaces
     public interface IAuthService
     {
         Task<LoginResponseDTO> LoginAsync(LoginDTO loginDTO);
+        Task<RegisterResponseDTO> RegisterAsync(RegisterDTO registerDTO);
     }
 }

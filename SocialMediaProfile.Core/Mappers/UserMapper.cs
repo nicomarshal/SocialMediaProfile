@@ -1,11 +1,6 @@
 ﻿using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialMediaProfile.Core.Mappers
 {
@@ -18,6 +13,7 @@ namespace SocialMediaProfile.Core.Mappers
                 Username = user.Username,
                 Password = user.Password,
                 Email = user.Email,
+                Alias = user.Alias,
                 RoleId = user.RoleId
             };
             return userDTO;
@@ -39,7 +35,21 @@ namespace SocialMediaProfile.Core.Mappers
                 Username = userDTO.Username,
                 Password = userDTO.Password,
                 Email = userDTO.Email,
+                Alias = userDTO.Alias,
                 RoleId = userDTO.RoleId
+            };
+            return user;
+        }
+
+        public static User RegisterDTOToUser(RegisterDTO registerDTO)
+        {
+            User user = new User()
+            {
+                Username = registerDTO.Username,
+                Password = registerDTO.Password,
+                Email = registerDTO.Email,
+                Alias = registerDTO.Alias,
+                RoleId = registerDTO.RoleId
             };
             return user;
         }
@@ -49,6 +59,7 @@ namespace SocialMediaProfile.Core.Mappers
             user.Username = userDTO.Username;
             user.Password = userDTO.Password;
             user.Email = userDTO.Email;
+            user.Alias = userDTO.Alias;
             user.RoleId = userDTO.RoleId;
 
             return user;

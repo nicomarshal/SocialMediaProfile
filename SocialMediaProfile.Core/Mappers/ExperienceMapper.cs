@@ -1,12 +1,5 @@
 ﻿using SocialMediaProfile.Core.Models.DTOs;
-using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialMediaProfile.Core.Mappers
 {
@@ -16,6 +9,7 @@ namespace SocialMediaProfile.Core.Mappers
         {
             ExperienceDTO experienceDTO = new ExperienceDTO()
             {
+                Id = experience.Id,
                 Logo = experience.Logo,
                 Name = experience.Name,
                 Job = experience.Job,
@@ -44,6 +38,7 @@ namespace SocialMediaProfile.Core.Mappers
 
         public static Experience ExperienceDTOToExperience(ExperienceDTO experienceDTO, Experience experience)
         {
+            experience.Id = experienceDTO.Id;
             experience.Logo = experienceDTO.Logo;
             experience.Name = experienceDTO.Name;
             experience.Job = experienceDTO.Job;

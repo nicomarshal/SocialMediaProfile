@@ -30,15 +30,15 @@
     {
         try
         {
-            _isLoggedIn = await AuthWebService.LoginAsync(_loginDTO);
+            var result = await AuthWebService.LoginAsync(_loginDTO);
 
-            if (!_isLoggedIn)
+            if (!result.IsLoggedIn)
             {
-                await JSRuntime.InvokeVoidAsync("alert", "Las credenciales ingresadas son incorrectas.");
+                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - Las credenciales ingresadas son incorrectas.");
                 return;
             }
 
-            await JSRuntime.InvokeVoidAsync("alert", "Inicio de sesión exitoso.");
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - Inicio de sesión exitoso.");
             NavigationManager.NavigateTo("/", true);
         }
         catch (Exception e)

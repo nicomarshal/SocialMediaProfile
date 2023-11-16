@@ -2,9 +2,9 @@
 
 namespace SocialMediaProfile.Core.Models.DTOs.ResponseDTOs
 {
-    public class ExperienceResponseDTO
+    public class RegisterResponseDTO
     {
-        public bool IsOk { get; set; }
+        public bool IsRegistered { get; set; }
         public HttpStatusCode StatusCode { get; set; }
     }
 }

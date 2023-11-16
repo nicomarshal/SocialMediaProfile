@@ -1,0 +1,61 @@
+﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
+@using SocialMediaProfile.Core.Models.DTOs;
+@inject IExperienceWebService ExperienceWebService;
+@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+
+<section class="modal fade" id="deleteExperience" tabindex="-1" aria-labelledby="deleteExperienceLabel" aria-hidden="true">
+    <article class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header" data-bs-theme="dark">
+                <h1 class="modal-title fs-5" id="deleteExperienceLabel">Eliminar Experiencia</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" @onclick="() => DeleteExperience(_experienceId)">Eliminar</button>
+            </div>
+        </div>
+    </article>
+</section>
+
+@code {
+    [Parameter]
+    public string Alias { get; set; }
+
+    private int _experienceId { get; set; }
+
+    private async Task DeleteExperience(int id)
+    {
+        try
+        {
+            var result = await ExperienceWebService.DeleteAsync(id);
+            var isDeleted = result.IsOk;
+
+            if (!isDeleted)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral no pudo ser eliminada.");
+                return;
+            }
+
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral fue eliminada con éxito.");
+            NavigationManager.NavigateTo($"/{Alias}", true);
+
+            //await InvokeAsync(StateHasChanged); TODO: Còmo actualizar solamente la exp eliminada y evitar tener que recargar la pàg?
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
+    public async Task GetExperienceSelected(int experienceId)
+    {
+        _experienceId = experienceId;
+        await InvokeAsync(StateHasChanged);
+    }
+}
+

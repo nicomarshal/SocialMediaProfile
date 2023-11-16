@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using SocialMediaProfile.BlazorServer.Data.Interfaces;
 using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -22,53 +23,120 @@ namespace SocialMediaProfile.BlazorServer.Data
 
         public async Task<string> GetJwtAsync()
         {
-            if (string.IsNullOrEmpty(_jwtCache))
+            try
             {
-                _jwtCache = await _localStorageService.GetItemAsync<string>(JWT_KEY);
-            }
+                if (string.IsNullOrEmpty(_jwtCache))
+                {
+                    _jwtCache = await _localStorageService.GetItemAsync<string>(JWT_KEY);
+                }
 
-            return _jwtCache;
+                return _jwtCache;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public int GetUserId(string token)
         {
-            var jwt = new JwtSecurityToken(token);
-            var nameIdentifier = jwt.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;          
-            var userId = int.Parse(nameIdentifier);
+            try
+            {
+                var jwt = new JwtSecurityToken(token);
+                var nameIdentifier = jwt.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                var userId = int.Parse(nameIdentifier);
 
-            return userId;
+                return userId;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public string GetRole(string token)
         {
-            var jwt = new JwtSecurityToken(token);
-            var role = jwt.Claims.First(c => c.Type == ClaimTypes.Role).Value;
+            try
+            {
+                var jwt = new JwtSecurityToken(token);
+                var role = jwt.Claims.First(c => c.Type == ClaimTypes.Role).Value;
 
-            return role;
+                return role;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
-        public async Task<bool> LoginAsync(LoginDTO loginDTO)
+        public async Task<RegisterResponseDTO> RegisterAsync(RegisterDTO registerDTO)
         {
-            var endpoint = "/api/auth/login";
-            var response = await _globalWebService.HttpClient.PostAsJsonAsync(endpoint, loginDTO);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                return false;
+                RegisterResponseDTO result;
+
+                var endpoint = "/api/auth/register";
+                registerDTO.RoleId = 2; //Usuario regular
+                var response = await _globalWebService.HttpClient.PostAsJsonAsync(endpoint, registerDTO);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    result = new RegisterResponseDTO() { StatusCode = response.StatusCode };
+                    return result;
+                }
+
+                result = await response.Content.ReadFromJsonAsync<RegisterResponseDTO>();
+                result.StatusCode = response.StatusCode;
+
+                return result;
             }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
 
-            var token = await response.Content.ReadAsStringAsync();
-            await _localStorageService.SetItemAsync(JWT_KEY, token);
+        public async Task<LoginResponseDTO> LoginAsync(LoginDTO loginDTO)
+        {
+            try
+            {
+                LoginResponseDTO result;
 
-            return true;
+                var endpoint = "/api/auth/login";
+                var response = await _globalWebService.HttpClient.PostAsJsonAsync(endpoint, loginDTO);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    result = new LoginResponseDTO() { StatusCode = response.StatusCode };
+                    return result;
+                }
+
+                result = await response.Content.ReadFromJsonAsync<LoginResponseDTO>();
+                result.StatusCode = response.StatusCode;
+
+                await _localStorageService.SetItemAsync(JWT_KEY, result.Token);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public async Task LogoutAsync()
         {
-            await _localStorageService.RemoveItemAsync(JWT_KEY);
-            _jwtCache = null;
-            _globalWebService.HttpClient.DefaultRequestHeaders.Remove("Authorization");
-            _globalWebService.UserId = 0;
+            try
+            {
+                await _localStorageService.RemoveItemAsync(JWT_KEY);
+                _jwtCache = null;
+                _globalWebService.HttpClient.DefaultRequestHeaders.Remove("Authorization");
+                _globalWebService.UserId = 0;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public Task<bool> RefreshAsync()

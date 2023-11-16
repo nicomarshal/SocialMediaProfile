@@ -8,5 +8,7 @@ namespace SocialMediaProfile.BlazorServer.Data.Interfaces
         Task<List<ExperienceDTO>> GetAllAsync();
         Task<List<ExperienceDTO>> GetAllByAliasAsync(string alias);
         Task<ExperienceResponseDTO> AddAsync(ExperienceDTO experienceDTO);
+        Task<ExperienceResponseDTO> UpdateAsync(ExperienceDTO experienceDTO);
+        Task<ExperienceResponseDTO> DeleteAsync(int id);
     }
 }
