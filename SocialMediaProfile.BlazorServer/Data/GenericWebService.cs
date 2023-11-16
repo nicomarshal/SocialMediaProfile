@@ -1,11 +1,11 @@
 ﻿using SocialMediaProfile.BlazorServer.Data.Interfaces;
-using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
+
 
 namespace SocialMediaProfile.BlazorServer.Data
 {
-    public class GenericWebService<TDTO, TResponseDTO> : IGenericWebService<TDTO, TResponseDTO>
+    public class GenericWebService<TDTO, TResultDTO> : IGenericWebService<TDTO, TResultDTO>
         where TDTO : class
-        where TResponseDTO : class
+        where TResultDTO : class
     {
         private readonly IGlobalWebService _globalWebService;
         private readonly string _endpoint;
@@ -20,7 +20,9 @@ namespace SocialMediaProfile.BlazorServer.Data
         {
             try
             {
-                var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<TDTO>>(_endpoint);
+                var endpoint = $"{_endpoint}";
+                var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<TDTO>>(endpoint);
+                
                 return result;
             }
             catch (Exception e)
@@ -33,7 +35,9 @@ namespace SocialMediaProfile.BlazorServer.Data
         {
             try
             {
-                var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<TDTO>>($"{_endpoint}/alias/{alias}");
+                var endpoint = $"{_endpoint}/alias/{alias}";
+                var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<TDTO>>(endpoint);
+                
                 return result;
             }
             catch (Exception e)
@@ -42,27 +46,29 @@ namespace SocialMediaProfile.BlazorServer.Data
             }
         }
 
-        public async Task<TResponseDTO> AddAsync(TDTO dto)
+        public async Task<TResultDTO> AddAsync(TDTO tDTO)
         {
             try
             {
-                TResponseDTO result;
+                TResultDTO tResultDTO;
 
-                dto.GetType().GetProperty("UserId")?.SetValue(dto, _globalWebService.UserId);
+                var endpoint = $"{_endpoint}/add";
+                tDTO.GetType().GetProperty("UserId").SetValue(tDTO, _globalWebService.UserId);
 
-                var response = await _globalWebService.HttpClient.PostAsJsonAsync(_endpoint + "/add", dto);
+                var response = await _globalWebService.HttpClient.PostAsJsonAsync(endpoint, tDTO);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    result = Activator.CreateInstance<TResponseDTO>();
-                    (result as ExperienceResponseDTO)?.SetStatusCode(response.StatusCode);
-                    return result;
+                    tResultDTO = Activator.CreateInstance<TResultDTO>();
+                    tResultDTO.GetType().GetProperty("StatusCode").SetValue(tResultDTO, response.StatusCode);
+                    
+                    return tResultDTO;
                 }
 
-                result = await response.Content.ReadFromJsonAsync<TResponseDTO>();
-                (result as ExperienceResponseDTO)?.SetStatusCode(response.StatusCode);
-
-                return result;
+                tResultDTO = await response.Content.ReadFromJsonAsync<TResultDTO>();
+                tResultDTO.GetType().GetProperty("StatusCode").SetValue(tResultDTO, response.StatusCode);
+                
+                return tResultDTO;
             }
             catch (Exception e)
             {
@@ -70,27 +76,29 @@ namespace SocialMediaProfile.BlazorServer.Data
             }
         }
 
-        public async Task<TResponseDTO> UpdateAsync(TDTO dto)
+        public async Task<TResultDTO> UpdateAsync(TDTO tDTO)
         {
             try
             {
-                TResponseDTO result;
+                TResultDTO tResultDTO;
 
-                dto.GetType().GetProperty("UserId")?.SetValue(dto, _globalWebService.UserId);
+                var id = tDTO.GetType().GetProperty("Id").GetValue(tDTO);
 
-                var response = await _globalWebService.HttpClient.PutAsJsonAsync($"{_endpoint}/{dto.GetType().GetProperty("Id")?.GetValue(dto)}", dto);
+                var endpoint = $"{_endpoint}/{id}";              
+                tDTO.GetType().GetProperty("UserId").SetValue(tDTO, _globalWebService.UserId);
+
+                var response = await _globalWebService.HttpClient.PutAsJsonAsync(endpoint, tDTO);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    result = Activator.CreateInstance<TResponseDTO>();
-                    (result as ExperienceResponseDTO)?.SetStatusCode(response.StatusCode);
-                    return result;
+                    tResultDTO = Activator.CreateInstance<TResultDTO>();
+                    tResultDTO.GetType().GetProperty("StatusCode").SetValue(tResultDTO, response.StatusCode);
+                    return tResultDTO;
                 }
 
-                result = await response.Content.ReadFromJsonAsync<TResponseDTO>();
-                (result as ExperienceResponseDTO)?.SetStatusCode(response.StatusCode);
-
-                return result;
+                tResultDTO = await response.Content.ReadFromJsonAsync<TResultDTO>();
+                tResultDTO.GetType().GetProperty("StatusCode").SetValue(tResultDTO, response.StatusCode);
+                return tResultDTO;
             }
             catch (Exception e)
             {
@@ -98,25 +106,26 @@ namespace SocialMediaProfile.BlazorServer.Data
             }
         }
 
-        public async Task<TResponseDTO> DeleteAsync(int id)
+        public async Task<TResultDTO> DeleteAsync(int id)
         {
             try
             {
-                TResponseDTO result;
+                TResultDTO tResultDTO;
 
-                var response = await _globalWebService.HttpClient.DeleteAsync($"{_endpoint}/{id}");
+                var endpoint = $"{_endpoint}/{id}";
+
+                var response = await _globalWebService.HttpClient.DeleteAsync(endpoint);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    result = Activator.CreateInstance<TResponseDTO>();
-                    (result as ExperienceResponseDTO)?.SetStatusCode(response.StatusCode);
-                    return result;
+                    tResultDTO = Activator.CreateInstance<TResultDTO>();
+                    tResultDTO.GetType().GetProperty("StatusCode").SetValue(tResultDTO, response.StatusCode);
+                    return tResultDTO;
                 }
 
-                result = await response.Content.ReadFromJsonAsync<TResponseDTO>();
-                (result as ExperienceResponseDTO)?.SetStatusCode(response.StatusCode);
-
-                return result;
+                tResultDTO = await response.Content.ReadFromJsonAsync<TResultDTO>();
+                tResultDTO.GetType().GetProperty("StatusCode").SetValue(tResultDTO, response.StatusCode);
+                return tResultDTO;
             }
             catch (Exception e)
             {

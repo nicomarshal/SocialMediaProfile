@@ -1,6 +1,8 @@
 ﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
+@using SocialMediaProfile.BlazorServer.Data;
 @using SocialMediaProfile.Core.Models.DTOs;
-@inject IExperienceWebService ExperienceWebService;
+@using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
+@inject IWebServiceFactory WebServiceFactory;
 
 <section class="experiences bg-experiences p-4">
     <article class="container d-flex flex-column row-gap-4">
@@ -51,13 +53,15 @@
     </article>
 </section>
 
-<CreateExperience Alias="@(Alias)"></CreateExperience>
-<EditExperience Alias="@(Alias)" @ref="EditExperienceRef"></EditExperience>
-<RemoveExperience Alias="@(Alias)" @ref="RemoveExperienceRef"></RemoveExperience>
+<CreateExperience Alias="@(Alias)" ExperienceWebService="@(ExperienceWebService)"></CreateExperience>
+<EditExperience Alias="@(Alias)" ExperienceWebService="@(ExperienceWebService)" @ref="EditExperienceRef"></EditExperience>
+<RemoveExperience Alias="@(Alias)" ExperienceWebService="@(ExperienceWebService)" @ref="RemoveExperienceRef"></RemoveExperience>
 
 @code {
     [Parameter]
     public string Alias { get; set; }
+    [Parameter]
+    public IGenericWebService<ExperienceDTO, ExperienceResponseDTO> ExperienceWebService { get; set; }
 
     public EditExperience EditExperienceRef; //Es una referencia al componente EditExperience   
     public RemoveExperience RemoveExperienceRef; //Es una referencia al componente RemoveExperience
@@ -66,6 +70,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        ExperienceWebService = WebServiceFactory.CreateWebService<ExperienceDTO, ExperienceResponseDTO>("/api/experience");
         _experiencesDTO = await ExperienceWebService.GetAllByAliasAsync(Alias);
     }
 

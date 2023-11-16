@@ -1,7 +1,7 @@
 ﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
 @using SocialMediaProfile.Core.Models.DTOs;
 @using System.Net.Http.Headers;
-@inject IExperienceWebService ExperienceWebService;
+@using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 @inject NavigationManager NavigationManager;
 @inject IJSRuntime JSRuntime;
 
@@ -54,6 +54,8 @@
 @code {
     [Parameter]
     public string Alias { get; set; }
+    [Parameter]
+    public IGenericWebService<ExperienceDTO, ExperienceResponseDTO> ExperienceWebService { get; set; }
 
     private ExperienceDTO _experienceDTO { get; set; }
 
