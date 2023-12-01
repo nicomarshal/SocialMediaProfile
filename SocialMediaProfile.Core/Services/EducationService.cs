@@ -24,6 +24,11 @@ namespace SocialMediaProfile.Core.Services
                 var response = await _unitOfWork.EducationRepository.GetAllAsync();
                 response = response.OrderByDescending(t => t.StartDate);
 
+                if (response is null)
+                {
+                    return result;
+                }
+
                 foreach (var item in response)
                 {
                     result.Add(EducationMapper.EducationToEducationDTO(item));
@@ -46,6 +51,11 @@ namespace SocialMediaProfile.Core.Services
                 var response = await _unitOfWork.EducationRepository.GetAllByAliasAsync(alias);
                 response = response.OrderByDescending(t => t.StartDate);
 
+                if (response is null)
+                {
+                    return result;
+                }
+
                 foreach (var item in response)
                 {
                     result.Add(EducationMapper.EducationToEducationDTO(item));
@@ -63,21 +73,18 @@ namespace SocialMediaProfile.Core.Services
         {
             try
             {
-                if (id > 0)
+                EducationDTO result;
+
+                var response = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+
+                if (response is null)
                 {
-                    var result = new EducationDTO();
-
-                    var response = await _unitOfWork.EducationRepository.GetByIdAsync(id);
-
-                    if (response is not null)
-                    {
-                        result = EducationMapper.EducationToEducationDTO(response);
-                        return result;
-                    }
-
-                    return null;
+                    result = new EducationDTO();
+                    return result;
                 }
-                return null;
+
+                result = EducationMapper.EducationToEducationDTO(response);
+                return result;
             }
             catch (Exception e)
             {
@@ -89,13 +96,21 @@ namespace SocialMediaProfile.Core.Services
         {
             try
             {
+                EducationResponseDTO result;
+
+                if (educationDTO is null)
+                {
+                    result = new EducationResponseDTO() { IsOk = false };
+                    return result;
+                }
+
                 var entity = EducationMapper.EducationDTOToEducation(educationDTO);
 
                 await _unitOfWork.EducationRepository.AddAsync(entity);
 
-                var isCreated = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
+                var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
 
-                var result = new EducationResponseDTO() { IsCreated = isCreated };
+                result = new EducationResponseDTO() { IsOk = isOk };
 
                 return result;
             }
@@ -105,27 +120,34 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<bool> UpdateAsync(int id, EducationDTO educationDTO)
+        public async Task<EducationResponseDTO> UpdateAsync(int id, EducationDTO educationDTO)
         {
             try
             {
-                if (id > 0 && educationDTO != null)
+                EducationResponseDTO result;
+
+                if (id <= 0 || educationDTO is null)
                 {
-                    var entity = await _unitOfWork.EducationRepository.GetByIdAsync(id);
-
-                    if (entity is not null)
-                    {
-                        entity = EducationMapper.EducationDTOToEducation(educationDTO, entity);
-
-                        _unitOfWork.EducationRepository.Update(entity);
-
-                        var result = await _unitOfWork.SaveChangesAsync();
-
-                        if (result > 0) return true;
-                        return false;
-                    }
+                    result = new EducationResponseDTO() { IsOk = false };
+                    return result;
                 }
-                return false;
+
+                var entity = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+
+                if (entity is not null)
+                {
+                    result = new EducationResponseDTO() { IsOk = false };
+                    return result;
+                }
+
+                entity = EducationMapper.EducationDTOToEducation(educationDTO, entity);
+
+                _unitOfWork.EducationRepository.Update(entity);
+
+                var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
+                result = new EducationResponseDTO() { IsOk = isOk };
+
+                return result;
             }
             catch (Exception e)
             {
@@ -133,25 +155,32 @@ namespace SocialMediaProfile.Core.Services
             }
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<EducationResponseDTO> DeleteAsync(int id)
         {
             try
             {
-                if (id > 0)
+                EducationResponseDTO result;
+
+                if (id <= 0)
                 {
-                    var entity = await _unitOfWork.EducationRepository.GetByIdAsync(id);
-
-                    if (entity is not null)
-                    {
-                        _unitOfWork.EducationRepository.Delete(entity);
-
-                        var result = await _unitOfWork.SaveChangesAsync();
-
-                        if (result > 0) return true;
-                        return false;
-                    }
+                    result = new EducationResponseDTO() { IsOk = false };
+                    return result;
                 }
-                return false;
+
+                var entity = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+
+                if (entity is null)
+                {
+                    result = new EducationResponseDTO() { IsOk = false };
+                    return result;
+                }
+
+                _unitOfWork.EducationRepository.Delete(entity);
+
+                var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
+                result = new EducationResponseDTO() { IsOk = isOk };
+
+                return result;
             }
             catch (Exception e)
             {

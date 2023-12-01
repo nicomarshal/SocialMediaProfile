@@ -2,10 +2,9 @@
 
 namespace SocialMediaProfile.Core.Models.DTOs.ResponseDTOs
 {
-    public class LoginResponseDTO
+    public class ProjectResponseDTO
     {
-        public string Token { get; set; }
-        public bool IsLoggedIn { get; set; }
+        public bool IsOk { get; set; }
         public HttpStatusCode StatusCode { get; set; }
     }
 }

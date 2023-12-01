@@ -51,30 +51,32 @@ namespace SocialMediaProfile.WebAPI.Controllers
         public async Task<IActionResult> AddAsync([FromBody] EducationDTO educationDTO)
         {
             var result = await _educationService.AddAsync(educationDTO);
-            var isCreated = result.IsCreated;
+            var isCreated = result.IsOk;
 
             if (!isCreated) return BadRequest();
-            return Ok(isCreated);
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync(int id, [FromBody] EducationDTO educationDTO)
         {
-            var isUpdated = await _educationService.UpdateAsync(id, educationDTO);
+            var result = await _educationService.UpdateAsync(id, educationDTO);
+            var isUpdated = result.IsOk;
 
             if (!isUpdated) return BadRequest();
-            return Ok(isUpdated);
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var isDeleted = await _educationService.DeleteAsync(id);
+            var result = await _educationService.DeleteAsync(id);
+            var isDeleted = result.IsOk;
 
             if (!isDeleted) return BadRequest();
-            return Ok(isDeleted);
+            return Ok(result);
         }
     }
 }

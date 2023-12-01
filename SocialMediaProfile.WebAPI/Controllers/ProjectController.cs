@@ -1,43 +1,82 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/project")]
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        // GET: api/<ProjectController>
+        private readonly IProjectService _projectService;
+
+        public ProjectController(IProjectService projectService)
+        {
+            _projectService = projectService;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllAsync()
         {
-            return new string[] { "value1", "value2" };
+            var result = await _projectService.GetAllAsync();
+
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // GET api/<ProjectController>/5
+        [HttpGet("alias/{alias}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllByAliasAsync(string alias)
+        {
+            var result = await _projectService.GetAllByAliasAsync(alias);
+
+            if (result is null) return NotFound();
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
-        public string Get(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            return "value";
+            var result = await _projectService.GetByIdAsync(id);
+
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // POST api/<ProjectController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("add")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddAsync([FromBody] ProjectDTO projectDTO)
         {
+            var result = await _projectService.AddAsync(projectDTO);
+            var isCreated = result.IsOk;
+
+            if (!isCreated) return BadRequest();
+            return Ok(result);
         }
 
-        // PUT api/<ProjectController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateAsync(int id, [FromBody] ProjectDTO projectDTO)
         {
+            var result = await _projectService.UpdateAsync(id, projectDTO);
+            var isUpdated = result.IsOk;
+
+            if (!isUpdated) return BadRequest();
+            return Ok(result);
         }
 
-        // DELETE api/<ProjectController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteAsync(int id)
         {
+            var result = await _projectService.DeleteAsync(id);
+            var isDeleted = result.IsOk;
+
+            if (!isDeleted) return BadRequest();
+            return Ok(result);
         }
     }
 }

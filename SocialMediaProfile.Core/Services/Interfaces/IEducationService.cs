@@ -9,8 +9,8 @@ namespace SocialMediaProfile.Core.Services.Interfaces
         Task<List<EducationDTO>> GetAllByAliasAsync(string alias);
         Task<EducationDTO> GetByIdAsync(int id);
         Task<EducationResponseDTO> AddAsync(EducationDTO educationDTO);
-        Task<bool> UpdateAsync(int id, EducationDTO educationDTO);
-        Task<bool> DeleteAsync(int id);
+        Task<EducationResponseDTO> UpdateAsync(int id, EducationDTO educationDTO);
+        Task<EducationResponseDTO> DeleteAsync(int id);
 
         //Task<bool> DeleteSoft(int id);
     }

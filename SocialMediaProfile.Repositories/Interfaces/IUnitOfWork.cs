@@ -1,9 +1,4 @@
 ﻿using SocialMediaProfile.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialMediaProfile.Repositories.Interfaces
 {
@@ -11,10 +6,10 @@ namespace SocialMediaProfile.Repositories.Interfaces
     {
         IGenericRepository<Role> RoleRepository { get; }
         UserRepository UserRepository { get; }
-        IGenericRepository<Person> PersonRepository { get; }
+        PersonRepository PersonRepository { get; }
         EducationRepository EducationRepository { get; }
         ExperienceRepository ExperienceRepository { get; }
-        IGenericRepository<Project> ProjectRepository { get; }
+        ProjectRepository ProjectRepository { get; }
         IGenericRepository<Skill> SkillRepository { get; }
 
         int SaveChanges();

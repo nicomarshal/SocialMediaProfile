@@ -1,43 +1,82 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/person")]
     [ApiController]
     public class PersonController : ControllerBase
     {
-        // GET: api/<PersonController>
+        private readonly IPersonService _personService;
+
+        public PersonController(IPersonService personService)
+        {
+            _personService = personService;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllAsync()
         {
-            return new string[] { "value1", "value2" };
+            var result = await _personService.GetAllAsync();
+
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // GET api/<PersonController>/5
+        [HttpGet("alias/{alias}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllByAliasAsync(string alias)
+        {
+            var result = await _personService.GetAllByAliasAsync(alias);
+
+            if (result is null) return NotFound();
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
-        public string Get(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            return "value";
+            var result = await _personService.GetByIdAsync(id);
+
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // POST api/<PersonController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("add")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddAsync([FromBody] PersonDTO personDTO)
         {
+            var result = await _personService.AddAsync(personDTO);
+            var isCreated = result.IsOk;
+
+            if (!isCreated) return BadRequest();
+            return Ok(result);
         }
 
-        // PUT api/<PersonController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateAsync(int id, [FromBody] PersonDTO personDTO)
         {
+            var result = await _personService.UpdateAsync(id, personDTO);
+            var isUpdated = result.IsOk;
+
+            if (!isUpdated) return BadRequest();
+            return Ok(result);
         }
 
-        // DELETE api/<PersonController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteAsync(int id)
         {
+            var result = await _personService.DeleteAsync(id);
+            var isDeleted = result.IsOk;
+
+            if (!isDeleted) return BadRequest();
+            return Ok(result);
         }
     }
 }
