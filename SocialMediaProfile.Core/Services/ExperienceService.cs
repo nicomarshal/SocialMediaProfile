@@ -2,6 +2,8 @@
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
+using SocialMediaProfile.DataAccess.Entities;
+using SocialMediaProfile.Repositories;
 using SocialMediaProfile.Repositories.Interfaces;
 
 namespace SocialMediaProfile.Core.Services
@@ -21,8 +23,9 @@ namespace SocialMediaProfile.Core.Services
             {
                 var result = new List<ExperienceDTO>();
 
-                var response = await _unitOfWork.ExperienceRepository.GetAllAsync();
-                response = response.OrderByDescending(t => t.StartDate);
+                var response = (ExperienceRepository)_unitOfWork.GetRepository<Experience>();
+                var res = await response.GetAllAsync();
+                res = res.OrderByDescending(t => t.StartDate);
 
                 if (response is null)
                 {
@@ -48,7 +51,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 var result = new List<ExperienceDTO>();
 
-                var response = await _unitOfWork.ExperienceRepository.GetAllByAliasAsync(alias);
+                var response = await _unitOfWork.Repository<ExperienceRepository>().GetAllByAliasAsync(alias);
                 response = response.OrderByDescending(t => t.StartDate);
 
                 if (response is null)
@@ -75,7 +78,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 ExperienceDTO result;
 
-                var response = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                var response = await _unitOfWork.Repository<ExperienceRepository>().GetByIdAsync(id);
 
                 if (response is null)
                 {
@@ -106,7 +109,7 @@ namespace SocialMediaProfile.Core.Services
 
                 var entity = ExperienceMapper.ExperienceDTOToExperience(experienceDTO);
                 
-                await _unitOfWork.ExperienceRepository.AddAsync(entity);
+                await _unitOfWork.Repository<ExperienceRepository>().AddAsync(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;               
                 result = new ExperienceResponseDTO() { IsOk = isOk };  
@@ -131,7 +134,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                var entity = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                var entity = await _unitOfWork.Repository<ExperienceRepository>().GetByIdAsync(id);
 
                 if (entity is null)
                 {
@@ -141,7 +144,7 @@ namespace SocialMediaProfile.Core.Services
 
                 entity = ExperienceMapper.ExperienceDTOToExperience(experienceDTO, entity);
                 
-                _unitOfWork.ExperienceRepository.Update(entity);
+                _unitOfWork.Repository<ExperienceRepository>().Update(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;              
                 result = new ExperienceResponseDTO() { IsOk = isOk };
@@ -166,7 +169,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                var entity = await _unitOfWork.ExperienceRepository.GetByIdAsync(id);
+                var entity = await _unitOfWork.Repository<ExperienceRepository>().GetByIdAsync(id);
 
                 if (entity is null)
                 {
@@ -174,7 +177,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                _unitOfWork.ExperienceRepository.Delete(entity);
+                _unitOfWork.Repository<ExperienceRepository>().Delete(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
                 result = new ExperienceResponseDTO() { IsOk = isOk };

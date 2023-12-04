@@ -2,6 +2,7 @@
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
+using SocialMediaProfile.Repositories;
 using SocialMediaProfile.Repositories.Interfaces;
 
 namespace SocialMediaProfile.Core.Services
@@ -21,7 +22,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 var result = new List<EducationDTO>();
 
-                var response = await _unitOfWork.EducationRepository.GetAllAsync();
+                var response = await _unitOfWork.Repository<EducationRepository>().GetAllAsync();
                 response = response.OrderByDescending(t => t.StartDate);
 
                 if (response is null)
@@ -48,7 +49,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 var result = new List<EducationDTO>();
 
-                var response = await _unitOfWork.EducationRepository.GetAllByAliasAsync(alias);
+                var response = await _unitOfWork.Repository<EducationRepository>().GetAllByAliasAsync(alias);
                 response = response.OrderByDescending(t => t.StartDate);
 
                 if (response is null)
@@ -75,7 +76,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 EducationDTO result;
 
-                var response = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+                var response = await _unitOfWork.Repository<EducationRepository>().GetByIdAsync(id);
 
                 if (response is null)
                 {
@@ -106,7 +107,7 @@ namespace SocialMediaProfile.Core.Services
 
                 var entity = EducationMapper.EducationDTOToEducation(educationDTO);
 
-                await _unitOfWork.EducationRepository.AddAsync(entity);
+                await _unitOfWork.Repository<EducationRepository>().AddAsync(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
 
@@ -132,7 +133,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                var entity = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+                var entity = await _unitOfWork.Repository<EducationRepository>().GetByIdAsync(id);
 
                 if (entity is not null)
                 {
@@ -142,7 +143,7 @@ namespace SocialMediaProfile.Core.Services
 
                 entity = EducationMapper.EducationDTOToEducation(educationDTO, entity);
 
-                _unitOfWork.EducationRepository.Update(entity);
+                _unitOfWork.Repository<EducationRepository>().Update(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
                 result = new EducationResponseDTO() { IsOk = isOk };
@@ -167,7 +168,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                var entity = await _unitOfWork.EducationRepository.GetByIdAsync(id);
+                var entity = await _unitOfWork.Repository<EducationRepository>().GetByIdAsync(id);
 
                 if (entity is null)
                 {
@@ -175,7 +176,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                _unitOfWork.EducationRepository.Delete(entity);
+                _unitOfWork.Repository<EducationRepository>().Delete(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
                 result = new EducationResponseDTO() { IsOk = isOk };

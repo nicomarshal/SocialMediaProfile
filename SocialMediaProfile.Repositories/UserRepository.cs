@@ -2,11 +2,6 @@
 using SocialMediaProfile.DataAccess;
 using SocialMediaProfile.DataAccess.Entities;
 using SocialMediaProfile.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialMediaProfile.Repositories
 {

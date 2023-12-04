@@ -5,6 +5,7 @@ using SocialMediaProfile.Repositories.Interfaces;
 using SocialMediaProfile.Core.Helpers;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Core.Mappers;
+using SocialMediaProfile.Repositories;
 
 namespace SocialMediaProfile.Core.Services
 {
@@ -25,7 +26,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 var entity = UserMapper.RegisterDTOToUser(registerDTO);
 
-                await _unitOfWork.UserRepository.AddAsync(entity);
+                await _unitOfWork.Repository<UserRepository>().AddAsync(entity);
 
                 var isRegistered = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
 
@@ -45,7 +46,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 LoginResponseDTO result;
 
-                var response = await _unitOfWork.UserRepository.GetAllWithRoleAsync();
+                var response = await _unitOfWork.Repository<UserRepository>().GetAllWithRoleAsync();
                 var user = response.Where(u => u.Email == loginDTO.Email && u.Password == loginDTO.Password).FirstOrDefault();
 
                 if (user is null)

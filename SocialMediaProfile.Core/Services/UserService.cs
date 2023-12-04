@@ -2,6 +2,7 @@
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
+using SocialMediaProfile.Repositories;
 using SocialMediaProfile.Repositories.Interfaces;
 
 namespace SocialMediaProfile.Core.Services
@@ -21,7 +22,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 var result = new List<UserDTO>();
 
-                var response = await _unitOfWork.UserRepository.GetAllAsync();
+                var response = await _unitOfWork.Repository<UserRepository>().GetAllAsync();
 
                 foreach (var item in response)
                 {
@@ -42,7 +43,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 var result = new List<UserAliasResponseDTO>();
 
-                var response = await _unitOfWork.UserRepository.GetAllAsync();
+                var response = await _unitOfWork.Repository<UserRepository>().GetAllAsync();
 
                 foreach (var item in response)
                 {
@@ -65,7 +66,7 @@ namespace SocialMediaProfile.Core.Services
                 {
                     var result = new UserDTO();
 
-                    var response = await _unitOfWork.UserRepository.GetByIdAsync(id);
+                    var response = await _unitOfWork.Repository<UserRepository>().GetByIdAsync(id);
 
                     if (response is not null)
                     {
@@ -89,7 +90,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 var entity = UserMapper.UserDTOToUser(userDTO);
 
-                await _unitOfWork.UserRepository.AddAsync(entity);
+                await _unitOfWork.Repository<UserRepository>().AddAsync(entity);
 
                 var isCreated = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
 
@@ -109,13 +110,13 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0 && userDTO is not null)
                 {
-                    var entity = await _unitOfWork.UserRepository.GetByIdAsync(id);
+                    var entity = await _unitOfWork.Repository<UserRepository>().GetByIdAsync(id);
 
                     if (entity is not null)
                     {
                         entity = UserMapper.UserDTOToUser(userDTO, entity);
 
-                        _unitOfWork.UserRepository.Update(entity);
+                        _unitOfWork.Repository<UserRepository>().Update(entity);
 
                         var result = await _unitOfWork.SaveChangesAsync();
 
@@ -137,11 +138,11 @@ namespace SocialMediaProfile.Core.Services
             {
                 if (id > 0)
                 {
-                    var entity = await _unitOfWork.UserRepository.GetByIdAsync(id);
+                    var entity = await _unitOfWork.Repository<UserRepository>().GetByIdAsync(id);
 
                     if (entity is not null)
                     {
-                        _unitOfWork.UserRepository.Delete(entity);
+                        _unitOfWork.Repository<UserRepository>().Delete(entity);
 
                         var result = await _unitOfWork.SaveChangesAsync();
 

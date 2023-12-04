@@ -1,4 +1,5 @@
-﻿using SocialMediaProfile.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialMediaProfile.DataAccess;
 using SocialMediaProfile.DataAccess.Entities;
 using SocialMediaProfile.Repositories.Interfaces;
 
@@ -8,53 +9,38 @@ namespace SocialMediaProfile.Repositories
     {
         private readonly SocialMediaDbContext _dbContext;
 
-        private readonly IGenericRepository<Role> _roleRepository;
-        private readonly UserRepository _userRepository;
-        private readonly PersonRepository _personRepository;
-        private readonly EducationRepository _educationRepository;
-        private readonly ExperienceRepository _experienceRepository;
-        private readonly ProjectRepository _projectRepository;
-        private readonly IGenericRepository<Skill> _skillRepository;
+        private readonly Dictionary<Type, object> Repositories;
 
         public UnitOfWork(SocialMediaDbContext dbContext)
         {
             _dbContext = dbContext;
+
+            Repositories = new Dictionary<Type, object>();
+            Repositories[typeof(Role)] = new GenericRepository<Role>(_dbContext);
+            Repositories[typeof(User)] = new UserRepository(_dbContext);
+            Repositories[typeof(Person)] = new PersonRepository(_dbContext);
+            Repositories[typeof(Experience)] = new ExperienceRepository(_dbContext);
+            Repositories[typeof(Education)] = new EducationRepository(_dbContext);
+            Repositories[typeof(Project)] = new ProjectRepository(_dbContext);
+            Repositories[typeof(Skill)] = new GenericRepository<Skill>(_dbContext);
         }
-
-        public IGenericRepository<Role> RoleRepository =>
-            _roleRepository ?? new GenericRepository<Role>(_dbContext);
-
-        public UserRepository UserRepository =>
-            _userRepository ?? new UserRepository(_dbContext);
-
-        public PersonRepository PersonRepository =>
-            _personRepository ?? new PersonRepository(_dbContext);
-
-        public EducationRepository EducationRepository =>
-            _educationRepository ?? new EducationRepository(_dbContext);
-
-        public ExperienceRepository ExperienceRepository =>
-            _experienceRepository ?? new ExperienceRepository(_dbContext);
-
-        public ProjectRepository ProjectRepository =>
-            _projectRepository ?? new ProjectRepository(_dbContext);
-
-        public IGenericRepository<Skill> SkillRepository =>
-            _skillRepository ?? new GenericRepository<Skill>(_dbContext);
-
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
                 _dbContext.Dispose();
             }
+        }
+
+        public object GetRepository<TEntity>() where TEntity : class
+        {
+            return Repositories[typeof(TEntity)];
         }
 
         public int SaveChanges()

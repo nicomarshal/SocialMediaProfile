@@ -3,6 +3,7 @@ using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
 using SocialMediaProfile.Repositories.Interfaces;
+using SocialMediaProfile.Repositories;
 
 namespace SocialMediaProfile.Core.Services
 {
@@ -21,7 +22,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 var result = new List<ProjectDTO>();
 
-                var response = await _unitOfWork.ProjectRepository.GetAllAsync();
+                var response = await _unitOfWork.Repository<ProjectRepository>().GetAllAsync();
                 response = response.OrderByDescending(t => t.StartDate);
 
                 if (response is null)
@@ -48,7 +49,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 var result = new List<ProjectDTO>();
 
-                var response = await _unitOfWork.ProjectRepository.GetAllByAliasAsync(alias);
+                var response = await _unitOfWork.Repository<ProjectRepository>().GetAllByAliasAsync(alias);
                 response = response.OrderByDescending(t => t.StartDate);
 
                 if (response is null)
@@ -75,7 +76,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 ProjectDTO result;
 
-                var response = await _unitOfWork.ProjectRepository.GetByIdAsync(id);
+                var response = await _unitOfWork.Repository<ProjectRepository>().GetByIdAsync(id);
 
                 if (response is null)
                 {
@@ -106,7 +107,7 @@ namespace SocialMediaProfile.Core.Services
 
                 var entity = ProjectMapper.ProjectDTOToProject(projectDTO);
 
-                await _unitOfWork.ProjectRepository.AddAsync(entity);
+                await _unitOfWork.Repository<ProjectRepository>().AddAsync(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
                 result = new ProjectResponseDTO() { IsOk = isOk };
@@ -131,7 +132,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                var entity = await _unitOfWork.ProjectRepository.GetByIdAsync(id);
+                var entity = await _unitOfWork.Repository<ProjectRepository>().GetByIdAsync(id);
 
                 if (entity is null)
                 {
@@ -141,7 +142,7 @@ namespace SocialMediaProfile.Core.Services
 
                 entity = ProjectMapper.ProjectDTOToProject(projectDTO, entity);
 
-                _unitOfWork.ProjectRepository.Update(entity);
+                _unitOfWork.Repository<ProjectRepository>().Update(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
                 result = new ProjectResponseDTO() { IsOk = isOk };
@@ -166,7 +167,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                var entity = await _unitOfWork.ProjectRepository.GetByIdAsync(id);
+                var entity = await _unitOfWork.Repository<ProjectRepository>().GetByIdAsync(id);
 
                 if (entity is null)
                 {
@@ -174,7 +175,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                _unitOfWork.ProjectRepository.Delete(entity);
+                _unitOfWork.Repository<ProjectRepository>().Delete(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
                 result = new ProjectResponseDTO() { IsOk = isOk };

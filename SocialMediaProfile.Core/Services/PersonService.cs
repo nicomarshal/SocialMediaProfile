@@ -3,6 +3,7 @@ using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Services.Interfaces;
 using SocialMediaProfile.Core.Mappers;
 using SocialMediaProfile.Repositories.Interfaces;
+using SocialMediaProfile.Repositories;
 
 namespace SocialMediaProfile.Core.Services
 {
@@ -21,7 +22,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 var result = new List<PersonDTO>();
 
-                var response = await _unitOfWork.PersonRepository.GetAllAsync();
+                var response = await _unitOfWork.Repository<PersonRepository>().GetAllAsync();
 
                 if (response is null)
                 {
@@ -47,7 +48,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 var result = new List<PersonDTO>();
 
-                var response = await _unitOfWork.PersonRepository.GetAllByAliasAsync(alias);
+                var response = await _unitOfWork.Repository<PersonRepository>().GetAllByAliasAsync(alias);
 
                 if (response is null)
                 {
@@ -73,7 +74,7 @@ namespace SocialMediaProfile.Core.Services
             {
                 PersonDTO result;
 
-                var response = await _unitOfWork.PersonRepository.GetByIdAsync(id);
+                var response = await _unitOfWork.Repository<PersonRepository>().GetByIdAsync(id);
 
                 if (response is null)
                 {
@@ -104,7 +105,7 @@ namespace SocialMediaProfile.Core.Services
 
                 var entity = PersonMapper.PersonDTOToPerson(personDTO);
 
-                await _unitOfWork.PersonRepository.AddAsync(entity);
+                await _unitOfWork.Repository<PersonRepository>().AddAsync(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
                 result = new PersonResponseDTO() { IsOk = isOk };
@@ -129,7 +130,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                var entity = await _unitOfWork.PersonRepository.GetByIdAsync(id);
+                var entity = await _unitOfWork.Repository<PersonRepository>().GetByIdAsync(id);
 
                 if (entity is null)
                 {
@@ -139,7 +140,7 @@ namespace SocialMediaProfile.Core.Services
 
                 entity = PersonMapper.PersonDTOToPerson(personDTO, entity);
 
-                _unitOfWork.PersonRepository.Update(entity);
+                _unitOfWork.Repository<PersonRepository>().Update(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
                 result = new PersonResponseDTO() { IsOk = isOk };
@@ -164,7 +165,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                var entity = await _unitOfWork.PersonRepository.GetByIdAsync(id);
+                var entity = await _unitOfWork.Repository<PersonRepository>().GetByIdAsync(id);
 
                 if (entity is null)
                 {
@@ -172,7 +173,7 @@ namespace SocialMediaProfile.Core.Services
                     return result;
                 }
 
-                _unitOfWork.PersonRepository.Delete(entity);
+                _unitOfWork.Repository<PersonRepository>().Delete(entity);
 
                 var isOk = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
                 result = new PersonResponseDTO() { IsOk = isOk };
