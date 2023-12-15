@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaProfile.Core.Models.DTOs;
-using SocialMediaProfile.Core.Services.Interfaces;
+using SocialMediaProfile.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
 {
@@ -28,9 +28,9 @@ namespace SocialMediaProfile.WebAPI.Controllers
 
         [HttpGet("alias")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAllAliasAsync()
+        public async Task<IActionResult> GetAllAliasAsync(string alias)
         {
-            var result = await _userService.GetAllAliasAsync();
+            var result = await _userService.GetAllByAliasAsync(alias);
 
             if (result is null) return NotFound();
             return Ok(result);
@@ -51,30 +51,32 @@ namespace SocialMediaProfile.WebAPI.Controllers
         public async Task<IActionResult> AddAsync([FromBody] UserDTO userDTO)
         {
             var result = await _userService.AddAsync(userDTO);
-            var isCreated = result.IsCreated;
+            var isCreated = result.IsOk;
 
             if (!isCreated) BadRequest();
-            return Ok(isCreated);
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync(int id, [FromBody] UserDTO userDTO)
         {
-            var isUpdated = await _userService.UpdateAsync(id, userDTO);
+            var result = await _userService.UpdateAsync(id, userDTO);
+            var isUpdated = result.IsOk;
 
             if (!isUpdated) return BadRequest();
-            return Ok(isUpdated);
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var isDeleted = await _userService.DeleteAsync(id);
+            var result = await _userService.DeleteAsync(id);
+            var isDeleted = result.IsOk;
 
             if (!isDeleted) return BadRequest();
-            return Ok(isDeleted);
+            return Ok(result);
         }
     }
 }

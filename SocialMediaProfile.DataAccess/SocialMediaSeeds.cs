@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SocialMediaProfile.DataAccess.Entities;
+using SocialMediaProfile.Core.Entities;
 
 namespace SocialMediaProfile.DataAccess
 {

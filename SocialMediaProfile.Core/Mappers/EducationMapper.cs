@@ -1,5 +1,5 @@
-﻿using SocialMediaProfile.Core.Models.DTOs;
-using SocialMediaProfile.DataAccess.Entities;
+﻿using SocialMediaProfile.Core.Entities;
+using SocialMediaProfile.Core.Models.DTOs;
 
 namespace SocialMediaProfile.Core.Mappers
 {

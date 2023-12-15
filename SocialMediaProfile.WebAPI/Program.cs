@@ -1,5 +1,5 @@
-using SocialMediaProfile.Core.Services;
-using SocialMediaProfile.Core.Services.Interfaces;
+using SocialMediaProfile.Services;
+using SocialMediaProfile.Services.Interfaces;
 using SocialMediaProfile.DataAccess;
 using SocialMediaProfile.Repositories.Interfaces;
 using SocialMediaProfile.Repositories;
@@ -8,9 +8,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using AutoMapper;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
+
+builder.Services.AddAutoMapper(typeof(GenericService<,,>));
 
 // Add services to the container.
 builder.Services.AddDbContext<SocialMediaDbContext>(options =>
@@ -21,6 +25,9 @@ builder.Services.AddDbContext<SocialMediaDbContext>(options =>
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // SocialMediaProfile.Repositories
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddScoped(typeof(IGenericService<,,>), typeof(GenericService<,,>));
+
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPersonService, PersonService>(); 

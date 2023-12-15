@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialMediaProfile.DataAccess;
-using SocialMediaProfile.DataAccess.Entities;
+using SocialMediaProfile.Core.Entities;
 using SocialMediaProfile.Repositories.Interfaces;
 
 namespace SocialMediaProfile.Repositories
