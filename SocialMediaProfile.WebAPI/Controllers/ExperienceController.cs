@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SocialMediaProfile.Core.Entities;
 using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
@@ -9,9 +11,10 @@ namespace SocialMediaProfile.WebAPI.Controllers
     [ApiController]
     public class ExperienceController : ControllerBase
     {
-        private readonly IExperienceService _experienceService;
+        //private readonly IExperienceService _experienceService;
+        private readonly IGenericService<Experience, ExperienceDTO, ExperienceResponseDTO> _experienceService;
 
-        public ExperienceController(IExperienceService experiencieService)
+        public ExperienceController(IGenericService<Experience, ExperienceDTO, ExperienceResponseDTO> experiencieService)
         {
             _experienceService = experiencieService;
         }

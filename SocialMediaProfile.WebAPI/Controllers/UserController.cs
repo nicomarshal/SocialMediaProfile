@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SocialMediaProfile.Core.Entities;
 using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
@@ -9,7 +11,9 @@ namespace SocialMediaProfile.WebAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        public readonly IUserService _userService;
+        //public readonly IUserService _userService;
+
+        public readonly IGenericService<User, UserDTO, UserResponseDTO> _userService;
 
         public UserController(IUserService userService)
         {

@@ -5,16 +5,19 @@ using SocialMediaProfile.Services.Interfaces;
 using SocialMediaProfile.Repositories;
 using SocialMediaProfile.Repositories.Interfaces;
 using SocialMediaProfile.Core.Entities;
+using AutoMapper;
 
 namespace SocialMediaProfile.Services
 {
     public class UserService : GenericService<User, UserDTO, UserResponseDTO>, IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public UserService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         //public async Task<List<UserDTO>> GetAllAsync()

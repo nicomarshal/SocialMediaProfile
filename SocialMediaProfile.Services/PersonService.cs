@@ -3,16 +3,19 @@ using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Services.Interfaces;
 using SocialMediaProfile.Repositories.Interfaces;
 using SocialMediaProfile.Core.Entities;
+using AutoMapper;
 
 namespace SocialMediaProfile.Services
 {
     public class PersonService : GenericService<Person, PersonDTO, PersonResponseDTO>, IPersonService
     {     
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public PersonService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public PersonService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         //public async Task<List<PersonDTO>> GetAllAsync()

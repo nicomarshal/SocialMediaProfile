@@ -15,9 +15,10 @@ namespace SocialMediaProfile.Services
         private readonly IMapper _mapper;
         private dynamic _repository;
 
-        public GenericService(IUnitOfWork unitOfWork)
+        public GenericService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
 
             switch (typeof(TEntity).Name)
             {
@@ -54,6 +55,7 @@ namespace SocialMediaProfile.Services
                 var result = new List<TDTO>();
 
                 var response = await _repository.GetAllAsync();
+                //response = response.OrderByDescending(t => t.StartDate);
 
                 if (response is null)
                 {

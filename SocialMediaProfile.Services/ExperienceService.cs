@@ -1,4 +1,5 @@
-﻿using SocialMediaProfile.Core.Entities;
+﻿using AutoMapper;
+using SocialMediaProfile.Core.Entities;
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Repositories.Interfaces;
@@ -9,10 +10,12 @@ namespace SocialMediaProfile.Services
     public class ExperienceService : GenericService<Experience, ExperienceDTO, ExperienceResponseDTO>, IExperienceService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public ExperienceService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public ExperienceService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         //public async Task<List<ExperienceDTO>> GetAllAsync()
