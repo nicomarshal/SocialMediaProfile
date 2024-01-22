@@ -14,8 +14,8 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
-builder.Services.AddAutoMapper(typeof(GenericService<,,>));
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // Add services to the container.
 builder.Services.AddDbContext<SocialMediaDbContext>(options =>
 {
