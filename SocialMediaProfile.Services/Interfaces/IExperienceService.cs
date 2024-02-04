@@ -6,6 +6,7 @@ namespace SocialMediaProfile.Services.Interfaces
 {
     public interface IExperienceService : IGenericService<Experience, ExperienceDTO, ExperienceResponseDTO>
     {
-
+        Task<List<ExperienceDTO>> GetAllInDescOrderAsync();
+        Task<List<ExperienceDTO>> GetAllInDescOrderAsync(string alias);
     }
 }

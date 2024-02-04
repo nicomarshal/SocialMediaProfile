@@ -30,15 +30,15 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("alias")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetAllAliasAsync(string alias)
-        {
-            var result = await _userService.GetAllByAliasAsync(alias);
+        //[HttpGet("alias")]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> GetAllAliasAsync(string alias)
+        //{
+        //    var result = await _userService.GetAllByAliasAsync(alias);
 
-            if (result is null) return NotFound();
-            return Ok(result);
-        }
+        //    if (result is null) return NotFound();
+        //    return Ok(result);
+        //}
 
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
@@ -61,16 +61,16 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateAsync(int id, [FromBody] UserDTO userDTO)
-        {
-            var result = await _userService.UpdateAsync(id, userDTO);
-            var isUpdated = result.IsOk;
+        //[HttpPut("{id}")]
+        //[Authorize(Roles = "Admin")]
+        //public async Task<IActionResult> UpdateAsync(int id, [FromBody] UserDTO userDTO)
+        //{
+        //    var result = await _userService.UpdateAsync(id, userDTO);
+        //    var isUpdated = result.IsOk;
 
-            if (!isUpdated) return BadRequest();
-            return Ok(result);
-        }
+        //    if (!isUpdated) return BadRequest();
+        //    return Ok(result);
+        //}
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]

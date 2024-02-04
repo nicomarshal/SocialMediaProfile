@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SocialMediaProfile.Core.Entities;
 using SocialMediaProfile.Core.Models.DTOs;
-using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
@@ -11,10 +9,9 @@ namespace SocialMediaProfile.WebAPI.Controllers
     [ApiController]
     public class ExperienceController : ControllerBase
     {
-        //private readonly IExperienceService _experienceService;
-        private readonly IGenericService<Experience, ExperienceDTO, ExperienceResponseDTO> _experienceService;
+        private readonly IExperienceService _experienceService;
 
-        public ExperienceController(IGenericService<Experience, ExperienceDTO, ExperienceResponseDTO> experiencieService)
+        public ExperienceController(IExperienceService experiencieService)
         {
             _experienceService = experiencieService;
         }
@@ -29,11 +26,21 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("alias/{alias}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetAllByAliasAsync(string alias)
+        [HttpGet("desc")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllInOrderDescAsync()
         {
-            var result = await _experienceService.GetAllByAliasAsync(alias);
+            var result = await _experienceService.GetAllInDescOrderAsync();
+
+            if (result is null) return NotFound();
+            return Ok(result);
+        }
+
+        [HttpGet("desc/{alias}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllInOrderDescAsync(string alias)
+        {
+            var result = await _experienceService.GetAllInDescOrderAsync(alias);
 
             if (result is null) return NotFound();
             return Ok(result);
@@ -49,7 +56,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPost("add")]
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddAsync([FromBody] ExperienceDTO experienceDTO)
         {
@@ -60,11 +67,11 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateAsync(int id, [FromBody] ExperienceDTO experienceDTO)
+        public async Task<IActionResult> UpdateAsync([FromBody] ExperienceDTO experienceDTO)
         {
-            var result = await _experienceService.UpdateAsync(id, experienceDTO);
+            var result = await _experienceService.UpdateAsync(experienceDTO);
             var isUpdated = result.IsOk;
 
             if (!isUpdated) return BadRequest();

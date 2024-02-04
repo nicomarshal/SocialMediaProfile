@@ -26,15 +26,15 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("alias/{alias}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetAllByAliasAsync(string alias)
-        {
-            var result = await _educationService.GetAllByAliasAsync(alias);
+        //[HttpGet("alias/{alias}")]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> GetAllByAliasAsync(string alias)
+        //{
+        //    var result = await _educationService.GetAllByAliasAsync(alias);
 
-            if (result is null) return NotFound();
-            return Ok(result);
-        }
+        //    if (result is null) return NotFound();
+        //    return Ok(result);
+        //}
 
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
@@ -57,16 +57,16 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateAsync(int id, [FromBody] EducationDTO educationDTO)
-        {
-            var result = await _educationService.UpdateAsync(id, educationDTO);
-            var isUpdated = result.IsOk;
+        //[HttpPut("{id}")]
+        //[Authorize(Roles = "Admin")]
+        //public async Task<IActionResult> UpdateAsync(int id, [FromBody] EducationDTO educationDTO)
+        //{
+        //    var result = await _educationService.UpdateAsync(id, educationDTO);
+        //    var isUpdated = result.IsOk;
 
-            if (!isUpdated) return BadRequest();
-            return Ok(result);
-        }
+        //    if (!isUpdated) return BadRequest();
+        //    return Ok(result);
+        //}
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]

@@ -12,8 +12,8 @@ namespace SocialMediaProfile.Services
         where TResponseDTO : class
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        private dynamic _repository;
+        protected readonly IMapper _mapper;
+        protected dynamic _repository;
 
         public GenericService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -55,34 +55,6 @@ namespace SocialMediaProfile.Services
                 var result = new List<TDTO>();
 
                 var response = await _repository.GetAllAsync();
-                //response = response.OrderByDescending(t => t.StartDate);
-
-                if (response is null)
-                {
-                    return result;
-                }
-
-                foreach (var item in response)
-                {
-                    result.Add(_mapper.Map<TDTO>(item));
-                }
-
-                return result;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
-
-        public async Task<List<TDTO>> GetAllByAliasAsync(string alias)
-        {
-            try
-            {
-                var result = new List<TDTO>();
-
-                var response = await _repository.GetAllByAliasAsync(alias);
-                //response = response.OrderByDescending(t => t.StartDate);
 
                 if (response is null)
                 {
@@ -138,6 +110,7 @@ namespace SocialMediaProfile.Services
                     return result;
                 }
 
+                //Crea una nueva instancia de entidad basada en los valores del DTO
                 var entity = _mapper.Map<TEntity>(dto);
 
                 await _repository.AddAsync(entity);
@@ -154,11 +127,13 @@ namespace SocialMediaProfile.Services
             }
         }
 
-        public async Task<TResponseDTO> UpdateAsync(int id, TDTO dto)
+        public async Task<TResponseDTO> UpdateAsync(TDTO dto)
         {
             try
             {
                 TResponseDTO result;
+
+                var id = (int)dto.GetType().GetProperty("Id").GetValue(dto);
 
                 if (id <= 0 || dto is null)
                 {
@@ -176,7 +151,8 @@ namespace SocialMediaProfile.Services
                     return result;
                 }
 
-                entity = _mapper.Map<TEntity>(dto); //REVISAR ESTE MAPEO
+                //Actualiza una entidad existe con los valores del DTO
+                entity = _mapper.Map(dto, entity); 
 
                 _repository.Update(entity);
 

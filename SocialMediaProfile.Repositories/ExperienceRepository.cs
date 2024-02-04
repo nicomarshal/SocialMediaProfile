@@ -11,9 +11,20 @@ namespace SocialMediaProfile.Repositories
         {
         }
 
-        public async Task<IEnumerable<Experience>> GetAllByAliasAsync(string alias)
+        public async Task<IEnumerable<Experience>> GetAllInDescOrderAsync()
         {
-            return await _entities.Include(u => u.User).Where(v => v.User.Alias == alias).ToListAsync();
+            var result = await GetAllAsync();
+            result = result.OrderByDescending(t => t.StartDate).ToList();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<Experience>> GetAllInDescOrderAsync(string alias)
+        {
+            var result = await _entities.Include(u => u.User).Where(v => v.User.Alias == alias).ToListAsync();
+            result = result.OrderByDescending(t => t.StartDate).ToList();
+            
+            return result;
         }
     }
 }
