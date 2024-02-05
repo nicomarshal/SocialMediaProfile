@@ -46,6 +46,8 @@ else
 
     private List<UserAliasResponseDTO> Alias = new List<UserAliasResponseDTO>();
 
+    //public IUserWebService UserWebService { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         if (GlobalWebService.HttpClient is null)
@@ -54,6 +56,7 @@ else
         }
 
         Alias = await UserWebService.GetAllAliasAsync();
+
         GlobalWebService.IsReady = true;
     }
 

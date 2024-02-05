@@ -1,14 +1,12 @@
-﻿using SocialMediaProfile.Core.Models.DTOs;
+﻿using SocialMediaProfile.Core.Entities;
+using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 
 namespace SocialMediaProfile.BlazorServer.Data.Interfaces
 {
-    public interface IExperienceWebService
+    public interface IExperienceWebService : IGenericWebService<ExperienceDTO, ExperienceResponseDTO>
     {
-        Task<List<ExperienceDTO>> GetAllAsync();
-        Task<List<ExperienceDTO>> GetAllByAliasAsync(string alias);
-        Task<ExperienceResponseDTO> AddAsync(ExperienceDTO experienceDTO);
-        Task<ExperienceResponseDTO> UpdateAsync(ExperienceDTO experienceDTO);
-        Task<ExperienceResponseDTO> DeleteAsync(int id);
+        Task<List<ExperienceDTO>> GetAllInDescOrderAsync();
+        Task<List<ExperienceDTO>> GetAllInDescOrderAsync(string alias);
     }
 }

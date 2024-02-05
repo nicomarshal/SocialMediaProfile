@@ -6,5 +6,6 @@ namespace SocialMediaProfile.Services.Interfaces
 {
     public interface IUserService : IGenericService<User, UserDTO, UserResponseDTO>
     {
+        Task<List<UserAliasResponseDTO>> GetAllAliasAsync();
     }
 }

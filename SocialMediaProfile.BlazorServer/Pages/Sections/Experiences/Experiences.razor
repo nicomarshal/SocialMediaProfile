@@ -2,7 +2,7 @@
 @using SocialMediaProfile.BlazorServer.Data;
 @using SocialMediaProfile.Core.Models.DTOs;
 @using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
-@inject IWebServiceFactory WebServiceFactory;
+@inject IExperienceWebService ExperienceWebService;
 
 <section class="experiences bg-experiences p-4">
     <article class="container d-flex flex-column row-gap-4">
@@ -60,8 +60,9 @@
 @code {
     [Parameter]
     public string Alias { get; set; }
-    [Parameter]
-    public IGenericWebService<ExperienceDTO, ExperienceResponseDTO> ExperienceWebService { get; set; }
+
+    //[Parameter]
+    //public IExperienceWebService ExperienceWebService { get; set; }
 
     public EditExperience EditExperienceRef; //Es una referencia al componente EditExperience   
     public RemoveExperience RemoveExperienceRef; //Es una referencia al componente RemoveExperience
@@ -70,8 +71,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ExperienceWebService = WebServiceFactory.CreateWebService<ExperienceDTO, ExperienceResponseDTO>("/api/experience");
-        _experiencesDTO = await ExperienceWebService.GetAllByAliasAsync(Alias);
+        _experiencesDTO = await ExperienceWebService.GetAllInDescOrderAsync(Alias);
     }
 
     private async Task UpdateExperienceSelected(ExperienceDTO experienceDTO)

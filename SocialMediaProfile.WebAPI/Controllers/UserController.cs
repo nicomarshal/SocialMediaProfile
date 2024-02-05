@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SocialMediaProfile.Core.Entities;
 using SocialMediaProfile.Core.Models.DTOs;
-using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using SocialMediaProfile.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
@@ -11,9 +9,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        //public readonly IUserService _userService;
-
-        public readonly IGenericService<User, UserDTO, UserResponseDTO> _userService;
+        private readonly IUserService _userService;
 
         public UserController(IUserService userService)
         {
@@ -30,15 +26,15 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        //[HttpGet("alias")]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> GetAllAliasAsync(string alias)
-        //{
-        //    var result = await _userService.GetAllByAliasAsync(alias);
+        [HttpGet("alias")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllAliasAsync()
+        {
+            var result = await _userService.GetAllAliasAsync();
 
-        //    if (result is null) return NotFound();
-        //    return Ok(result);
-        //}
+            if (result is null) return NotFound();
+            return Ok(result);
+        }
 
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]

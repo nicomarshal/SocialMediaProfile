@@ -19,10 +19,11 @@ builder.Services.AddScoped<IAuthWebService, AuthWebService>();
 builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 
 builder.Services.AddSingleton<IGlobalWebService, GlobalWebService>();
+builder.Services.AddSingleton<IExperienceWebService, ExperienceWebService>();
+builder.Services.AddSingleton<IUserWebService, UserWebService>();
 
 builder.Services.AddSingleton<IWebServiceFactory, WebServiceFactory>();
-builder.Services.AddSingleton<IUserWebService, UserWebService>();
-builder.Services.AddSingleton<IExperienceWebService, ExperienceWebService>();
+
 
 builder.Services.AddTransient<AuthWebHandler>();
 builder.Services.AddHttpClient("WebApi")

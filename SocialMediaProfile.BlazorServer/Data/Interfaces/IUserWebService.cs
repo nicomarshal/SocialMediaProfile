@@ -1,8 +1,9 @@
-﻿using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
+﻿using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 
 namespace SocialMediaProfile.BlazorServer.Data.Interfaces
 {
-    public interface IUserWebService
+    public interface IUserWebService : IGenericWebService<UserDTO, UserResponseDTO>
     {
         Task<List<UserAliasResponseDTO>> GetAllAliasAsync();
     }

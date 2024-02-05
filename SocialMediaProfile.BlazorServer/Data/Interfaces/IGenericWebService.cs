@@ -5,8 +5,9 @@ public interface IGenericWebService<TDTO, TResultDTO>
     where TDTO : class
     where TResultDTO : class
 {
+    string Endpoint { get; set; }
     Task<List<TDTO>> GetAllAsync();
-    Task<List<TDTO>> GetAllByAliasAsync(string alias);
+    Task<TDTO> GetByIdAsync(int id);
     Task<TResultDTO> AddAsync(TDTO dto);
     Task<TResultDTO> UpdateAsync(TDTO dto);
     Task<TResultDTO> DeleteAsync(int id);

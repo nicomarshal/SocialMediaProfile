@@ -7,20 +7,19 @@ namespace SocialMediaProfile.BlazorServer.Data
         where TDTO : class
         where TResultDTO : class
     {
-        private readonly IGlobalWebService _globalWebService;
-        private readonly string _endpoint;
+        protected readonly IGlobalWebService _globalWebService;
+        public string Endpoint { get; set; }
 
-        public GenericWebService(IGlobalWebService globalWebService, string endpoint)
+        public GenericWebService(IGlobalWebService globalWebService)
         {
             _globalWebService = globalWebService;
-            _endpoint = endpoint;
         }
 
         public async Task<List<TDTO>> GetAllAsync()
         {
             try
             {
-                var endpoint = $"{_endpoint}";
+                var endpoint = $"{Endpoint}";
                 var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<TDTO>>(endpoint);
                 
                 return result;
@@ -31,13 +30,13 @@ namespace SocialMediaProfile.BlazorServer.Data
             }
         }
 
-        public async Task<List<TDTO>> GetAllByAliasAsync(string alias)
+        public async Task<TDTO> GetByIdAsync(int id)
         {
             try
             {
-                var endpoint = $"{_endpoint}/alias/{alias}";
-                var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<TDTO>>(endpoint);
-                
+                var endpoint = $"{Endpoint}/{id}";
+                var result = await _globalWebService.HttpClient.GetFromJsonAsync<TDTO>(endpoint);
+
                 return result;
             }
             catch (Exception e)
@@ -52,7 +51,7 @@ namespace SocialMediaProfile.BlazorServer.Data
             {
                 TResultDTO tResultDTO;
 
-                var endpoint = $"{_endpoint}/add";
+                var endpoint = $"{Endpoint}";
                 tDTO.GetType().GetProperty("UserId").SetValue(tDTO, _globalWebService.UserId);
 
                 var response = await _globalWebService.HttpClient.PostAsJsonAsync(endpoint, tDTO);
@@ -60,14 +59,12 @@ namespace SocialMediaProfile.BlazorServer.Data
                 if (!response.IsSuccessStatusCode)
                 {
                     tResultDTO = Activator.CreateInstance<TResultDTO>();
-                    tResultDTO.GetType().GetProperty("StatusCode").SetValue(tResultDTO, response.StatusCode);
-                    
+                    tResultDTO.GetType().GetProperty("StatusCode").SetValue(tResultDTO, response.StatusCode);                   
                     return tResultDTO;
                 }
 
                 tResultDTO = await response.Content.ReadFromJsonAsync<TResultDTO>();
-                tResultDTO.GetType().GetProperty("StatusCode").SetValue(tResultDTO, response.StatusCode);
-                
+                tResultDTO.GetType().GetProperty("StatusCode").SetValue(tResultDTO, response.StatusCode);              
                 return tResultDTO;
             }
             catch (Exception e)
@@ -82,9 +79,7 @@ namespace SocialMediaProfile.BlazorServer.Data
             {
                 TResultDTO tResultDTO;
 
-                var id = tDTO.GetType().GetProperty("Id").GetValue(tDTO);
-
-                var endpoint = $"{_endpoint}/{id}";              
+                var endpoint = $"{Endpoint}";              
                 tDTO.GetType().GetProperty("UserId").SetValue(tDTO, _globalWebService.UserId);
 
                 var response = await _globalWebService.HttpClient.PutAsJsonAsync(endpoint, tDTO);
@@ -112,7 +107,7 @@ namespace SocialMediaProfile.BlazorServer.Data
             {
                 TResultDTO tResultDTO;
 
-                var endpoint = $"{_endpoint}/{id}";
+                var endpoint = $"{Endpoint}/{id}";
 
                 var response = await _globalWebService.HttpClient.DeleteAsync(endpoint);
 

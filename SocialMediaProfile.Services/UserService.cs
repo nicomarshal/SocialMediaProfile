@@ -11,56 +11,32 @@ namespace SocialMediaProfile.Services
 {
     public class UserService : GenericService<User, UserDTO, UserResponseDTO>, IUserService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-
         public UserService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+
         }
 
-        //public async Task<List<UserDTO>> GetAllAsync()
-        //{
-        //    try
-        //    {
-        //        var result = new List<UserDTO>();
 
-        //        var response = await _unitOfWork.Repository<UserRepository>().GetAllAsync();
+        public async Task<List<UserAliasResponseDTO>> GetAllAliasAsync()
+        {
+            try
+            {
+                var result = new List<UserAliasResponseDTO>();
 
-        //        foreach (var item in response)
-        //        {
-        //            result.Add(UserMapper.UserToUserDTO(item));
-        //        }
+                var response = await _repository.GetAllAsync();
 
-        //        return result;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new Exception(e.Message);
-        //    }
-        //}
+                foreach (var item in response)
+                {
+                    result.Add(UserMapper.UserToUserAliasDTO(item));
+                }
 
-        //public async Task<List<UserAliasResponseDTO>> GetAllAliasAsync()
-        //{
-        //    try
-        //    {
-        //        var result = new List<UserAliasResponseDTO>();
-
-        //        var response = await _unitOfWork.Repository<UserRepository>().GetAllAsync();
-
-        //        foreach (var item in response)
-        //        {
-        //            result.Add(UserMapper.UserToUserAliasDTO(item));
-        //        }
-
-        //        return result;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new Exception(e.Message);
-        //    }
-        //}
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
 
         //public async Task<UserDTO> GetByIdAsync(int id)
         //{
