@@ -1,20 +1,19 @@
 ﻿using SocialMediaProfile.BlazorServer.Data.Interfaces;
+using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 
 namespace SocialMediaProfile.BlazorServer.Data
 {
-    public class UserWebService : IUserWebService
+    public class UserWebService : GenericWebService<UserDTO, UserResponseDTO>, IUserWebService
     {
-        private IGlobalWebService _globalWebService;
-
-        public UserWebService(IGlobalWebService globalWebService)
+        public UserWebService(IGlobalWebService globalWebService) : base(globalWebService)
         {
-            _globalWebService = globalWebService;
+            Endpoint = "/api/user";
         }
 
         public async Task<List<UserAliasResponseDTO>> GetAllAliasAsync()
         {
-            var endpoint = "/api/user/alias";
+            var endpoint = $"{Endpoint}/alias";
             var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<UserAliasResponseDTO>>(endpoint);
 
             return result;
