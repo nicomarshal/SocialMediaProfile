@@ -46,8 +46,8 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPost("register")]
-        [AllowAnonymous]
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddAsync([FromBody] UserDTO userDTO)
         {
             var result = await _userService.AddAsync(userDTO);

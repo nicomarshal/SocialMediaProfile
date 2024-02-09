@@ -26,7 +26,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("alias/{alias}")]
+        [HttpGet("{alias}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetByAliasAsync(string alias)
         {
@@ -46,7 +46,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPost("add")]
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddAsync([FromBody] PersonDTO personDTO)
         {
@@ -57,7 +57,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync([FromBody] PersonDTO personDTO)
         {

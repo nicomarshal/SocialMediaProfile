@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaProfile.Core.Models.DTOs;
-using SocialMediaProfile.Services;
 using SocialMediaProfile.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/education")]
     [ApiController]
     public class EducationController : ControllerBase
     {
@@ -57,7 +56,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPost("add")]
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddAsync([FromBody] EducationDTO educationDTO)
         {
@@ -68,9 +67,9 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateAsync(int id, [FromBody] EducationDTO educationDTO)
+        public async Task<IActionResult> UpdateAsync([FromBody] EducationDTO educationDTO)
         {
             var result = await _educationService.UpdateAsync(educationDTO);
             var isUpdated = result.IsOk;
