@@ -19,6 +19,7 @@ namespace SocialMediaProfile.BlazorServer.Data
         {
             _localStorageService = localStorageService;
             _globalWebService = globalWebService;
+
         }
 
         public async Task<string> GetJwtAsync()
