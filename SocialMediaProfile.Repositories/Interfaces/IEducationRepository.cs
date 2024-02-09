@@ -9,6 +9,7 @@ namespace SocialMediaProfile.Repositories.Interfaces
 {
     public interface IEducationRepository : IGenericRepository<Education>
     {
-        Task<IEnumerable<Education>> GetAllByAliasAsync(string alias);
+        Task<IEnumerable<Education>> GetAllInDescOrderAsync();
+        Task<IEnumerable<Education>> GetAllInDescOrderAsync(string alias);
     }
 }

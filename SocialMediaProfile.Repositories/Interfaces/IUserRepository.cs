@@ -9,6 +9,7 @@ namespace SocialMediaProfile.Repositories.Interfaces
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        Task<IEnumerable<string>> GetAllAliasAsync();
         Task<IEnumerable<User>> GetAllWithRoleAsync();
     }
 }

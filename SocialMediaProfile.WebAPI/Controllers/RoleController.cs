@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Services.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +11,64 @@ namespace SocialMediaProfile.WebAPI.Controllers
     [ApiController]
     public class RoleController : ControllerBase
     {
-        // GET: api/<RoleController>
+        private readonly IRoleService _roleService;
+
+        public RoleController(IRoleService roleService)
+        {
+            _roleService = roleService;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllAsync()
         {
-            return new string[] { "value1", "value2" };
+            var result = await _roleService.GetAllAsync();
+
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // GET api/<RoleController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            return "value";
+            var result = await _roleService.GetByIdAsync(id);
+
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // POST api/<RoleController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddAsync([FromBody] RoleDTO roleDTO)
         {
+            var result = await _roleService.AddAsync(roleDTO);
+            var isCreated = result.IsOk;
+
+            if (!isCreated) return BadRequest();
+            return Ok(result);
         }
 
-        // PUT api/<RoleController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateAsync([FromBody] RoleDTO roleDTO)
         {
+            var result = await _roleService.UpdateAsync(roleDTO);
+            var isUpdated = result.IsOk;
+
+            if (!isUpdated) return BadRequest();
+            return Ok(result);
         }
 
-        // DELETE api/<RoleController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteAsync(int id)
         {
+            var result = await _roleService.DeleteAsync(id);
+            var isDeleted = result.IsOk;
+
+            if (!isDeleted) return BadRequest();
+            return Ok(result);
         }
     }
 }

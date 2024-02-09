@@ -11,9 +11,9 @@ namespace SocialMediaProfile.Repositories
         {
         }
 
-        public async Task<IEnumerable<Person>> GetAllByAliasAsync(string alias)
+        public async Task<Person> GetByAliasAsync(string alias)
         {
-            return await _entities.Include(u => u.User).Where(v => v.User.Alias == alias).ToListAsync();
+            return await _entities.Include(u => u.User).Where(v => v.User.Alias == alias).FirstOrDefaultAsync();
         }
     }
 }

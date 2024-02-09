@@ -4,11 +4,11 @@ using SocialMediaProfile.Core.Models.DTOs;
 
 namespace SocialMediaProfile.Core.Mappers
 {
-    public class UserProfile: Profile 
+    public class RoleMapper : Profile
     {
-        public UserProfile()
+        public RoleMapper()
         {
-            CreateMap<User, UserDTO>();
+            CreateMap<Role, RoleDTO>().ReverseMap();
         }
     }
 }

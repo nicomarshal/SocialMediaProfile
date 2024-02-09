@@ -6,5 +6,7 @@ namespace SocialMediaProfile.Services.Interfaces
 {
     public interface IEducationService : IGenericService<Education, EducationDTO, EducationResponseDTO>
     {
+        Task<List<EducationDTO>> GetAllInDescOrderAsync();
+        Task<List<EducationDTO>> GetAllInDescOrderAsync(string alias);
     }
 }

@@ -11,9 +11,9 @@ namespace SocialMediaProfile.WebAPI.Controllers
     {
         private readonly IExperienceService _experienceService;
 
-        public ExperienceController(IExperienceService experiencieService)
+        public ExperienceController(IExperienceService experienceService)
         {
-            _experienceService = experiencieService;
+            _experienceService = experienceService;
         }
 
         [HttpGet]

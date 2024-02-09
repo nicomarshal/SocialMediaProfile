@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Services.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +11,74 @@ namespace SocialMediaProfile.WebAPI.Controllers
     [ApiController]
     public class SkillController : ControllerBase
     {
-        // GET: api/<SkillController>
+        private readonly ISkillService _skillService;
+
+        public SkillController(ISkillService skillService)
+        {
+            _skillService = skillService;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllAsync()
         {
-            return new string[] { "value1", "value2" };
+            var result = await _skillService.GetAllAsync();
+
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // GET api/<SkillController>/5
+        [HttpGet("desc/{alias}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllByAliasAsync(string alias)
+        {
+            var result = await _skillService.GetAllByAliasAsync(alias);
+
+            if (result is null) return NotFound();
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
-        public string Get(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            return "value";
+            var result = await _skillService.GetByIdAsync(id);
+
+            if (result is null) return NotFound();
+            return Ok(result);
         }
 
-        // POST api/<SkillController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddAsync([FromBody] SkillDTO skillDTO)
         {
+            var result = await _skillService.AddAsync(skillDTO);
+            var isCreated = result.IsOk;
+
+            if (!isCreated) return BadRequest();
+            return Ok(result);
         }
 
-        // PUT api/<SkillController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateAsync([FromBody] SkillDTO skillDTO)
         {
+            var result = await _skillService.UpdateAsync(skillDTO);
+            var isUpdated = result.IsOk;
+
+            if (!isUpdated) return BadRequest();
+            return Ok(result);
         }
 
-        // DELETE api/<SkillController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteAsync(int id)
         {
+            var result = await _skillService.DeleteAsync(id);
+            var isDeleted = result.IsOk;
+
+            if (!isDeleted) return BadRequest();
+            return Ok(result);
         }
     }
 }

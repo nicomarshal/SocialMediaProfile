@@ -1,14 +1,10 @@
-﻿using SocialMediaProfile.Core.Models.DTOs;
+﻿using SocialMediaProfile.Core.Entities;
+using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialMediaProfile.Services.Interfaces
 {
-    public interface IAuthService
+    public interface IAuthService : IGenericService<User, UserDTO, UserResponseDTO>
     {
         Task<LoginResponseDTO> LoginAsync(LoginDTO loginDTO);
         Task<RegisterResponseDTO> RegisterAsync(RegisterDTO registerDTO);

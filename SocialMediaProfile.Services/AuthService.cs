@@ -7,32 +7,31 @@ using SocialMediaProfile.Core.Mappers;
 using SocialMediaProfile.Repositories;
 using SocialMediaProfile.Services.Interfaces;
 using SocialMediaProfile.Core.Entities;
+using AutoMapper;
 
 namespace SocialMediaProfile.Services
 {
-    public class AuthService : IAuthService
+    public class AuthService : GenericService<User, UserDTO, UserResponseDTO>, IAuthService
     {
         private readonly IConfiguration _configuration;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public AuthService(IConfiguration configuration, IUnitOfWork unitOfWork)
+        public AuthService(IConfiguration configuration, IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
             _configuration = configuration;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<RegisterResponseDTO> RegisterAsync(RegisterDTO registerDTO)
         {
             try
             {
-                var entity = UserMapper.RegisterDTOToUser(registerDTO);
+                var userDTO = _mapper.Map<UserDTO>(registerDTO);
 
-                var userRepository = (UserRepository)_unitOfWork.GetRepository<User>();
-                await userRepository.AddAsync(entity);
+                var response = await AddAsync(userDTO);
 
-                var isRegistered = await _unitOfWork.SaveChangesAsync() > 0 ? true : false;
-
-                var result = new RegisterResponseDTO() { IsRegistered = isRegistered };
+                var result = new RegisterResponseDTO()
+                {
+                    IsRegistered = response.IsOk
+                };
 
                 return result;  
             }
@@ -48,8 +47,7 @@ namespace SocialMediaProfile.Services
             {
                 LoginResponseDTO result;
 
-                var userRepository = (UserRepository)_unitOfWork.GetRepository<User>();
-                var response = await userRepository.GetAllWithRoleAsync();
+                var response = (List<User>) await _repository.GetAllWithRoleAsync();
                 var user = response.Where(u => u.Email == loginDTO.Email && u.Password == loginDTO.Password).FirstOrDefault();
 
                 if (user is null)

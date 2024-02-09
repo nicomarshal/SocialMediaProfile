@@ -6,7 +6,8 @@ namespace SocialMediaProfile.Repositories.Interfaces
     {
         public interface IProjectRepository : IGenericRepository<Project>
         {
-            Task<IEnumerable<Project>> GetAllByAliasAsync(string alias);
+            Task<IEnumerable<Project>> GetAllInDescOrderAsync();
+            Task<IEnumerable<Project>> GetAllInDescOrderAsync(string alias);
         }
     }
 }

@@ -6,5 +6,7 @@ namespace SocialMediaProfile.Services.Interfaces
 {
     public interface IProjectService : IGenericService<Project, ProjectDTO, ProjectResponseDTO>
     {
+        Task<List<ProjectDTO>> GetAllInDescOrderAsync();
+        Task<List<ProjectDTO>> GetAllInDescOrderAsync(string alias);
     }
 }

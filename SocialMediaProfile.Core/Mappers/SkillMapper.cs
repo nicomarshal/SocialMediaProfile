@@ -4,11 +4,11 @@ using SocialMediaProfile.Core.Models.DTOs;
 
 namespace SocialMediaProfile.Core.Mappers
 {
-    public class ProjectMapper : Profile
+    public class SkillMapper : Profile
     {
-        public ProjectMapper()
+        public SkillMapper()
         {
-            CreateMap<Project, ProjectDTO>().ReverseMap();
+            CreateMap<Skill, SkillDTO>().ReverseMap();
         }
     }
 }

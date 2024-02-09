@@ -11,6 +11,11 @@ namespace SocialMediaProfile.Repositories
         {
         }
 
+        public async Task<IEnumerable<string>> GetAllAliasAsync()
+        { 
+            return await _entities.Select(u => u.Alias).ToListAsync();
+        }
+
         public async Task<IEnumerable<User>> GetAllWithRoleAsync()
         {
             return await _entities.Include(u => u.Role).ToListAsync();

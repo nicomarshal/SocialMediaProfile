@@ -15,13 +15,13 @@ namespace SocialMediaProfile.Repositories
             _dbContext = dbContext;
 
             Repositories = new Dictionary<Type, object>();
-            Repositories[typeof(Role)] = new GenericRepository<Role>(_dbContext);
+            Repositories[typeof(Role)] = new RoleRepository(_dbContext);
             Repositories[typeof(User)] = new UserRepository(_dbContext);
             Repositories[typeof(Person)] = new PersonRepository(_dbContext);
             Repositories[typeof(Experience)] = new ExperienceRepository(_dbContext);
             Repositories[typeof(Education)] = new EducationRepository(_dbContext);
             Repositories[typeof(Project)] = new ProjectRepository(_dbContext);
-            Repositories[typeof(Skill)] = new GenericRepository<Skill>(_dbContext);
+            Repositories[typeof(Skill)] = new SkillRepository(_dbContext);
         }
 
         public void Dispose()

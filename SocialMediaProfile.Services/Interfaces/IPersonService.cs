@@ -6,5 +6,6 @@ namespace SocialMediaProfile.Services.Interfaces
 {
     public interface IPersonService : IGenericService<Person, PersonDTO, PersonResponseDTO>
     {
+        Task<PersonDTO> GetByAliasAsync(string alias);
     }
 }

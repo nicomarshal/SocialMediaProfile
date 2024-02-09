@@ -57,16 +57,16 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
-        //[HttpPut("{id}")]
-        //[Authorize(Roles = "Admin")]
-        //public async Task<IActionResult> UpdateAsync(int id, [FromBody] UserDTO userDTO)
-        //{
-        //    var result = await _userService.UpdateAsync(id, userDTO);
-        //    var isUpdated = result.IsOk;
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateAsync([FromBody] UserDTO userDTO)
+        {
+            var result = await _userService.UpdateAsync(userDTO);
+            var isUpdated = result.IsOk;
 
-        //    if (!isUpdated) return BadRequest();
-        //    return Ok(result);
-        //}
+            if (!isUpdated) return BadRequest();
+            return Ok(result);
+        }
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
