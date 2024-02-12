@@ -1,22 +1,20 @@
-﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
-@using SocialMediaProfile.Core.Models.DTOs;
-@using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
-@inject NavigationManager NavigationManager;
+﻿@inject NavigationManager NavigationManager;
 @inject IJSRuntime JSRuntime;
+@inject IExperienceWebService ExperienceWebService;
 
-<section class="modal fade" id="deleteExperience" tabindex="-1" aria-labelledby="deleteExperienceLabel" aria-hidden="true">
+<section class="modal fade" id="removeExperience" tabindex="-1" aria-labelledby="removeExperienceLabel" aria-hidden="true">
     <article class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark text-white">
             <div class="modal-header" data-bs-theme="dark">
-                <h1 class="modal-title fs-5" id="deleteExperienceLabel">Eliminar Experiencia</h1>
+                <h1 class="modal-title fs-5" id="removeExperienceLabel">Eliminar Experiencia</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 ¿Estás seguro?
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => DeleteExperience(_experienceId)">Eliminar</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" @onclick="() => DeleteExperience(_experienceId)">Eliminar</button>
             </div>
         </div>
     </article>
@@ -26,7 +24,7 @@
     [Parameter]
     public string Alias { get; set; }
     [Parameter]
-    public IExperienceWebService ExperienceWebService { get; set; }
+    public EventCallback<List<ExperienceDTO>> OnClick { get; set; }
 
     private int _experienceId { get; set; }
 
@@ -44,9 +42,9 @@
             }
 
             await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral fue eliminada con éxito.");
-            NavigationManager.NavigateTo($"/{Alias}", true);
 
-            //await InvokeAsync(StateHasChanged); TODO: Còmo actualizar solamente la exp eliminada y evitar tener que recargar la pàg?
+            var experiencesList = await ExperienceWebService.GetAllInDescOrderAsync(Alias);
+            await OnClick.InvokeAsync(experiencesList);
         }
         catch (Exception e)
         {
@@ -57,7 +55,7 @@
     public async Task GetExperienceSelected(int experienceId)
     {
         _experienceId = experienceId;
-        await InvokeAsync(StateHasChanged);
+        await Task.CompletedTask;
     }
 }
 

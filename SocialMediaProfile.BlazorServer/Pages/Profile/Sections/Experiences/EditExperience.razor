@@ -1,20 +1,17 @@
-﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
-@using SocialMediaProfile.Core.Models.DTOs;
-@using System.Net.Http.Headers;
-@using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
-@inject NavigationManager NavigationManager;
+﻿@inject NavigationManager NavigationManager;
 @inject IJSRuntime JSRuntime;
+@inject IExperienceWebService ExperienceWebService;
 
 @if (_experienceDTO is not null)
 {
     <EditForm Model="_experienceDTO" OnValidSubmit="() => UpdateExperience(_experienceDTO)">
         <DataAnnotationsValidator></DataAnnotationsValidator>
-        <section class="modal fade" id="updateExperience" tabindex="-1" aria-labelledby="updateExperienceLabel" aria-hidden="true">
+        <section class="modal fade" id="editExperience" tabindex="-1" aria-labelledby="editExperienceLabel" aria-hidden="true">
             <article class="modal-dialog modal-dialog-centered">
                 <div class="modal-content bg-dark text-white">
                     <div class="modal-header" data-bs-theme="dark">
-                        <h1 class="modal-title fs-5" id="updateExperienceLabel">Editar Experiencia</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h1 class="modal-title fs-5" id="editExperienceLabel">Editar Experiencia</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetModel()"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -41,8 +38,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Editar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => ResetModel()">Cancelar</button>
                     </div>
                 </div>
             </article>
@@ -50,14 +47,20 @@
     </EditForm>
 }
 
-
 @code {
     [Parameter]
     public string Alias { get; set; }
     [Parameter]
-    public IExperienceWebService ExperienceWebService { get; set; }
+    public EventCallback<List<ExperienceDTO>> OnClick { get; set; }
 
     private ExperienceDTO _experienceDTO { get; set; }
+    private ExperienceDTO _cloneExperienceDTO { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _cloneExperienceDTO = new ExperienceDTO();
+        await Task.CompletedTask;
+    }
 
     private async Task UpdateExperience(ExperienceDTO experienceDTO)
     {
@@ -73,10 +76,9 @@
             }
 
             await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral fue actualizada con éxito.");
-            NavigationManager.NavigateTo($"/{Alias}", true);
-            
-            //await InvokeAsync(StateHasChanged); TODO: Còmo actualizar solamente la exp editada y evitar tener que recargar la pàg?
-            //Con SignalR!!
+
+            var experiencesList = await ExperienceWebService.GetAllInDescOrderAsync(Alias);
+            await OnClick.InvokeAsync(experiencesList);
         }
         catch (Exception e)
         {
@@ -86,7 +88,40 @@
 
     public async Task GetExperienceSelected(ExperienceDTO experienceDTO)
     {
+        await CloneModel(experienceDTO);
+
+        //Cualquier modificaciòn en _experienceDTO, tambièn se reflejarà en experienceDTO
         _experienceDTO = experienceDTO;
-        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ResetModel()
+    {
+        //experienceDTO --> _experienceDTO
+        //Si le cambio los valores a _experienceDTO, tambièn seràn modificados los del experienceDTO
+        _experienceDTO.Id = _cloneExperienceDTO.Id;
+        _experienceDTO.Logo = _cloneExperienceDTO.Logo;
+        _experienceDTO.Name = _cloneExperienceDTO.Name;
+        _experienceDTO.Job = _cloneExperienceDTO.Job;
+        _experienceDTO.StartDate = _cloneExperienceDTO.StartDate;
+        _experienceDTO.FinishDate = _cloneExperienceDTO.FinishDate;
+        _experienceDTO.Description = _cloneExperienceDTO.Description;
+        _experienceDTO.UserId = _cloneExperienceDTO.UserId;
+
+        await Task.CompletedTask;
+    }
+
+    private async Task CloneModel(ExperienceDTO experienceDTO)
+    {
+        //Hago una copia de experienceDTO
+        _cloneExperienceDTO.Id = experienceDTO.Id;
+        _cloneExperienceDTO.Logo = experienceDTO.Logo;
+        _cloneExperienceDTO.Name = experienceDTO.Name;
+        _cloneExperienceDTO.Job = experienceDTO.Job;
+        _cloneExperienceDTO.StartDate = experienceDTO.StartDate;
+        _cloneExperienceDTO.FinishDate = experienceDTO.FinishDate;
+        _cloneExperienceDTO.Description = experienceDTO.Description;
+        _cloneExperienceDTO.UserId = experienceDTO.UserId;
+
+        await Task.CompletedTask;
     }
 }

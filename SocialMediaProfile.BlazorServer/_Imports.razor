@@ -1,4 +1,5 @@
 ﻿@using System.Net.Http
+@using System.Net.Http.Headers
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
@@ -6,7 +7,16 @@
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
+@using SocialMediaProfile.Core.Models.DTOs;
+@using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 @using SocialMediaProfile.BlazorServer
+@using SocialMediaProfile.BlazorServer.Data;
+@using SocialMediaProfile.BlazorServer.Data.Interfaces;
 @using SocialMediaProfile.BlazorServer.Shared
-@using SocialMediaProfile.BlazorServer.Pages.Sections
-@using SocialMediaProfile.BlazorServer.Pages.Sections.Experiences
+@using SocialMediaProfile.BlazorServer.Pages.Auth
+@using SocialMediaProfile.BlazorServer.Pages.Profile
+@using SocialMediaProfile.BlazorServer.Pages.Profile.Sections
+@using SocialMediaProfile.BlazorServer.Pages.Profile.Sections.Experiences
+@using SocialMediaProfile.BlazorServer.Pages.Profile.Sections.Educations
+@using SocialMediaProfile.BlazorServer.Pages.Profile.Sections.Projects
+@using SocialMediaProfile.BlazorServer.Pages.Profile.Sections.Skills

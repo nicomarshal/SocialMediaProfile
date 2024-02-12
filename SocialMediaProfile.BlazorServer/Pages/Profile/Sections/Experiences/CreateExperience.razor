@@ -1,9 +1,6 @@
-﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
-@using SocialMediaProfile.Core.Models.DTOs;
-@using System.Net.Http.Headers;
-@using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
-@inject NavigationManager NavigationManager;
+﻿@inject NavigationManager NavigationManager;
 @inject IJSRuntime JSRuntime;
+@inject IExperienceWebService ExperienceWebService;
 
 <EditForm Model="_experienceDTO" OnValidSubmit="() => AddExperience(_experienceDTO)">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -12,7 +9,7 @@
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header" data-bs-theme="dark">
                     <h1 class="modal-title fs-5" id="addExperienceLabel">Agregar Experiencia</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetFormModel()"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -39,8 +36,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => ResetFormModel()">Cancelar</button>
                 </div>
             </div>
         </article>
@@ -51,7 +48,7 @@
     [Parameter]
     public string Alias { get; set; }
     [Parameter]
-    public IGenericWebService<ExperienceDTO, ExperienceResponseDTO> ExperienceWebService { get; set; }
+    public EventCallback<List<ExperienceDTO>> OnClick { get; set; }
 
     private ExperienceDTO _experienceDTO = new ExperienceDTO();
 
@@ -69,7 +66,21 @@
             }
 
             await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La experiencia laboral fue cargada con éxito.");
-            NavigationManager.NavigateTo($"/{Alias}", true);
+
+            var experiencesList = await ExperienceWebService.GetAllInDescOrderAsync(Alias);
+            await OnClick.InvokeAsync(experiencesList);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
+    private void ResetFormModel()
+    {
+        try
+        {
+            _experienceDTO = new ExperienceDTO();
         }
         catch (Exception e)
         {

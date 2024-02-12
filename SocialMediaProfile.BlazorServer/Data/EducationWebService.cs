@@ -41,3 +41,4 @@ namespace SocialMediaProfile.BlazorServer.Data
             }
         }
     }
+}

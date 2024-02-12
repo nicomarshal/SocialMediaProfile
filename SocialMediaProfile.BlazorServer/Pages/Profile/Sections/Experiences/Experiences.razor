@@ -1,8 +1,4 @@
-﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
-@using SocialMediaProfile.BlazorServer.Data;
-@using SocialMediaProfile.Core.Models.DTOs;
-@using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
-@inject IExperienceWebService ExperienceWebService;
+﻿@inject IExperienceWebService ExperienceWebService;
 
 <section class="experiences bg-experiences p-4">
     <article class="container d-flex flex-column row-gap-4">
@@ -20,7 +16,7 @@
                 </Authorized>
             </AuthorizeView>
         </div>
-        @foreach (var exp in _experiencesDTO)
+        @foreach (var exp in _experiencesList)
         {
             <div class="experience row">
                 <div class="logo col-3 col-md-2 position-relative">
@@ -34,12 +30,12 @@
                     <AuthorizeView>
                         <Authorized>
                             <div class="position-absolute top-0 end-0" style="margin-right: 12px;">
-                                <button class="edit btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#updateExperience" @onclick="() => UpdateExperienceSelected(exp)">
+                                <button class="edit btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#editExperience" @onclick="() => EditExperienceSelected(exp)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil" viewBox="0 0 16 16">
                                         <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
                                     </svg>
                                 </button>
-                                <button class="delete btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#deleteExperience" @onclick="() => DeleteExperienceSelected(exp.Id)">
+                                <button class="delete btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#removeExperience" @onclick="() => RemoveExperienceSelected(exp.Id)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
                                         <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
                                     </svg>
@@ -53,33 +49,36 @@
     </article>
 </section>
 
-<CreateExperience Alias="@(Alias)" ExperienceWebService="@(ExperienceWebService)"></CreateExperience>
-<EditExperience Alias="@(Alias)" ExperienceWebService="@(ExperienceWebService)" @ref="EditExperienceRef"></EditExperience>
-<RemoveExperience Alias="@(Alias)" ExperienceWebService="@(ExperienceWebService)" @ref="RemoveExperienceRef"></RemoveExperience>
+<CreateExperience Alias="@(Alias)" OnClick="UpdateExperiencesList"></CreateExperience>
+<EditExperience Alias="@(Alias)" OnClick="UpdateExperiencesList" @ref="EditExperienceRef" ></EditExperience>
+<RemoveExperience Alias="@(Alias)" OnClick="UpdateExperiencesList" @ref="RemoveExperienceRef"></RemoveExperience>
 
 @code {
     [Parameter]
     public string Alias { get; set; }
 
-    //[Parameter]
-    //public IExperienceWebService ExperienceWebService { get; set; }
+    public List<ExperienceDTO> _experiencesList = new List<ExperienceDTO>();
 
     public EditExperience EditExperienceRef; //Es una referencia al componente EditExperience   
     public RemoveExperience RemoveExperienceRef; //Es una referencia al componente RemoveExperience
 
-    private List<ExperienceDTO> _experiencesDTO = new List<ExperienceDTO>();
-
     protected override async Task OnInitializedAsync()
     {
-        _experiencesDTO = await ExperienceWebService.GetAllInDescOrderAsync(Alias);
+        _experiencesList = await ExperienceWebService.GetAllInDescOrderAsync(Alias);
     }
 
-    private async Task UpdateExperienceSelected(ExperienceDTO experienceDTO)
+    private async Task UpdateExperiencesList(List<ExperienceDTO> experiencesList)
+    {
+        _experiencesList = experiencesList;
+        await Task.CompletedTask;
+    }
+    
+    private async Task EditExperienceSelected(ExperienceDTO experienceDTO)
     {
         await EditExperienceRef.GetExperienceSelected(experienceDTO);
     }
 
-    private async Task DeleteExperienceSelected(int experienceId)
+    private async Task RemoveExperienceSelected(int experienceId)
     {
         await RemoveExperienceRef.GetExperienceSelected(experienceId);
     }

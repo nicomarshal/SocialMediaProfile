@@ -15,14 +15,18 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>(); //TODO Borrar
 
 builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddScoped<IAuthWebService, AuthWebService>();
-builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 
 builder.Services.AddSingleton<IGlobalWebService, GlobalWebService>();
-builder.Services.AddSingleton<IExperienceWebService, ExperienceWebService>();
+builder.Services.AddScoped<IAuthWebService, AuthWebService>();
+builder.Services.AddSingleton<IRoleWebService, RoleWebService>();
 builder.Services.AddSingleton<IUserWebService, UserWebService>();
+builder.Services.AddSingleton<IPersonWebService, PersonWebService>();
+builder.Services.AddSingleton<IExperienceWebService, ExperienceWebService>();
 builder.Services.AddSingleton<IEducationWebService, EducationWebService>();
 builder.Services.AddSingleton<IProjectWebService, ProjectWebService>();
+builder.Services.AddSingleton<ISkillWebService, SkillWebService>();
+
+builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 
 //builder.Services.AddSingleton<IWebServiceFactory, WebServiceFactory>();
 
