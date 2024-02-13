@@ -13,10 +13,10 @@ namespace SocialMediaProfile.Core.Models.DTOs
         [Required(ErrorMessage = "El campo Puesto es obligatorio.")]
         public string Job { get; set; }
 
-        [Required(ErrorMessage = "El campo Fecha de Inicio es obligatorio.")]      
-        public DateTime StartDate { get; set; } 
+        [Required(ErrorMessage = "El campo Fecha de Inicio es obligatorio.")]
+        public DateTime StartDate { get; set; } = DateTime.Now;
 
-        public DateTime FinishDate { get; set; }
+        public DateTime FinishDate { get; set; } = DateTime.Now;
         public string Description { get; set; }
         public int UserId { get; set; }
 

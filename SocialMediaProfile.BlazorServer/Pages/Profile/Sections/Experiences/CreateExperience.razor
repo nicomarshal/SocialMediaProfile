@@ -9,7 +9,7 @@
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header" data-bs-theme="dark">
                     <h1 class="modal-title fs-5" id="addExperienceLabel">Agregar Experiencia</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetFormModel()"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetModel()"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => ResetFormModel()">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => ResetModel()">Cancelar</button>
                 </div>
             </div>
         </article>
@@ -76,15 +76,12 @@
         }
     }
 
-    private void ResetFormModel()
+    private void ResetModel()
     {
-        try
-        {
-            _experienceDTO = new ExperienceDTO();
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
+        _experienceDTO.Name = string.Empty;
+        _experienceDTO.Job = string.Empty;
+        _experienceDTO.StartDate = DateTime.Now;
+        _experienceDTO.FinishDate = DateTime.Now;
+        _experienceDTO.Description = string.Empty;
     }
 }

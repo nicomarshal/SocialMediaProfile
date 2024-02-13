@@ -88,16 +88,22 @@
 
     public async Task GetExperienceSelected(ExperienceDTO experienceDTO)
     {
+        //Hago una copia de la instancia de ExperienceDTO en una nueva instancia de ExperienceDTO
+        //Esta copia tendrà una referencia llamada _cloneExperienceDTO.
         await CloneModel(experienceDTO);
 
-        //Cualquier modificaciòn en _experienceDTO, tambièn se reflejarà en experienceDTO
+        //Agrego una nueva referencia llamada _experienceDTO a la instancia del objeto ExperienceDTO
+        //Cualquier modificaciòn en _experienceDTO, tambièn se reflejarà en experienceDTO, ya que este ùltimo tambièn 
+        //es una referencia a la instancia del objeto ExperienceDTO.
         _experienceDTO = experienceDTO;
     }
 
     private async Task ResetModel()
     {
-        //experienceDTO --> _experienceDTO
-        //Si le cambio los valores a _experienceDTO, tambièn seràn modificados los del experienceDTO
+        //Si modifico los campos, pero luego le doy click a Cancel o a Close,
+        //restauro los valores de la instancia de ExperienceDTO a travès de la
+        //referencia _experienceDTO.
+        //Todas las referencias a esta instancia tambièn seràn restauradas, por ej: experienceDTO.
         _experienceDTO.Id = _cloneExperienceDTO.Id;
         _experienceDTO.Logo = _cloneExperienceDTO.Logo;
         _experienceDTO.Name = _cloneExperienceDTO.Name;
@@ -112,7 +118,6 @@
 
     private async Task CloneModel(ExperienceDTO experienceDTO)
     {
-        //Hago una copia de experienceDTO
         _cloneExperienceDTO.Id = experienceDTO.Id;
         _cloneExperienceDTO.Logo = experienceDTO.Logo;
         _cloneExperienceDTO.Name = experienceDTO.Name;
