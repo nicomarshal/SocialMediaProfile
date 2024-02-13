@@ -1,0 +1,95 @@
+﻿@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+@inject IProjectWebService ProjectWebService;
+
+<EditForm Model="_projectDTO" OnValidSubmit="() => AddProject(_projectDTO)">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <section class="modal fade" id="addProject" tabindex="-1" aria-labelledby="addProjectLabel" aria-hidden="true">
+        <article class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header" data-bs-theme="dark">
+                    <h1 class="modal-title fs-5" id="addProjectLabel">Agregar Proyecto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetModel()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="projectName">Project</label>
+                        <InputText id="projectName" class="form-control" @bind-Value="_projectDTO.Name" />
+                        <ValidationMessage For="() => _projectDTO.Name"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <InputDate id="startDate" class="form-control" @bind-Value="_projectDTO.StartDate" />
+                        <ValidationMessage For="() => _projectDTO.StartDate"></ValidationMessage>
+
+                        <label for="finshDate">Finish Date</label>
+                        <InputDate id="finshDate" class="form-control" @bind-Value="_projectDTO.FinishDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <InputTextArea id="description" class="form-control" @bind-Value="_projectDTO.Description" />
+                    </div>
+                    <div class="form-group">
+                        <label for="images">Images</label>
+                        <InputText id="images" class="form-control" @bind-Value="_projectDTO.Images" />
+                    </div>
+                    <div class="form-group">
+                        <label for="url">Repository</label>
+                        <InputText id="url" class="form-control" @bind-Value="_projectDTO.URL" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => ResetModel()">Cancelar</button>
+                </div>
+            </div>
+        </article>
+    </section>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string Alias { get; set; }
+    [Parameter]
+    public EventCallback<List<ProjectDTO>> OnClick { get; set; }
+
+    private ProjectDTO _projectDTO = new ProjectDTO();
+
+    private async Task AddProject(ProjectDTO projectDTO)
+    {
+        try
+        {
+            var result = await ProjectWebService.AddAsync(projectDTO);
+            var isCreated = result.IsOk;
+
+            if (!isCreated)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - El proyecto no pudo ser cargado.");
+                return;
+            }
+
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - El proyecto fue cargado con éxito.");
+
+            var projectsList = await ProjectWebService.GetAllInDescOrderAsync(Alias);
+            await OnClick.InvokeAsync(projectsList);
+
+            await ResetModel();
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
+    private async Task ResetModel()
+    {
+        _projectDTO.Name = string.Empty;
+        _projectDTO.StartDate = DateTime.Now;
+        _projectDTO.FinishDate = DateTime.Now;
+        _projectDTO.Description = string.Empty;
+        _projectDTO.Images = string.Empty;
+        _projectDTO.URL = string.Empty;
+
+        await Task.CompletedTask;
+    }
+}

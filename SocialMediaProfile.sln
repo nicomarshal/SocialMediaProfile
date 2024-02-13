@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialMediaProfile.DataAcce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialMediaProfile.Repositories", "SocialMediaProfile.Repositories\SocialMediaProfile.Repositories.csproj", "{2D20A118-21C3-451B-82EA-25A9B1177A3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMediaProfile.Services", "SocialMediaProfile.Services\SocialMediaProfile.Services.csproj", "{C03EC6F3-5AF7-4C9B-9881-2F97737E4843}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialMediaProfile.Services", "SocialMediaProfile.Services\SocialMediaProfile.Services.csproj", "{C03EC6F3-5AF7-4C9B-9881-2F97737E4843}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

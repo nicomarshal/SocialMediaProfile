@@ -69,6 +69,8 @@
 
             var experiencesList = await ExperienceWebService.GetAllInDescOrderAsync(Alias);
             await OnClick.InvokeAsync(experiencesList);
+
+            await ResetModel();
         }
         catch (Exception e)
         {
@@ -76,12 +78,14 @@
         }
     }
 
-    private void ResetModel()
+    private async Task ResetModel()
     {
         _experienceDTO.Name = string.Empty;
         _experienceDTO.Job = string.Empty;
         _experienceDTO.StartDate = DateTime.Now;
         _experienceDTO.FinishDate = DateTime.Now;
         _experienceDTO.Description = string.Empty;
+
+        await Task.CompletedTask;
     }
 }

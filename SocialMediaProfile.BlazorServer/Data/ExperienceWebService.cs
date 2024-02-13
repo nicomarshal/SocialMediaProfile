@@ -8,7 +8,7 @@ namespace SocialMediaProfile.BlazorServer.Data
     {
         public ExperienceWebService(IGlobalWebService globalWebService) : base(globalWebService)
         {
-            Endpoint = "/api/experience";
+            Endpoint = "/api/experience"; //TODO. Cambiar nombre por "Controller"
         }
 
         public async Task<List<ExperienceDTO>> GetAllInDescOrderAsync()

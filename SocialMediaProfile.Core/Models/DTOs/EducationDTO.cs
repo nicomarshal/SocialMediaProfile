@@ -14,9 +14,9 @@ namespace SocialMediaProfile.Core.Models.DTOs
         public string Career { get; set; }
 
         [Required(ErrorMessage = "El campo Fecha de Inicio es obligatorio.")]
-        public DateTime StartDate { get; set; }
+        public DateTime StartDate { get; set; } = DateTime.Now;
 
-        public DateTime FinishDate { get; set; }
+        public DateTime FinishDate { get; set; } = DateTime.Now;
         public string Description { get; set; }
         public int UserId { get; set; }
 

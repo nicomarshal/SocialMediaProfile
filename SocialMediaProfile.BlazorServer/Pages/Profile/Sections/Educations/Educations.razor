@@ -1,70 +1,86 @@
-﻿<section class="educations container-fluid bg-black p-4">
-    <h2 class="mb-4 text-center">Educación</h2>
-    <article class="formacionAcademica row">
-        <h3 class="mb-3">Formación Acadamémica</h3>
-        <img class="logo img-fluid object-fit-contain col-3" src="" alt="Logo del Instituto">
-        <div class="col-9 position-relative">
-            <h4 class="instituteName w-50 text-break">Universidad Nacional de Córdoba</h4>
-            <h4 class="career">Ingeniería Civil</h4>
-            <h6 class="period">03/2014- 03/2021</h6>
-            <div class="h-50 ms-4 position-absolute top-0 end-0" style="margin-right: 12px;">
-                <button class="edit p-2 btn btn-primary rounded-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                    </svg>
-                </button>
-                <button class="delete p-2 btn btn-primary rounded-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
-                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                    </svg>
-                </button>
-            </div>
+﻿@inject IEducationWebService EducationWebService;
+
+<section class="educations bg-educations p-4">
+    <article class="container d-flex flex-column row-gap-4">
+        <div class="position-relative">
+            <h2 class="mb-4 text-center text-sm-start">Estudios Académicos</h2>
+            <AuthorizeView>
+                <Authorized>
+                    <div class="position-absolute top-0 end-0">
+                        <button class="add btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#addEducation">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil" viewBox="0 0 16 16">
+                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                            </svg>
+                        </button>
+                    </div>
+                </Authorized>
+            </AuthorizeView>
         </div>
-    </article>
-    <article class="courses row">
-        <h3 class="mt-2 mb-3">Cursos</h3>
-        <img class="logo img-fluid object-fit-contain col-3" src="" alt="Logo del Instituto">
-        <div class="col-9 position-relative">
-            <h4 class="instituteName w-50 text-break">Universidad Nacional de Córdoba</h4>
-            <h4 class="career">Ingeniería Civil</h4>
-            <h6 class="period">03/2014- 03/2021</h6>
-            <div class="h-50 ms-4 position-absolute top-0 end-0" style="margin-right: 12px;">
-                <button class="edit p-2 btn btn-primary rounded-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                    </svg>
-                </button>
-                <button class="delete p-2 btn btn-primary rounded-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
-                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                    </svg>
-                </button>
+        @foreach (var educ in _educationsList)
+        {
+            <div class="education row">
+                <div class="logo col-3 col-md-2 position-relative">
+                    <img class="object-fit-cover rounded-circle position-absolute top-0 start-50 translate-middle-x" style="width: 70px; height: 70px;" src="efalcom.png" alt="Logo">
+                </div>
+                <div class="position-relative col-9 col-md-10">
+                    <h4 class="instituteName w-50 text-break">@(educ.Name)</h4>
+                    <h4 class="career">@(educ.Career)</h4>
+                    <h6 class="period">@(educ.StartDate.Date)-@(educ.FinishDate.Date)</h6>
+                    <p class="description" style="max-width:576px">@(educ.Description)</p>
+                    <AuthorizeView>
+                        <Authorized>
+                            <div class="position-absolute top-0 end-0" style="margin-right: 12px;">
+                                <button class="edit btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#editEducation" @onclick="() => EditEducationSelected(educ)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil" viewBox="0 0 16 16">
+                                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                                    </svg>
+                                </button>
+                                <button class="delete btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#removeEducation" @onclick="() => RemoveEducationSelected(educ.Id)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </Authorized>
+                    </AuthorizeView>
+                </div>
             </div>
-        </div>
-    </article>
-    <article class="certificates row">
-        <h3 class="mt-2 mb-3">Certificaciones</h3>
-        <img class="logo img-fluid object-fit-contain col-3" src="" alt="Logo del Instituto">
-        <div class="col-9 position-relative">
-            <h4 class="instituteName w-50 text-break">Universidad Nacional de Córdoba</h4>
-            <h4 class="career">Ingeniería Civil</h4>
-            <h6 class="period">03/2014- 03/2021</h6>
-            <div class="h-50 ms-4 position-absolute top-0 end-0" style="margin-right: 12px;">
-                <button class="edit p-2 btn btn-primary rounded-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                    </svg>
-                </button>
-                <button class="delete p-2 btn btn-primary rounded-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
-                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
+        }
     </article>
 </section>
 
-@code {
+<CreateEducation Alias="@(Alias)" OnClick="UpdateEducationsList"></CreateEducation>
+<EditEducation Alias="@(Alias)" OnClick="UpdateEducationsList" @ref="EditEducationRef"></EditEducation>
+<RemoveEducation Alias="@(Alias)" OnClick="UpdateEducationsList" @ref="RemoveEducationRef"></RemoveEducation>
 
+@code {
+    [Parameter]
+    public string Alias { get; set; }
+
+    public List<EducationDTO> _educationsList = new List<EducationDTO>();
+
+    public EditEducation EditEducationRef; //Es una referencia al componente EditEducation
+    public RemoveEducation RemoveEducationRef; //Es una referencia al componente RemoveEducation
+
+    protected override async Task OnInitializedAsync()
+    {
+        _educationsList = await EducationWebService.GetAllInDescOrderAsync(Alias);
+    }
+
+    private async Task UpdateEducationsList(List<EducationDTO> educationsList)
+    {
+        _educationsList = educationsList;
+        await Task.CompletedTask;
+    }
+
+    private async Task EditEducationSelected(EducationDTO educationDTO)
+    {
+        await EditEducationRef.GetEducationSelected(educationDTO);
+    }
+
+    private async Task RemoveEducationSelected(int educationId)
+    {
+        await RemoveEducationRef.GetEducationSelected(educationId);
+    }
 }
+

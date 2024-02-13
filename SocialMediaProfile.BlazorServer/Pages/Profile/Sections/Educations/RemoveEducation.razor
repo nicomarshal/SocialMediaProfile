@@ -1,0 +1,61 @@
+﻿@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+@inject IEducationWebService EducationWebService;
+
+<section class="modal fade" id="removeEducation" tabindex="-1" aria-labelledby="removeEducationLabel" aria-hidden="true">
+    <article class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header" data-bs-theme="dark">
+                <h1 class="modal-title fs-5" id="removeEducationLabel">Eliminar Educación</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => DeleteEducation(_educationId)">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </article>
+</section>
+
+@code {
+    [Parameter]
+    public string Alias { get; set; }
+    [Parameter]
+    public EventCallback<List<EducationDTO>> OnClick { get; set; }
+
+    private int _educationId { get; set; }
+
+    private async Task DeleteEducation(int id)
+    {
+        try
+        {
+            var result = await EducationWebService.DeleteAsync(id);
+            var isDeleted = result.IsOk;
+
+            if (!isDeleted)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - El estudio académico no pudo ser eliminado.");
+                return;
+            }
+
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - El estudio académico fue eliminado con éxito.");
+
+            var educationsList = await EducationWebService.GetAllInDescOrderAsync(Alias);
+            await OnClick.InvokeAsync(educationsList);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
+    public async Task GetEducationSelected(int educationId)
+    {
+        _educationId = educationId;
+        await Task.CompletedTask;
+    }
+}
+

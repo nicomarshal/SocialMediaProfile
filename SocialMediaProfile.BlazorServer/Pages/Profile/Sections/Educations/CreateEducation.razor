@@ -1,0 +1,91 @@
+﻿@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+@inject IEducationWebService EducationWebService;
+
+<EditForm Model="_educationDTO" OnValidSubmit="() => AddEducation(_educationDTO)">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <section class="modal fade" id="addEducation" tabindex="-1" aria-labelledby="addEducationLabel" aria-hidden="true">
+        <article class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header" data-bs-theme="dark">
+                    <h1 class="modal-title fs-5" id="addEducationLabel">Agregar Educación</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetModel()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="instituteName">Institute</label>
+                        <InputText id="instituteName" class="form-control" @bind-Value="_educationDTO.Name" />
+                        <ValidationMessage For="() => _educationDTO.Name"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <label for="career">Career</label>
+                        <InputText id="career" class="form-control" @bind-Value="_educationDTO.Career" />
+                        <ValidationMessage For="() => _educationDTO.Career"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <InputDate id="startDate" class="form-control" @bind-Value="_educationDTO.StartDate" />
+                        <ValidationMessage For="() => _educationDTO.StartDate"></ValidationMessage>
+
+                        <label for="finshDate">Finish Date</label>
+                        <InputDate id="finshDate" class="form-control" @bind-Value="_educationDTO.FinishDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <InputTextArea id="description" class="form-control" @bind-Value="_educationDTO.Description" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => ResetModel()">Cancelar</button>
+                </div>
+            </div>
+        </article>
+    </section>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string Alias { get; set; }
+    [Parameter]
+    public EventCallback<List<EducationDTO>> OnClick { get; set; }
+
+    private EducationDTO _educationDTO = new EducationDTO();
+
+    private async Task AddEducation(EducationDTO educationDTO)
+    {
+        try
+        {
+            var result = await EducationWebService.AddAsync(educationDTO);
+            var isCreated = result.IsOk;
+
+            if (!isCreated)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - El estudio académico no pudo ser cargado.");
+                return;
+            }
+
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - El estudio académico fue cargado con éxito.");
+
+            var educationsList = await EducationWebService.GetAllInDescOrderAsync(Alias);
+            await OnClick.InvokeAsync(educationsList);
+
+            await ResetModel();
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
+    private async Task ResetModel()
+    {
+        _educationDTO.Name = string.Empty;
+        _educationDTO.Career = string.Empty;
+        _educationDTO.StartDate = DateTime.Now;
+        _educationDTO.FinishDate = DateTime.Now;
+        _educationDTO.Description = string.Empty;
+
+        await Task.CompletedTask;
+    }
+}

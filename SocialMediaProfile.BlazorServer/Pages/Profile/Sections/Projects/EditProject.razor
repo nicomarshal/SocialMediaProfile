@@ -1,0 +1,135 @@
+﻿@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+@inject IProjectWebService ProjectWebService;
+
+@if (_projectDTO is not null)
+{
+    <EditForm Model="_projectDTO" OnValidSubmit="() => UpdateProject(_projectDTO)">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <section class="modal fade" id="editProject" tabindex="-1" aria-labelledby="editProjectLabel" aria-hidden="true">
+            <article class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header" data-bs-theme="dark">
+                        <h1 class="modal-title fs-5" id="editProjectLabel">Editar Proyecto</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetModel()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="projectName">Project</label>
+                            <InputText id="projectName" class="form-control" @bind-Value="_projectDTO.Name" />
+                            <ValidationMessage For="() => _projectDTO.Name"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Start Date</label>
+                            <InputDate id="startDate" class="form-control" @bind-Value="_projectDTO.StartDate" />
+                            <ValidationMessage For="() => _projectDTO.StartDate"></ValidationMessage>
+
+                            <label for="finshDate">Finish Date</label>
+                            <InputDate id="finshDate" class="form-control" @bind-Value="_projectDTO.FinishDate" />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <InputTextArea id="description" class="form-control" @bind-Value="_projectDTO.Description" />
+                        </div>
+                        <div class="form-group">
+                            <label for="images">Images</label>
+                            <InputText id="images" class="form-control" @bind-Value="_projectDTO.Images" />
+                        </div>
+                        <div class="form-group">
+                            <label for="url">Repository</label>
+                            <InputText id="url" class="form-control" @bind-Value="_projectDTO.URL" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Editar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => ResetModel()">Cancelar</button>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public string Alias { get; set; }
+    [Parameter]
+    public EventCallback<List<ProjectDTO>> OnClick { get; set; }
+
+    private ProjectDTO _projectDTO { get; set; }
+    private ProjectDTO _cloneProjectDTO { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _cloneProjectDTO = new ProjectDTO();
+        await Task.CompletedTask;
+    }
+
+    private async Task UpdateProject(ProjectDTO projectDTO)
+    {
+        try
+        {
+            var result = await ProjectWebService.UpdateAsync(projectDTO);
+            var isEdited = result.IsOk;
+
+            if (!isEdited)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - El proyecto no pudo ser actualizado.");
+                return;
+            }
+
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - El proyecto fue actualizado con éxito.");
+
+            var projectsList = await ProjectWebService.GetAllInDescOrderAsync(Alias);
+            await OnClick.InvokeAsync(projectsList);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
+    public async Task GetProjectSelected(ProjectDTO projectDTO)
+    {
+        //Hago una copia de la instancia de ProjectDTO en una nueva instancia de ProjectDTO
+        //Esta copia tendrà una referencia llamada _cloneProjectDTO.
+        await CloneModel(projectDTO);
+
+        //Agrego una nueva referencia llamada _projectDTO a la instancia del objeto ProjectDTO
+        //Cualquier modificaciòn en _projectDTO, tambièn se reflejarà en projectDTO, ya que este ùltimo tambièn
+        //es una referencia a la instancia del objeto ProjectDTO.
+        _projectDTO = projectDTO;
+    }
+
+    private async Task ResetModel()
+    {
+        //Si modifico los campos, pero luego le doy click a Cancel o a Close,
+        //restauro los valores de la instancia de ProjectDTO a travès de la
+        //referencia _projectDTO.
+        //Todas las referencias a esta instancia tambièn seràn restauradas, por ej: projectDTO.
+        _projectDTO.Id = _cloneProjectDTO.Id;
+        _projectDTO.Name = _cloneProjectDTO.Name;
+        _projectDTO.StartDate = _cloneProjectDTO.StartDate;
+        _projectDTO.FinishDate = _cloneProjectDTO.FinishDate;
+        _projectDTO.Description = _cloneProjectDTO.Description;
+        _projectDTO.Images = _cloneProjectDTO.Images;
+        _projectDTO.URL = _cloneProjectDTO.URL;
+        _projectDTO.UserId = _cloneProjectDTO.UserId;
+
+        await Task.CompletedTask;
+    }
+
+    private async Task CloneModel(ProjectDTO projectDTO)
+    {
+        _cloneProjectDTO.Id = projectDTO.Id;
+        _cloneProjectDTO.Name = projectDTO.Name;
+        _cloneProjectDTO.StartDate = projectDTO.StartDate;
+        _cloneProjectDTO.FinishDate = projectDTO.FinishDate;
+        _cloneProjectDTO.Description = projectDTO.Description;
+        _cloneProjectDTO.Images = projectDTO.Images;
+        _cloneProjectDTO.URL = projectDTO.URL;
+        _cloneProjectDTO.UserId = projectDTO.UserId;
+
+        await Task.CompletedTask;
+    }
+}
