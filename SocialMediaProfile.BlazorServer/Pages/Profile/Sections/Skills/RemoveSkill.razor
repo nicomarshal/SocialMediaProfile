@@ -1,0 +1,61 @@
+﻿@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+@inject ISkillWebService SkillWebService;
+
+<section class="modal fade" id="removeSkill" tabindex="-1" aria-labelledby="removeSkillLabel" aria-hidden="true">
+    <article class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header" data-bs-theme="dark">
+                <h1 class="modal-title fs-5" id="removeSkillLabel">Eliminar Tecnologìa</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => DeleteSkill(_skillId)">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </article>
+</section>
+
+@code {
+    [Parameter]
+    public string Alias { get; set; }
+    [Parameter]
+    public EventCallback<List<SkillDTO>> OnClick { get; set; }
+
+    private int _skillId { get; set; }
+
+    private async Task DeleteSkill(int id)
+    {
+        try
+        {
+            var result = await SkillWebService.DeleteAsync(id);
+            var isDeleted = result.IsOk;
+
+            if (!isDeleted)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La tecnologìa no pudo ser eliminada.");
+                return;
+            }
+
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La tecnologìa fue eliminada con éxito.");
+
+            var skillsList = await SkillWebService.GetAllByAliasAsync(Alias);
+            await OnClick.InvokeAsync(skillsList);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
+    public async Task GetSkillSelected(int skillId)
+    {
+        _skillId = skillId;
+        await Task.CompletedTask;
+    }
+}
+

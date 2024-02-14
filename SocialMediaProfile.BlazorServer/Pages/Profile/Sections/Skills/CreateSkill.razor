@@ -1,0 +1,74 @@
+﻿@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+@inject ISkillWebService SkillWebService;
+
+<EditForm Model="_skillDTO" OnValidSubmit="() => AddSkill(_skillDTO)">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <section class="modal fade" id="addSkill" tabindex="-1" aria-labelledby="addSkillLabel" aria-hidden="true">
+        <article class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header" data-bs-theme="dark">
+                    <h1 class="modal-title fs-5" id="addSkillLabel">Agregar Tecnologìa</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetModel()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="skillName">Skill</label>
+                        <InputText id="skillName" class="form-control" @bind-Value="_skillDTO.Name" />
+                        <ValidationMessage For="() => _skillDTO.Name"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <label for="percentage">Percentage</label>
+                        <InputNumber id="percentage" class="form-control" @bind-Value="_skillDTO.Percentage" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => ResetModel()">Cancelar</button>
+                </div>
+            </div>
+        </article>
+    </section>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string Alias { get; set; }
+    [Parameter]
+    public EventCallback<List<SkillDTO>> OnClick { get; set; }
+
+    private SkillDTO _skillDTO = new SkillDTO();
+
+    private async Task AddSkill(SkillDTO skillDTO)
+    {
+        try
+        {
+            var result = await SkillWebService.AddAsync(skillDTO);
+            var isCreated = result.IsOk;
+
+            if (!isCreated)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La tecnologìa no pudo ser cargada.");
+                return;
+            }
+
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La tecnologìa fue cargada con éxito.");
+
+            var skillsList = await SkillWebService.GetAllByAliasAsync(Alias);
+            await OnClick.InvokeAsync(skillsList);
+
+            await ResetModel();
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
+    private async Task ResetModel()
+    {
+        _skillDTO.Name = string.Empty;
+        _skillDTO.Percentage = 0;
+        await Task.CompletedTask;
+    }
+}
