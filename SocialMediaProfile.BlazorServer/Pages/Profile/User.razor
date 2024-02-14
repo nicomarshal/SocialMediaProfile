@@ -1,7 +1,7 @@
 ﻿@page "/{alias}"
 
-<Banner></Banner>
-<PersonalInfo></PersonalInfo>
+@*<Banner></Banner>*@
+<PersonalInfo Alias="@(Alias)"></PersonalInfo>
 <Experiences Alias="@(Alias)"></Experiences>
 <Educations Alias="@(Alias)"></Educations>
 <Skills Alias="@(Alias)"></Skills>

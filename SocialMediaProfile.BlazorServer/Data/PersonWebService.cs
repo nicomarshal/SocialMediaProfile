@@ -13,10 +13,17 @@ namespace SocialMediaProfile.BlazorServer.Data
 
         public async Task<PersonDTO> GetByAliasAsync(string alias)
         {
-            var endpoint = $"{Endpoint}/{alias}";
-            var result = await _globalWebService.HttpClient.GetFromJsonAsync<PersonDTO>(endpoint);
+            try
+            {
+                var endpoint = $"{Endpoint}/{alias}";
+                var result = await _globalWebService.HttpClient.GetFromJsonAsync<PersonDTO>(endpoint);
 
-            return result;
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

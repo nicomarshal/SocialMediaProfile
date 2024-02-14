@@ -1,0 +1,122 @@
+﻿@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+@inject IPersonWebService PersonWebService;
+
+@if (_personDTO is not null)
+{
+    <EditForm Model="_personDTO" OnValidSubmit="() => UpdatePersonInfo(_personDTO)">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <section class="modal fade" id="editPersonInfo" tabindex="-1" aria-labelledby="editPersonInfoLabel" aria-hidden="true">
+            <article class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header" data-bs-theme="dark">
+                        <h1 class="modal-title fs-5" id="editPersonInfoLabel">Editar Información Personal</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetModel()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="personName">Name</label>
+                            <InputText id="personName" class="form-control" @bind-Value="_personDTO.Name" />
+                            <ValidationMessage For="() => _personDTO.Name"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label for="profession">Profession</label>
+                            <InputText id="profession" class="form-control" @bind-Value="_personDTO.Profession" />
+                            <ValidationMessage For="() => _personDTO.Profession"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label for="aboutMe">About Me</label>
+                            <InputText id="aboutMe" class="form-control" @bind-Value="_personDTO.AboutMe" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Editar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => ResetModel()">Cancelar</button>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public string Alias { get; set; }
+    [Parameter]
+    public EventCallback<PersonDTO> OnClick { get; set; }
+
+    private PersonDTO _personDTO { get; set; }
+    private PersonDTO _clonePersonDTO { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _clonePersonDTO = new PersonDTO();
+        await Task.CompletedTask;
+    }
+
+    private async Task UpdatePersonInfo(PersonDTO personDTO)
+    {
+        try
+        {
+            var result = await PersonWebService.UpdateAsync(personDTO);
+            var isEdited = result.IsOk;
+
+            if (!isEdited)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La informaciòn personal no pudo ser actualizada.");
+                return;
+            }
+
+            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - La informaciòn personal fue actualizada con éxito.");
+
+            var personInfo = await PersonWebService.GetByAliasAsync(Alias);
+            await OnClick.InvokeAsync(personInfo);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
+    public async Task GetPersonInfoSelected(PersonDTO personDTO)
+    {
+        //Hago una copia de la instancia de PersonDTO en una nueva instancia de PersonDTO
+        //Esta copia tendrà una referencia llamada _clonePersonDTO.
+        await CloneModel(personDTO);
+
+        //Agrego una nueva referencia llamada _personDTO a la instancia del objeto PersonDTO
+        //Cualquier modificaciòn en _experienceDTO, tambièn se reflejarà en personDTO, ya que este ùltimo tambièn
+        //es una referencia a la instancia del objeto PersonDTO.
+        _personDTO = personDTO;
+    }
+
+    private async Task ResetModel()
+    {
+        //Si modifico los campos, pero luego le doy click a Cancel o a Close,
+        //restauro los valores de la instancia de PersonDTO a travès de la
+        //referencia _personDTO.
+        //Todas las referencias a esta instancia tambièn seràn restauradas, por ej: personDTO.
+        _personDTO.Id = _clonePersonDTO.Id;
+        _personDTO.ProfileImg = _clonePersonDTO.ProfileImg;
+        _personDTO.Name = _clonePersonDTO.Name;
+        _personDTO.Surname = _clonePersonDTO.Surname;
+        _personDTO.Profession = _clonePersonDTO.Profession;
+        _personDTO.AboutMe = _clonePersonDTO.AboutMe;
+        _personDTO.UserId = _clonePersonDTO.UserId;
+
+        await Task.CompletedTask;
+    }
+
+    private async Task CloneModel(PersonDTO personDTO)
+    {
+        _clonePersonDTO.Id = personDTO.Id;
+        _clonePersonDTO.ProfileImg = personDTO.ProfileImg;
+        _clonePersonDTO.Name = personDTO.Name;
+        _clonePersonDTO.Surname = personDTO.Surname;
+        _clonePersonDTO.Profession = personDTO.Profession;
+        _clonePersonDTO.AboutMe = personDTO.AboutMe;
+        _clonePersonDTO.UserId = personDTO.UserId;
+
+        await Task.CompletedTask;
+    }
+}
