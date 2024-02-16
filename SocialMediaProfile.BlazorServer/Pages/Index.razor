@@ -27,7 +27,9 @@ else
             <div class="col">
                 @foreach (var alias in Alias)
                 {
-                    <a href="/@(alias.Alias)">@(alias.Alias)</a>
+                    <div>
+                        <a href="/@(alias.Alias)">@(alias.Alias)</a>
+                    </div>
                 }
                 <AuthorizeView>
                     <Authorized>
@@ -45,8 +47,6 @@ else
 @code {
 
     private List<UserAliasResponseDTO> Alias = new List<UserAliasResponseDTO>();
-
-    //public IUserWebService UserWebService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

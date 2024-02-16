@@ -20,6 +20,11 @@
                             <ValidationMessage For="() => _personDTO.Name"></ValidationMessage>
                         </div>
                         <div class="form-group">
+                            <label for="personSurname">Surname</label>
+                            <InputText id="personSurname" class="form-control" @bind-Value="_personDTO.Surname" />
+                            <ValidationMessage For="() => _personDTO.Surname"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
                             <label for="profession">Profession</label>
                             <InputText id="profession" class="form-control" @bind-Value="_personDTO.Profession" />
                             <ValidationMessage For="() => _personDTO.Profession"></ValidationMessage>

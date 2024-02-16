@@ -28,7 +28,7 @@ builder.Services.AddSingleton<ISkillWebService, SkillWebService>();
 
 builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 
-//builder.Services.AddSingleton<IWebServiceFactory, WebServiceFactory>();
+//builder.Services.AddSingleton<IWebServiceFactory, WebServiceFactory>(); //TODO Borrar
 
 
 builder.Services.AddTransient<AuthWebHandler>();
