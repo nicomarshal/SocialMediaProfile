@@ -6,6 +6,7 @@ namespace SocialMediaProfile.BlazorServer.Data.Interfaces
     public interface IAuthWebService
     {
         Task<string> GetJwtAsync();
+        string GetAlias(string token);
         int GetUserId(string token);
         string GetRole(string token);
         Task<RegisterResponseDTO> RegisterAsync(RegisterDTO registerDTO);

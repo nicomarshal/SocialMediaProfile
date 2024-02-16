@@ -39,6 +39,21 @@ namespace SocialMediaProfile.BlazorServer.Data
             }
         }
 
+        public string GetAlias(string token)
+        {
+            try
+            {
+                var jwt = new JwtSecurityToken(token);
+                var alias = jwt.Claims.First(c => c.Type == ClaimTypes.Name).Value;
+
+                return alias;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public int GetUserId(string token)
         {
             try

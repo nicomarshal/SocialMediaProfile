@@ -20,6 +20,7 @@ namespace SocialMediaProfile.Core.Helpers
         {
             var authClaims = new List<Claim>
             {
+                new Claim(ClaimTypes.Name, user.Alias),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.Role.Name),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

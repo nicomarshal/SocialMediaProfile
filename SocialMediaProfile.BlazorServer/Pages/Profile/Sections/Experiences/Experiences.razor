@@ -4,7 +4,7 @@
     <article class="container d-flex flex-column row-gap-4">
         <div class="position-relative">
             <h2 class="mb-4 text-center text-sm-start">Experiencia Laboral</h2>
-            <AuthorizeView Roles="Regular">
+            <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
                 <Authorized>
                     <div class="position-absolute top-0 end-0">
                         <button class="add btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#addExperience">
