@@ -88,32 +88,11 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = configuration["JWT:ValidIssuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:SecretKey"]))
     };
-    #region EventsCookies
-    //options.Events = new JwtBearerEvents
-    //{
-    //    OnMessageReceived = context =>
-    //    {
-    //        if (context.Request.Cookies.ContainsKey("token"))
-    //        {
-    //            context.Token = context.Request.Cookies["token"];
-    //        }
-    //        return Task.CompletedTask;
-    //    }
-    //};
-    #endregion
 });
 
-// Adding JWT Authorization
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("RegularPolicy", policy => policy.RequireRole("Regular"));
-});
-
-const string policy = "defaultPolicy";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(policy,
+    options.AddPolicy("DefaultPolicy",
         builder =>
         {
             builder.AllowAnyHeader();
@@ -134,7 +113,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors(policy);
+app.UseCors("DefaultPolicy");
 
 app.UseAuthentication();
 

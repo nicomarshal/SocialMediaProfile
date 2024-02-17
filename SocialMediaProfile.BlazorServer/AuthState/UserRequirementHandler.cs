@@ -10,6 +10,11 @@ namespace SocialMediaProfile.BlazorServer.AuthState
             string aliasAuthenticated = string.Empty;
             string aliasSelected = string.Empty;
 
+            if (!context.User.Identity.IsAuthenticated)
+            {
+                return Task.CompletedTask;
+            }
+
             aliasAuthenticated = context.User.Identity.Name; //Alias del usuario autenticado
             aliasSelected = context.Resource.ToString(); //Alias del perfil de usuario que se està visitando.
 

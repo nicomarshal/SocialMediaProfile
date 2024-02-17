@@ -36,7 +36,7 @@ namespace SocialMediaProfile.BlazorServer.AuthState
 
                 return await Task.FromResult(state);
             }
-            return await Task.FromResult(new AuthenticationState(new ClaimsPrincipal()));
+            return await Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
         }
     }
 }

@@ -57,7 +57,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Regular")]
         public async Task<IActionResult> AddAsync([FromBody] EducationDTO educationDTO)
         {
             var result = await _educationService.AddAsync(educationDTO);
@@ -68,7 +68,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Regular")]
         public async Task<IActionResult> UpdateAsync([FromBody] EducationDTO educationDTO)
         {
             var result = await _educationService.UpdateAsync(educationDTO);
@@ -79,7 +79,7 @@ namespace SocialMediaProfile.WebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Regular")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var result = await _educationService.DeleteAsync(id);
