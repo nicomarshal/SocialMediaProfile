@@ -17,13 +17,13 @@ namespace SocialMediaProfile.BlazorServer.Data
         }
         public IUserWebService CreateUserWebService()
         {
-            _userWebService.Endpoint = "/api/user";
+            _userWebService.Controller = "/api/user";
             return _userWebService;
         }
 
         public IExperienceWebService CreateExperienceWebService()
         { 
-            _experienceWebService.Endpoint = "/api/experience";
+            _experienceWebService.Controller = "/api/experience";
             return _experienceWebService;
         }
 

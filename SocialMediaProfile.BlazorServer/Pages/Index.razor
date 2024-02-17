@@ -25,7 +25,7 @@ else
     <section class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
         <article class="row">
             <div class="col">
-                @foreach (var alias in Alias)
+                @foreach (var alias in AliasList)
                 {
                     <div>
                         <a href="/@(alias.Alias)">@(alias.Alias)</a>
@@ -46,7 +46,7 @@ else
 
 @code {
 
-    private List<UserAliasResponseDTO> Alias = new List<UserAliasResponseDTO>();
+    private List<UserAliasResponseDTO> AliasList = new List<UserAliasResponseDTO>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -55,7 +55,7 @@ else
             GlobalWebService.HttpClient = HttpClientFactory.CreateClient("WebApi");          
         }
 
-        Alias = await UserWebService.GetAllAliasAsync();
+        AliasList = await UserWebService.GetAllAliasAsync();
 
         GlobalWebService.IsReady = true;
     }

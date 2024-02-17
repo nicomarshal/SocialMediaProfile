@@ -8,7 +8,7 @@ namespace SocialMediaProfile.BlazorServer.Data
     {
         public RoleWebService(IGlobalWebService globalWebService) : base(globalWebService)
         {
-            Endpoint = "/api/role";
+            Controller = "/api/role";
         }
     }
 }

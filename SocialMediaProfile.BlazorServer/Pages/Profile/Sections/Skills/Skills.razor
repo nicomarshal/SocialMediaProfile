@@ -172,7 +172,7 @@
     <article class="container d-flex flex-column row-gap-4">
         <div class="position-relative">
             <h2 class="mb-4 text-center text-sm-start">Tecnologìas</h2>
-            <AuthorizeView>
+            <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
                 <Authorized>
                     <div class="position-absolute top-0 end-0">
                         <button class="add btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#addSkill">
@@ -186,14 +186,14 @@
         </div>
         @foreach (var skill in _skillsList)
         {
-            <div class="experience row">
+            <div class="skill row">
                 <div class="logo col-3 col-md-2 position-relative">
                     <img class="object-fit-cover rounded-circle position-absolute top-0 start-50 translate-middle-x" style="width: 70px; height: 70px;" src="efalcom.png" alt="Logo">
                 </div>
                 <div class="position-relative col-9 col-md-10">
                     <h4 class="skillName w-50 text-break">@(skill.Name)</h4>
                     <h4 class="Percentage">@(skill.Percentage)</h4>
-                    <AuthorizeView>
+                    <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
                         <Authorized>
                             <div class="position-absolute top-0 end-0" style="margin-right: 12px;">
                                 <button class="edit btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#editSkill" @onclick="() => EditSkillSelected(skill)">

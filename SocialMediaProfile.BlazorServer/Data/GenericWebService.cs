@@ -8,7 +8,7 @@ namespace SocialMediaProfile.BlazorServer.Data
         where TResultDTO : class
     {
         protected readonly IGlobalWebService _globalWebService;
-        public string Endpoint { get; set; }
+        public string Controller { get; set; }
 
         public GenericWebService(IGlobalWebService globalWebService)
         {
@@ -19,7 +19,7 @@ namespace SocialMediaProfile.BlazorServer.Data
         {
             try
             {
-                var endpoint = $"{Endpoint}";
+                var endpoint = $"{Controller}";
                 var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<TDTO>>(endpoint);
                 
                 return result;
@@ -34,7 +34,7 @@ namespace SocialMediaProfile.BlazorServer.Data
         {
             try
             {
-                var endpoint = $"{Endpoint}/{id}";
+                var endpoint = $"{Controller}/{id}";
                 var result = await _globalWebService.HttpClient.GetFromJsonAsync<TDTO>(endpoint);
 
                 return result;
@@ -51,7 +51,7 @@ namespace SocialMediaProfile.BlazorServer.Data
             {
                 TResultDTO tResultDTO;
 
-                var endpoint = $"{Endpoint}";
+                var endpoint = $"{Controller}";
                 tDTO.GetType().GetProperty("UserId").SetValue(tDTO, _globalWebService.UserId);
 
                 var response = await _globalWebService.HttpClient.PostAsJsonAsync(endpoint, tDTO);
@@ -79,7 +79,7 @@ namespace SocialMediaProfile.BlazorServer.Data
             {
                 TResultDTO tResultDTO;
 
-                var endpoint = $"{Endpoint}";              
+                var endpoint = $"{Controller}";              
                 tDTO.GetType().GetProperty("UserId").SetValue(tDTO, _globalWebService.UserId);
 
                 var response = await _globalWebService.HttpClient.PutAsJsonAsync(endpoint, tDTO);
@@ -107,7 +107,7 @@ namespace SocialMediaProfile.BlazorServer.Data
             {
                 TResultDTO tResultDTO;
 
-                var endpoint = $"{Endpoint}/{id}";
+                var endpoint = $"{Controller}/{id}";
 
                 var response = await _globalWebService.HttpClient.DeleteAsync(endpoint);
 

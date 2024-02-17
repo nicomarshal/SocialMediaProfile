@@ -1,0 +1,3 @@
+1) El usuario Admin debe tener acceso a los botones de edición de todos los
+usuarios regulares
+2) Repasar en la API cuáles son los roles asignados para cada endpoint

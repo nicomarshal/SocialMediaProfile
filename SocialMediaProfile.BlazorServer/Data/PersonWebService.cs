@@ -8,14 +8,14 @@ namespace SocialMediaProfile.BlazorServer.Data
     {
         public PersonWebService(IGlobalWebService globalWebService) : base(globalWebService)
         {
-            Endpoint = "/api/person";
+            Controller = "/api/person";
         }
 
         public async Task<PersonDTO> GetByAliasAsync(string alias)
         {
             try
             {
-                var endpoint = $"{Endpoint}/{alias}";
+                var endpoint = $"{Controller}/{alias}";
                 var result = await _globalWebService.HttpClient.GetFromJsonAsync<PersonDTO>(endpoint);
 
                 return result;

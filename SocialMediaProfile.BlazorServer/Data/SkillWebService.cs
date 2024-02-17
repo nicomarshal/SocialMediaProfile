@@ -8,14 +8,14 @@ namespace SocialMediaProfile.BlazorServer.Data
     {
         public SkillWebService(IGlobalWebService globalWebService) : base(globalWebService)
         {
-            Endpoint = "/api/skill";
+            Controller = "/api/skill";
         }
 
         public async Task<List<SkillDTO>> GetAllByAliasAsync(string alias)
         {
             try
             {
-                var endpoint = $"{Endpoint}/{alias}";
+                var endpoint = $"{Controller}/{alias}";
                 var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<SkillDTO>>(endpoint);
 
                 return result;

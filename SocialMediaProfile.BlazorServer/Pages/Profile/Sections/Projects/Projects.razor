@@ -4,7 +4,7 @@
     <article class="container d-flex flex-column row-gap-4">
         <div class="position-relative">
             <h2 class="mb-4 text-center text-sm-start">Proyectos</h2>
-            <AuthorizeView>
+            <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
                 <Authorized>
                     <div class="position-absolute top-0 end-0">
                         <button class="add btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#addProject">
@@ -28,7 +28,7 @@
                     <p class="description" style="max-width:576px">@(proj.Description)</p>
                     <p class="images" style="max-width:576px">@(proj.Images)</p>
                     <p class="url" style="max-width:576px">@(proj.URL)</p>
-                    <AuthorizeView>
+                    <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
                         <Authorized>
                             <div class="position-absolute top-0 end-0" style="margin-right: 12px;">
                                 <button class="edit btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#editProject" @onclick="() => EditProjectSelected(proj)">

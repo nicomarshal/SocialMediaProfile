@@ -4,7 +4,7 @@
     <article class="container d-flex flex-column row-gap-4">
         <div class="position-relative">
             <h2 class="mb-4 text-center text-sm-start">Estudios Académicos</h2>
-            <AuthorizeView>
+            <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
                 <Authorized>
                     <div class="position-absolute top-0 end-0">
                         <button class="add btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#addEducation">
@@ -27,7 +27,7 @@
                     <h4 class="career">@(educ.Career)</h4>
                     <h6 class="period">@(educ.StartDate.Date)-@(educ.FinishDate.Date)</h6>
                     <p class="description" style="max-width:576px">@(educ.Description)</p>
-                    <AuthorizeView>
+                    <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
                         <Authorized>
                             <div class="position-absolute top-0 end-0" style="margin-right: 12px;">
                                 <button class="edit btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#editEducation" @onclick="() => EditEducationSelected(educ)">

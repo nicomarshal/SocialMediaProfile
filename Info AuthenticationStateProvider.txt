@@ -3,3 +3,11 @@ https://learn.microsoft.com/en-us/aspnet/core/blazor/security/?view=aspnetcore-7
 
 Aplicaciones Blazor Server ASP.NET Core seguras
 https://learn.microsoft.com/en-us/aspnet/core/blazor/security/server/?view=aspnetcore-7.0&tabs=visual-studio
+
+
+Autenticaciòn y autorizaciòn en Blazor
+https://blazorschool.com/tutorial/blazor-server/dotnet6/authentication-and-authorization-981067
+Implementaciòn de Autenticaciòn bàsica
+https://blazorschool.com/tutorial/blazor-server/dotnet6/basic-authentication-197819
+Implementaciòn de Autorizaciòn bàsica 
+https://blazorschool.com/tutorial/blazor-server/dotnet6/implementing-authorization-502294

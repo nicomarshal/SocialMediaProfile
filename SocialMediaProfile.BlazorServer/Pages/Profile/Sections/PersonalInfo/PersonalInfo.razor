@@ -24,7 +24,7 @@
                 Estudiante en FCFEyN - UNC @*Estudios*@
             </div>
         </div>
-        <AuthorizeView>
+        <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
             <Authorized>
                 <div class="edit position-absolute top-0 end-0" style="margin-right: 12px;">
                     <button class="btn btn-primary rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#editPersonInfo" @onclick="() => EditPersonInfoSelected(_personInfo)">

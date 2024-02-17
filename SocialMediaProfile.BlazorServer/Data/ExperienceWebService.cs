@@ -8,14 +8,14 @@ namespace SocialMediaProfile.BlazorServer.Data
     {
         public ExperienceWebService(IGlobalWebService globalWebService) : base(globalWebService)
         {
-            Endpoint = "/api/experience"; //TODO. Cambiar nombre por "Controller"
+            Controller = "/api/experience"; //TODO. Cambiar nombre por "Controller"
         }
 
         public async Task<List<ExperienceDTO>> GetAllInDescOrderAsync()
         {
             try
             {
-                var endpoint = $"{Endpoint}/desc";
+                var endpoint = $"{Controller}/desc";
                 var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<ExperienceDTO>>(endpoint);
 
                 return result;
@@ -30,7 +30,7 @@ namespace SocialMediaProfile.BlazorServer.Data
         {
             try
             {
-                var endpoint = $"{Endpoint}/desc/{alias}";
+                var endpoint = $"{Controller}/desc/{alias}";
                 var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<ExperienceDTO>>(endpoint);
 
                 return result;

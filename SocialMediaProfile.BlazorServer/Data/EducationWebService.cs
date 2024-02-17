@@ -8,14 +8,14 @@ namespace SocialMediaProfile.BlazorServer.Data
     {
         public EducationWebService(IGlobalWebService globalWebService) : base(globalWebService)
         {
-            Endpoint = "/api/education";
+            Controller = "/api/education";
         }
 
         public async Task<List<EducationDTO>> GetAllInDescOrderAsync()
         {
             try
             {
-                var endpoint = $"{Endpoint}/desc";
+                var endpoint = $"{Controller}/desc";
                 var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<EducationDTO>>(endpoint);
 
                 return result;
@@ -30,7 +30,7 @@ namespace SocialMediaProfile.BlazorServer.Data
         {
             try
             {
-                var endpoint = $"{Endpoint}/desc/{alias}";
+                var endpoint = $"{Controller}/desc/{alias}";
                 var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<EducationDTO>>(endpoint);
 
                 return result;

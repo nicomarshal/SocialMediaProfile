@@ -20,13 +20,11 @@ namespace SocialMediaProfile.BlazorServer.AuthState
             if (!string.IsNullOrEmpty(token))
             {
                 var alias = _authWebService.GetAlias(token);
-                var userId = _authWebService.GetUserId(token);
                 var role = _authWebService.GetRole(token);
 
                 var claims = new[]
                 {
                     new Claim(ClaimTypes.Name, alias),
-                    new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
                     new Claim(ClaimTypes.Role, role),
                 };
 
