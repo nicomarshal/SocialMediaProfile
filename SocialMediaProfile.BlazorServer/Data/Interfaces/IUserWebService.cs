@@ -6,5 +6,6 @@ namespace SocialMediaProfile.BlazorServer.Data.Interfaces
     public interface IUserWebService : IGenericWebService<UserDTO, UserResponseDTO>
     {
         Task<List<UserAliasResponseDTO>> GetAllAliasAsync();
+        Task<List<UserDTO>> GetAllWithRoleAsync();
     }
 }

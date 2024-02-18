@@ -19,7 +19,7 @@ namespace SocialMediaProfile.Services
             try
             {
                 var result = new List<UserAliasResponseDTO>();
-                
+
                 var response = await _repository.GetAllAliasAsync();
 
                 if (response is null)
@@ -29,8 +29,33 @@ namespace SocialMediaProfile.Services
 
                 foreach (var item in response)
                 {
-                    //result.Add(_mapper.Map<UserDTO>(item));
                     result.Add(new UserAliasResponseDTO() { Alias = item });
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public async Task<List<UserDTO>> GetAllWithRoleAsync()
+        {
+            try
+            {
+                var result = new List<UserDTO>();
+                
+                var response = await _repository.GetAllWithRoleAsync();
+
+                if (response is null)
+                {
+                    return result;
+                }
+
+                foreach (var item in response)
+                {
+                    result.Add(_mapper.Map<UserDTO>(item));
                 }
 
                 return result;

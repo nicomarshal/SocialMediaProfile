@@ -25,6 +25,11 @@ namespace SocialMediaProfile.Services
             try
             {
                 var userDTO = _mapper.Map<UserDTO>(registerDTO);
+                userDTO.RoleId = 2; //Usuario regular
+                userDTO.Person = new PersonDTO();
+                userDTO.Person.Name = registerDTO.Name;
+                userDTO.Person.Surname = registerDTO.Surname;
+                userDTO.Person.Profession = registerDTO.Profession;
 
                 var response = await AddAsync(userDTO);
 

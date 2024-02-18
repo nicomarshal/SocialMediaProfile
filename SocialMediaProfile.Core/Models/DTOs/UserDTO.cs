@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SocialMediaProfile.Core.Entities;
 
 namespace SocialMediaProfile.Core.Models.DTOs
 {
@@ -14,5 +10,7 @@ namespace SocialMediaProfile.Core.Models.DTOs
         public string Email { get; set; }
         public string Alias { get; set; }
         public int RoleId { get; set; }
+        public RoleDTO Role { get; set; } //ManyToOne
+        public PersonDTO Person { get; set; } //OneToOne    
     }
 }

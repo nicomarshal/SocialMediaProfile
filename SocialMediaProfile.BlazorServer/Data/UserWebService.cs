@@ -13,10 +13,32 @@ namespace SocialMediaProfile.BlazorServer.Data
 
         public async Task<List<UserAliasResponseDTO>> GetAllAliasAsync()
         {
-            var endpoint = $"{Controller}/alias";
-            var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<UserAliasResponseDTO>>(endpoint);
+            try
+            {
+                var endpoint = $"{Controller}/alias";
+                var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<UserAliasResponseDTO>>(endpoint);
 
-            return result;
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public async Task<List<UserDTO>> GetAllWithRoleAsync()
+        {
+            try
+            {
+                var endpoint = $"{Controller}/role";
+                var result = await _globalWebService.HttpClient.GetFromJsonAsync<List<UserDTO>>(endpoint);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

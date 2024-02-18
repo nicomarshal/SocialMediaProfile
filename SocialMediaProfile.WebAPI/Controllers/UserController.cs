@@ -36,6 +36,16 @@ namespace SocialMediaProfile.WebAPI.Controllers
             return Ok(result);
         }
 
+        [HttpGet("role")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllWithRoleAsync()
+        {
+            var result = await _userService.GetAllWithRoleAsync();
+
+            if (result is null) return NotFound();
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetByIdAsync(int id)

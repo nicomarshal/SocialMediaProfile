@@ -92,7 +92,6 @@ namespace SocialMediaProfile.BlazorServer.Data
                 RegisterResponseDTO result;
 
                 var endpoint = "/api/auth/register";
-                registerDTO.RoleId = 2; //Usuario regular
                 var response = await _globalWebService.HttpClient.PostAsJsonAsync(endpoint, registerDTO);
 
                 if (!response.IsSuccessStatusCode)

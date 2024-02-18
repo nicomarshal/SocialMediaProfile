@@ -4,6 +4,15 @@ namespace SocialMediaProfile.Core.Models.DTOs
 {
     public class RegisterDTO
     {
+        [Required(ErrorMessage = "El campo Nombre es obligatorio.")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "El campo Apellido es obligatorio.")]
+        public string Surname { get; set; }
+
+        [Required(ErrorMessage = "El campo Profesiòn es obligatorio.")]
+        public string Profession { get; set; }
+
         [Required(ErrorMessage = "El campo Usuario es obligatorio.")]
         public string Username { get; set; }
 
@@ -16,6 +25,5 @@ namespace SocialMediaProfile.Core.Models.DTOs
 
         [Required(ErrorMessage = "El campo Alias es obligatorio.")]
         public string Alias { get; set; }
-        public int RoleId { get; set; }
     }
 }

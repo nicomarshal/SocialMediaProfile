@@ -1,7 +1,61 @@
-﻿@page "/manager";
+﻿@page "/manager"; 
+@*BLOQUEAR URL PARA USUARIOS REGULARES*@
 @inject IUserWebService UserWebService;
-<h3>Manager</h3>
+
+<section class="manager">
+    <article class="container d-flex justify-content-center align-items-center vh-100">
+        @if (_userList is null)
+        {
+            <div class="row">
+                <div class="col">
+                    <p class="text-white">Cargando...</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Alias</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in _userList)
+                    {
+
+                        <tr>
+                            <th scope="row">@(_index++)</th>
+                            <td>@(user.Username)</td>
+                            <td>@(user.Password)</td>
+                            <td>@(user.Email)</td>
+                            <td>@(user.Alias)</td>
+                            <td>@(user.Role.Name)</td>
+                            <td class="d-flex">
+                                <button type="button" class="btn btn-primary">Edit</button>
+                                <button type="button" class="btn btn-danger">Delete</button>
+                                <button type="button" class="btn btn-info">See more</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </article>
+</section>
 
 @code {
+    private int _index { get; set; } = 1;
+    private List<UserDTO> _userList { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        _userList = await UserWebService.GetAllWithRoleAsync();
+    }
 }
