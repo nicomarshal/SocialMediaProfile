@@ -40,5 +40,20 @@ namespace SocialMediaProfile.BlazorServer.Data
                 throw new Exception(e.Message);
             }
         }
+
+        public async Task<UserDTO> GetByAliasAsync(string alias)
+        {
+            try
+            {
+                var endpoint = $"{Controller}/{alias}";
+                var result = await _globalWebService.HttpClient.GetFromJsonAsync<UserDTO>(endpoint);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

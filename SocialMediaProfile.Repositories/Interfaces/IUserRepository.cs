@@ -11,5 +11,6 @@ namespace SocialMediaProfile.Repositories.Interfaces
     {
         Task<IEnumerable<string>> GetAllAliasAsync();
         Task<IEnumerable<User>> GetAllWithRoleAsync();
+        Task<User> GetByAliasAsync(string alias);
     }
 }

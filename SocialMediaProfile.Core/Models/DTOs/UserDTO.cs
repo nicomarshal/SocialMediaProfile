@@ -1,6 +1,4 @@
-﻿using SocialMediaProfile.Core.Entities;
-
-namespace SocialMediaProfile.Core.Models.DTOs
+﻿namespace SocialMediaProfile.Core.Models.DTOs
 {
     public class UserDTO
     {
@@ -12,5 +10,9 @@ namespace SocialMediaProfile.Core.Models.DTOs
         public int RoleId { get; set; }
         public RoleDTO Role { get; set; } //ManyToOne
         public PersonDTO Person { get; set; } //OneToOne    
+        public List<ExperienceDTO> Experiencies { get; set; } //OneToMany
+        public List<EducationDTO> Educations { get; set; } //OneToMany
+        public List<ProjectDTO> Projects { get; set; } //OneToMany
+        public List<SkillDTO> Skills { get; set; } //OneToMany
     }
 }

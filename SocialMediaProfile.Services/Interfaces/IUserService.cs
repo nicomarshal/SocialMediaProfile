@@ -8,5 +8,6 @@ namespace SocialMediaProfile.Services.Interfaces
     {
         Task<List<UserAliasResponseDTO>> GetAllAliasAsync();
         Task<List<UserDTO>> GetAllWithRoleAsync();
+        Task<UserDTO> GetByAliasAsync(string alias);
     }
 }

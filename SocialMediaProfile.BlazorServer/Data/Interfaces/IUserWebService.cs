@@ -7,5 +7,6 @@ namespace SocialMediaProfile.BlazorServer.Data.Interfaces
     {
         Task<List<UserAliasResponseDTO>> GetAllAliasAsync();
         Task<List<UserDTO>> GetAllWithRoleAsync();
+        Task<UserDTO> GetByAliasAsync(string alias);
     }
 }

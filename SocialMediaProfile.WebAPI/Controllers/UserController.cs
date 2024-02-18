@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaProfile.Core.Models.DTOs;
+using SocialMediaProfile.Services;
 using SocialMediaProfile.Services.Interfaces;
 
 namespace SocialMediaProfile.WebAPI.Controllers
@@ -41,6 +42,16 @@ namespace SocialMediaProfile.WebAPI.Controllers
         public async Task<IActionResult> GetAllWithRoleAsync()
         {
             var result = await _userService.GetAllWithRoleAsync();
+
+            if (result is null) return NotFound();
+            return Ok(result);
+        }
+
+        [HttpGet("{alias}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetByAliasAsync(string alias)
+        {
+            var result = await _userService.GetByAliasAsync(alias);
 
             if (result is null) return NotFound();
             return Ok(result);

@@ -20,5 +20,10 @@ namespace SocialMediaProfile.Repositories
         {
             return await _entities.Include(u => u.Role).ToListAsync();
         }
+
+        public async Task<User> GetByAliasAsync(string alias)
+        {
+            return await _entities.Where(v => v.Alias == alias).FirstOrDefaultAsync();
+        }
     }
 }

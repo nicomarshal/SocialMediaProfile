@@ -65,5 +65,28 @@ namespace SocialMediaProfile.Services
                 throw new Exception(e.Message);
             }
         }
+
+        public async Task<UserDTO> GetByAliasAsync(string alias)
+        {
+            try
+            {
+                var result = new UserDTO();
+
+                var response = await _repository.GetByAliasAsync(alias);
+
+                if (response is null)
+                {
+                    return result;
+                }
+
+                result = _mapper.Map<UserDTO>(response);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
