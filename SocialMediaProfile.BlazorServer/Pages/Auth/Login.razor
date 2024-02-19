@@ -1,7 +1,7 @@
 ﻿@page "/login";
-@inject IAuthWebService AuthWebService;
 @inject IJSRuntime JSRuntime;
 @inject NavigationManager NavigationManager;
+@inject UserAuthenticationStateProvider AuthStateProvider;
 
 <section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
     <EditForm Model="_loginDTO" OnValidSubmit="SubmitLogin">
@@ -27,16 +27,18 @@
     {
         try
         {
-            var result = await AuthWebService.LoginAsync(_loginDTO);
+            var result = await AuthStateProvider.LoginAsync(_loginDTO);
+            var isLoggedIn = result.Item1;
+            var statusCode = result.Item2;
 
-            if (!result.IsLoggedIn)
+            if (!isLoggedIn)
             {
-                await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - Las credenciales ingresadas son incorrectas.");
+                await JSRuntime.InvokeVoidAsync("alert", $"{statusCode} - Las credenciales ingresadas son incorrectas.");
                 return;
             }
 
-            await JSRuntime.InvokeVoidAsync("alert", $"{result.StatusCode} - Inicio de sesión exitoso.");
-            NavigationManager.NavigateTo("/", true);
+            await JSRuntime.InvokeVoidAsync("alert", $"{statusCode} - Inicio de sesión exitoso.");
+            NavigationManager.NavigateTo("/");
         }
         catch (Exception e)
         {

@@ -17,12 +17,6 @@ builder.Services.AddSingleton<WeatherForecastService>(); //TODO Borrar
 
 builder.Services.AddBlazoredLocalStorage();
 
-builder.Services.AddScoped<IAuthorizationHandler, UserRequirementHandler>();
-builder.Services.AddAuthorizationCore(config =>
-{
-    config.AddPolicy("AliasPolicy", policy => policy.AddRequirements(new UserRequirement()));
-});
-
 builder.Services.AddSingleton<IGlobalWebService, GlobalWebService>();
 builder.Services.AddScoped<IAuthWebService, AuthWebService>();
 builder.Services.AddSingleton<IRoleWebService, RoleWebService>();
@@ -33,10 +27,16 @@ builder.Services.AddSingleton<IEducationWebService, EducationWebService>();
 builder.Services.AddSingleton<IProjectWebService, ProjectWebService>();
 builder.Services.AddSingleton<ISkillWebService, SkillWebService>();
 
-builder.Services.AddScoped<AuthenticationStateProvider, UserAuthenticationStateProvider>();
+builder.Services.AddScoped<UserAuthenticationStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<UserAuthenticationStateProvider>());
+
+builder.Services.AddScoped<IAuthorizationHandler, UserRequirementHandler>();
+builder.Services.AddAuthorizationCore(config =>
+{
+    config.AddPolicy("AliasPolicy", policy => policy.AddRequirements(new UserRequirement()));
+});
 
 //builder.Services.AddSingleton<IWebServiceFactory, WebServiceFactory>(); //TODO Borrar
-
 
 builder.Services.AddTransient<AuthWebHandler>();
 builder.Services.AddHttpClient("WebApi")

@@ -1,7 +1,7 @@
 ﻿@page "/{alias}"
 @inject IGlobalWebService GlobalWebService;
 @inject IUserWebService UserWebService;
-@inject IAuthWebService AuthWebService;
+@inject UserAuthenticationStateProvider AuthStateProvider;
 
 <PersonalInfo Alias="@(Alias)"></PersonalInfo>
 <Experiences Alias="@(Alias)"></Experiences>
@@ -15,8 +15,31 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
-        //var user = await UserWebService.GetByAliasAsync(Alias);
-        //GlobalWebService.UserId = user.Id;
+        await Task.CompletedTask;
+
+        if (string.IsNullOrEmpty(AuthStateProvider.CurrentRole))
+        {
+            return;
+        }
+
+        if (AuthStateProvider.CurrentRole.Equals("Admin"))
+        {
+            if (!AuthStateProvider.CurrentAlias.Equals(Alias))
+            {
+                var user = await UserWebService.GetByAliasAsync(Alias);
+                GlobalWebService.UserId = user.Id;
+            }
+            else
+            {
+                GlobalWebService.UserId = AuthStateProvider.CurrentUserId;
+            }
+        }
+        else
+        {
+            if (AuthStateProvider.CurrentAlias.Equals(Alias))
+            {
+                GlobalWebService.UserId = AuthStateProvider.CurrentUserId;
+            }
+        }
     }
 }

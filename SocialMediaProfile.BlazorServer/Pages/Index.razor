@@ -68,10 +68,7 @@ else
 
             if (!string.IsNullOrEmpty(token))
             {
-                GlobalWebService.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                //var userId = AuthWebService.GetUserId(token);
-                //GlobalWebService.UserId = userId;                   
+                GlobalWebService.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);                
             }            
         }
     }

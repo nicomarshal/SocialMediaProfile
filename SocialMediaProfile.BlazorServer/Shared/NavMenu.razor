@@ -1,7 +1,7 @@
 ﻿@using SocialMediaProfile.BlazorServer.Data.Interfaces;
-@inject IAuthWebService AuthWebService;
 @inject IJSRuntime JSRuntime;
 @inject NavigationManager NavigationManager;
+@inject UserAuthenticationStateProvider AuthStateProvider;
 
 <nav class="navbar navbar-expand-lg bg-dark border-nav border-sm-nav fixed-bottom fixed-sm-top" data-bs-theme="dark">
     <div class="container-fluid">
@@ -57,7 +57,7 @@
                     <Authorized>
                         <li class="nav-item p-2">
                             <a class="nav-link text-white" href="/" @onclick="LogoutAsync">
-                                <span>Bienvenido, @_role!</span>
+                                <span>Bienvenido, @(_role)!</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-person-fill" viewBox="0 0 16 16">
                                     <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
                                 </svg>
@@ -86,18 +86,24 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var token = await AuthWebService.GetJwtAsync();
-
-        if (!string.IsNullOrEmpty(token))
+        if (!string.IsNullOrEmpty(AuthStateProvider.CurrentRole))
         {
-            _role = AuthWebService.GetRole(token);
+            _role = AuthStateProvider.CurrentRole;
         }
+
+        await Task.CompletedTask;
     }
 
     private async Task LogoutAsync()
     {
-        await AuthWebService.LogoutAsync();
-        await JSRuntime.InvokeVoidAsync("alert", "Cierre de sesión exitoso.");
-        NavigationManager.NavigateTo("/", true);
+        try
+        {
+            await AuthStateProvider.LogoutAsync();
+            await JSRuntime.InvokeVoidAsync("alert", "Cierre de sesión exitoso.");
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
     }
 }

@@ -3,6 +3,7 @@ using SocialMediaProfile.BlazorServer.Data.Interfaces;
 using SocialMediaProfile.Core.Models.DTOs;
 using SocialMediaProfile.Core.Models.DTOs.ResponseDTOs;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 
 namespace SocialMediaProfile.BlazorServer.Data
