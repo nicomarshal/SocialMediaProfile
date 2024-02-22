@@ -55,6 +55,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        _personDTO = new PersonDTO();
         _clonePersonDTO = new PersonDTO();
         await Task.CompletedTask;
     }
@@ -92,7 +93,13 @@
         //Agrego una nueva referencia llamada _personDTO a la instancia del objeto PersonDTO
         //Cualquier modificaciòn en _experienceDTO, tambièn se reflejarà en personDTO, ya que este ùltimo tambièn
         //es una referencia a la instancia del objeto PersonDTO.
-        _personDTO = personDTO;
+        _personDTO.Id = personDTO.Id;
+        _personDTO.ProfileImg = personDTO.ProfileImg;
+        _personDTO.Name = personDTO.Name;
+        _personDTO.Surname = personDTO.Surname;
+        _personDTO.Profession = personDTO.Profession;
+        _personDTO.AboutMe = personDTO.AboutMe;
+        _personDTO.UserId = personDTO.UserId;
     }
 
     private async Task ResetModel()

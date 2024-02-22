@@ -58,6 +58,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        _educationDTO = new EducationDTO();
         _cloneEducationDTO = new EducationDTO();
         await Task.CompletedTask;
     }
@@ -95,7 +96,14 @@
         //Agrego una nueva referencia llamada _educationDTO a la instancia del objeto EducationDTO
         //Cualquier modificaciòn en _educationDTO, tambièn se reflejarà en educationDTO, ya que este ùltimo tambièn
         //es una referencia a la instancia del objeto EducationDTO.
-        _educationDTO = educationDTO;
+        _educationDTO.Id = educationDTO.Id;
+        _educationDTO.Logo = educationDTO.Logo;
+        _educationDTO.Name = educationDTO.Name;
+        _educationDTO.Career = educationDTO.Career;
+        _educationDTO.StartDate = educationDTO.StartDate;
+        _educationDTO.FinishDate = educationDTO.FinishDate;
+        _educationDTO.Description = educationDTO.Description;
+        _educationDTO.UserId = educationDTO.UserId;
     }
 
     private async Task ResetModel()

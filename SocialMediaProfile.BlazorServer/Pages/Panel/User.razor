@@ -4,9 +4,19 @@
 @inject UserAuthenticationStateProvider AuthStateProvider;
 
 <PersonalInfo Alias="@(Alias)"></PersonalInfo>
-<Experiences Alias="@(Alias)"></Experiences>
-<Educations Alias="@(Alias)"></Educations>
-<Skills Alias="@(Alias)"></Skills>
+<section class="container">
+    <article class="row">
+        <div class="col-4">
+
+        </div>
+        <div class="col-8">
+            <Skills Alias="@(Alias)"></Skills>
+            <Experiences Alias="@(Alias)"></Experiences>
+            <Educations Alias="@(Alias)"></Educations>
+        </div>
+    </article>
+</section>
+
 <Projects Alias="@(Alias)"></Projects>
 
 @code {

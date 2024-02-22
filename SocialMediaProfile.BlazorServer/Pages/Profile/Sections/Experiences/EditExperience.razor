@@ -58,6 +58,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        _experienceDTO = new ExperienceDTO();
         _cloneExperienceDTO = new ExperienceDTO();
         await Task.CompletedTask;
     }
@@ -95,7 +96,14 @@
         //Agrego una nueva referencia llamada _experienceDTO a la instancia del objeto ExperienceDTO
         //Cualquier modificaciòn en _experienceDTO, tambièn se reflejarà en experienceDTO, ya que este ùltimo tambièn 
         //es una referencia a la instancia del objeto ExperienceDTO.
-        _experienceDTO = experienceDTO;
+        _experienceDTO.Id = experienceDTO.Id;
+        _experienceDTO.Logo = experienceDTO.Logo;
+        _experienceDTO.Name = experienceDTO.Name;
+        _experienceDTO.Job = experienceDTO.Job;
+        _experienceDTO.StartDate = experienceDTO.StartDate;
+        _experienceDTO.FinishDate = experienceDTO.FinishDate;
+        _experienceDTO.Description = experienceDTO.Description;
+        _experienceDTO.UserId = experienceDTO.UserId;
     }
 
     private async Task ResetModel()

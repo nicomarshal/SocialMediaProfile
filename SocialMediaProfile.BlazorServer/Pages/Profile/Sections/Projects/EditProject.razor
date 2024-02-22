@@ -61,6 +61,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        _projectDTO = new ProjectDTO();
         _cloneProjectDTO = new ProjectDTO();
         await Task.CompletedTask;
     }
@@ -98,7 +99,14 @@
         //Agrego una nueva referencia llamada _projectDTO a la instancia del objeto ProjectDTO
         //Cualquier modificaciòn en _projectDTO, tambièn se reflejarà en projectDTO, ya que este ùltimo tambièn
         //es una referencia a la instancia del objeto ProjectDTO.
-        _projectDTO = projectDTO;
+        _projectDTO.Id = projectDTO.Id;
+        _projectDTO.Name = projectDTO.Name;
+        _projectDTO.StartDate = projectDTO.StartDate;
+        _projectDTO.FinishDate = projectDTO.FinishDate;
+        _projectDTO.Description = projectDTO.Description;
+        _projectDTO.Images = projectDTO.Images;
+        _projectDTO.URL = projectDTO.URL;
+        _projectDTO.UserId = projectDTO.UserId;
     }
 
     private async Task ResetModel()

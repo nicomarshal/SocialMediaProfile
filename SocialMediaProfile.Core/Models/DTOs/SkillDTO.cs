@@ -7,6 +7,7 @@ namespace SocialMediaProfile.Core.Models.DTOs
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El campo Skill es obligatorio.")]
+        [StringLength(10, ErrorMessage = "El campo Skill debe tener como máximo 10 caracteres.")]
         public string Name { get; set; }
 
         public int Percentage { get; set; } = 0;

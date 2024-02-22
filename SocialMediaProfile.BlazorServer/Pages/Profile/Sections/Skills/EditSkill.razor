@@ -45,6 +45,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        _skillDTO = new SkillDTO();
         _cloneSkillDTO = new SkillDTO();
         await Task.CompletedTask;
     }
@@ -82,7 +83,10 @@
         //Agrego una nueva referencia llamada _skillDTO a la instancia del objeto SkillDTO
         //Cualquier modificaciòn en _skillDTO, tambièn se reflejarà en skillDTO, ya que este ùltimo tambièn
         //es una referencia a la instancia del objeto SkillDTO.
-        _skillDTO = skillDTO;
+        _skillDTO.Id = skillDTO.Id;
+        _skillDTO.Name = skillDTO.Name;
+        _skillDTO.Percentage = skillDTO.Percentage;
+        _skillDTO.UserId = skillDTO.UserId;
     }
 
     private async Task ResetModel()
