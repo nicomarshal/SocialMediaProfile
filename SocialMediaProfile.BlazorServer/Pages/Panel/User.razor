@@ -4,12 +4,36 @@
 @inject UserAuthenticationStateProvider AuthStateProvider;
 
 <PersonalInfo Alias="@(Alias)"></PersonalInfo>
+
 <section class="container">
     <article class="row">
-        <div class="col-4">
-
+        <div class="col-3 bg-dark d-flex flex-column justify-content-start row-gap-4 pt-4 pb-4">
+            <div class="card text-bg-dark" style="height: 18.75%;">
+                <img src="paisaje1.jpg" class="card-img object-fit-cover h-100" alt="...">
+                <div class="card-img-overlay d-flex justify-content-center align-items-center">
+                    <h3 class="card-title">Mi CV</h3>
+                </div>
+            </div>
+            <div class="card text-bg-dark" style="height: 18.75%;">
+                <img src="paisaje2.jpg" class="card-img object-fit-cover h-100" alt="...">
+                <div class="card-img-overlay d-flex justify-content-center align-items-center">
+                    <h3 class="card-title">Mi GitHub</h3>
+                </div>
+            </div>
+            <div class="card text-bg-dark" style="height: 25%;">
+                <img src="paisaje3.jpg" class="card-img object-fit-cover h-100" alt="...">
+                <div class="card-img-overlay d-flex justify-content-center align-items-center">
+                    <h3 class="card-title">Mis Certificaciones</h3>
+                </div>
+            </div>
+            <div class="card text-bg-dark" style="height: 37.5%;">
+                <img src="paisaje4.jpg" class="card-img object-fit-cover h-100" alt="...">
+                <div class="card-img-overlay d-flex justify-content-center align-items-center" style="height: 404px;">
+                    <h3 class="card-title">Mis Colegas</h3>
+                </div>
+            </div>
         </div>
-        <div class="col-8">
+        <div class="col-9">
             <Skills Alias="@(Alias)"></Skills>
             <Experiences Alias="@(Alias)"></Experiences>
             <Educations Alias="@(Alias)"></Educations>
