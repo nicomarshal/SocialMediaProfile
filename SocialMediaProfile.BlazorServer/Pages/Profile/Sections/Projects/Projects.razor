@@ -1,6 +1,6 @@
 ﻿@inject IProjectWebService ProjectWebService;
 
-<section class="projects bg-projects p-4">
+<section id="proyectos" class="projects bg-projects ps-4 pe-4 pb-4" style="padding-top: 96px;">
     <article class="container">
         <div class="position-relative">
             <h2 class="mb-4 text-center text-sm-start">Proyectos</h2>
@@ -16,10 +16,10 @@
                 </Authorized>
             </AuthorizeView>
         </div>
-        <div class="row row-cols-3 g-4" style="padding-left: 6px; padding-right: 6px;">
+        <div class="row row-cols-3">
             @foreach (var proj in _projectsList)
             {
-                <div class="col">
+                <div class="col p-4">
                     <div class="card h-100 bg-dark text-white">
                         <div class="images position-relative">
                             <img src="@(proj.Images)" class="card-img-top object-fit-cover" style="height: 250px;" alt="Project">
