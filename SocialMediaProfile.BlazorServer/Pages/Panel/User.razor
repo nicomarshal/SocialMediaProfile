@@ -5,11 +5,16 @@
 
 <Banner></Banner>
 
-<PersonalInfo Alias="@(Alias)"></PersonalInfo>
+<div class="container">
+    <section class="row">
+        <article class="col">
+            <PersonalInfo Alias="@(Alias)"></PersonalInfo>
+        </article>
+    </section>
 
-<section id="tecnologías" class="container" style="padding-top: 72px;">
-    <article class="row">
-        <div class="col-3 bg-dark d-flex flex-column justify-content-start row-gap-4 pt-4 pb-4">
+    <section id="tecnologías" class="row" style="padding-top: 96px;">
+        @*ASIDE*@
+        <article class="col-3 d-flex flex-column justify-content-start row-gap-4">
             <div class="card text-bg-dark" style="height: 18.75%;">
                 <img src="paisaje1.jpg" class="card-img object-fit-cover h-100" alt="...">
                 <div class="card-img-overlay d-flex justify-content-center align-items-center">
@@ -34,16 +39,21 @@
                     <h3 class="card-title">Mis Colegas</h3>
                 </div>
             </div>
-        </div>
-        <div class="col-9">
+        </article> 
+        @*MAIN*@
+        <article class="col-9 ps-5">
             <Skills Alias="@(Alias)"></Skills>
             <Experiences Alias="@(Alias)"></Experiences>
             <Educations Alias="@(Alias)"></Educations>
-        </div>
-    </article>
-</section>
+        </article> 
+    </section>
 
-<Projects Alias="@(Alias)"></Projects>
+    <section id="proyectos" class="row" style="padding-top: 96px;">
+        <article class="col">
+            <Projects Alias="@(Alias)"></Projects>
+        </article> 
+    </section>
+</div>
 
 @code {
     [Parameter]
