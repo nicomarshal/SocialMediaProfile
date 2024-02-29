@@ -24,6 +24,11 @@
     background: linear-gradient(0deg, #212529, #000000);
 }
 
+.bg-wave {
+    background: #212529;
+    background: linear-gradient(180deg, #212529, transparent);
+}
+
 /* custom scrollbar */
 ::-webkit-scrollbar {
     width: 9px;

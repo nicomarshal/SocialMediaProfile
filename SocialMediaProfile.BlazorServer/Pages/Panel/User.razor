@@ -5,54 +5,70 @@
 
 <Banner></Banner>
 
-<div class="container">
-    <section class="row">
-        <article class="col">
-            <PersonalInfo Alias="@(Alias)"></PersonalInfo>
-        </article>
-    </section>
+<section class="bg-dark position-relative" style="padding-bottom: 96px;">
+    <article class="container">
+        <div class="row">
+            <div class="col">
+                <PersonalInfo Alias="@(Alias)"></PersonalInfo>
+            </div>
+        </div>
+    </article>
+    <article class="position-absolute bottom-0 w-100" style="height: 150px; overflow: hidden;">
+        <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+            <path d="M-59.59,56.59 C228.21,229.81 -91.19,19.19 571.33,108.75 L500.00,149.60 L-1.46,151.07 Z" style="stroke: none; fill: black;"></path>
+        </svg>
+    </article>
+</section>
 
-    <section id="tecnologías" class="row" style="padding-top: 96px;">
-        @*ASIDE*@
-        <article class="col-3 d-flex flex-column justify-content-start row-gap-4">
-            <div class="card text-bg-dark" style="height: 18.75%;">
-                <img src="paisaje1.jpg" class="card-img object-fit-cover h-100" alt="...">
-                <div class="card-img-overlay d-flex justify-content-center align-items-center">
-                    <h3 class="card-title">Mi CV</h3>
+<section class="bg-black text-white position-relative">
+    <article class="container">
+        <div id="tecnologías" class="row" style="padding-top: 72px;">
+            @*ASIDE*@
+            <article class="col-3 d-flex flex-column justify-content-start row-gap-4">
+                <div class="card text-bg-dark" style="height: 18.75%;">
+                    <img src="paisaje1.jpg" class="card-img object-fit-cover h-100" alt="...">
+                    <div class="card-img-overlay d-flex justify-content-center align-items-center">
+                        <h3 class="card-title">Mi CV</h3>
+                    </div>
                 </div>
-            </div>
-            <div class="card text-bg-dark" style="height: 18.75%;">
-                <img src="paisaje2.jpg" class="card-img object-fit-cover h-100" alt="...">
-                <div class="card-img-overlay d-flex justify-content-center align-items-center">
-                    <h3 class="card-title">Mi GitHub</h3>
+                <div class="card text-bg-dark" style="height: 18.75%;">
+                    <img src="paisaje2.jpg" class="card-img object-fit-cover h-100" alt="...">
+                    <div class="card-img-overlay d-flex justify-content-center align-items-center">
+                        <h3 class="card-title">Mi GitHub</h3>
+                    </div>
                 </div>
-            </div>
-            <div class="card text-bg-dark" style="height: 25%;">
-                <img src="paisaje3.jpg" class="card-img object-fit-cover h-100" alt="...">
-                <div class="card-img-overlay d-flex justify-content-center align-items-center">
-                    <h3 class="card-title">Mis Certificaciones</h3>
+                <div class="card text-bg-dark" style="height: 25%;">
+                    <img src="paisaje3.jpg" class="card-img object-fit-cover h-100" alt="...">
+                    <div class="card-img-overlay d-flex justify-content-center align-items-center">
+                        <h3 class="card-title">Mis Certificaciones</h3>
+                    </div>
                 </div>
-            </div>
-            <div class="card text-bg-dark" style="height: 37.5%;">
-                <img src="paisaje4.jpg" class="card-img object-fit-cover h-100" alt="...">
-                <div class="card-img-overlay d-flex justify-content-center align-items-center" style="height: 404px;">
-                    <h3 class="card-title">Mis Colegas</h3>
+                <div class="card text-bg-dark" style="height: 37.5%;">
+                    <img src="paisaje4.jpg" class="card-img object-fit-cover h-100" alt="...">
+                    <div class="card-img-overlay d-flex justify-content-center align-items-center" style="height: 404px;">
+                        <h3 class="card-title">Mis Colegas</h3>
+                    </div>
                 </div>
-            </div>
-        </article> 
-        @*MAIN*@
-        <article class="col-9 ps-5">
-            <Skills Alias="@(Alias)"></Skills>
-            <Experiences Alias="@(Alias)"></Experiences>
-            <Educations Alias="@(Alias)"></Educations>
-        </article> 
-    </section>
+            </article>
+            @*MAIN*@
+            <article class="col-9 ps-5">
+                <Skills Alias="@(Alias)"></Skills>
+                <Experiences Alias="@(Alias)"></Experiences>
+                <Educations Alias="@(Alias)"></Educations>
+            </article>
+        </div>
+    </article>
+</section>
 
-    <section id="proyectos" class="row" style="padding-top: 96px;">
-        <article class="col">
-            <Projects Alias="@(Alias)"></Projects>
-        </article> 
-    </section>
+
+<div class="bg-projects">
+    <div class="container">
+        <section id="proyectos" class="row" style="padding-top: 120px;">
+            <article class="col">
+                <Projects Alias="@(Alias)"></Projects>
+            </article>
+        </section>
+    </div>
 </div>
 
 @code {

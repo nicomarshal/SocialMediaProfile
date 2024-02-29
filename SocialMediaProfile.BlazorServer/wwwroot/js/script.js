@@ -13,3 +13,5 @@ function ScrollToAboutMeSection() {
 
     window.scrollTo({ top: height, behavior: 'smooth' });
 }
+
+//DESARROLLAR METODO PARA SKILLS
