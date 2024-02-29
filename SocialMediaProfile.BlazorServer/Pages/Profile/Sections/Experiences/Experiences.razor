@@ -1,9 +1,9 @@
 ﻿@inject IExperienceWebService ExperienceWebService;
 
 <section id="experiencia" class="experiences" style="padding-top: 120px;">
-    <article class="d-flex flex-column row-gap-4">
+    <article class="d-flex flex-column">
         <div class="position-relative">
-            <h2 class="text-center text-sm-start mb-0">Experiencia Laboral</h2>
+            <h2 class="text-center text-sm-start pb-3 mb-0">Experiencia Laboral</h2>
             <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
                 <Authorized>
                     <div class="position-absolute top-0 end-0">
@@ -16,7 +16,7 @@
                 </Authorized>
             </AuthorizeView>
         </div>
-        <div class="overflow-y-auto overflow-x-hidden" style="height: 300px;">
+        <div class="d-flex flex-column row-gap-3 overflow-y-auto overflow-x-hidden pt-5" style="border-top: 3px solid #1B5DC2; max-height: 600px;">
             @foreach (var exp in _experiencesList)
             {
                 <div class="row">
