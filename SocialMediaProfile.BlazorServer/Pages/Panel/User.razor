@@ -5,7 +5,7 @@
 
 <Banner></Banner>
 
-<section class="bg-dark position-relative" style="padding-bottom: 96px;">
+<section class="aboutme text-white position-relative" style="padding-bottom: 7rem; background: #212529;">
     <article class="container">
         <div class="row">
             <div class="col">
@@ -13,37 +13,37 @@
             </div>
         </div>
     </article>
-    <article class="position-absolute bottom-0 w-100" style="height: 150px; overflow: hidden;">
+    <article class="position-absolute bottom-0 w-100" style="height: 9.5rem; overflow: hidden;">
         <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
             <path d="M-59.59,56.59 C228.21,229.81 -91.19,19.19 571.33,108.75 L500.00,149.60 L-1.46,151.07 Z" style="stroke: none; fill: #1A1C1D;"></path>
         </svg>
     </article>
 </section>
 
-<section class="text-white position-relative" style="padding-bottom: 96px; background:#1A1C1D;">
+<section class="text-white position-relative" style="padding-top: 72px; padding-bottom: 96px; background:#1A1C1D;">
     <article class="container">
-        <div id="tecnologías" class="row" style="padding-top: 72px;">
+        <div id="tecnologías" class="row">
             @*ASIDE*@
-            <article class="col-3 d-flex flex-column justify-content-center row-gap-4">
-                <div class="card text-bg-dark" style="height: 18.75%;">
+            <article class="col-3 d-flex flex-column justify-content-center row-gap-5">
+                <div class="card text-bg-dark" style="height: 15%;">
                     <img src="paisaje1.jpg" class="card-img object-fit-cover h-100" alt="...">
                     <div class="card-img-overlay d-flex justify-content-center align-items-center">
                         <h3 class="card-title">Mi CV</h3>
                     </div>
                 </div>
-                <div class="card text-bg-dark" style="height: 18.75%;">
+                <div class="card text-bg-dark" style="height: 15%;">
                     <img src="paisaje2.jpg" class="card-img object-fit-cover h-100" alt="...">
                     <div class="card-img-overlay d-flex justify-content-center align-items-center">
                         <h3 class="card-title">Mi GitHub</h3>
                     </div>
                 </div>
-                <div class="card text-bg-dark" style="height: 25%;">
+                <div class="card text-bg-dark" style="height: 20%;">
                     <img src="paisaje3.jpg" class="card-img object-fit-cover h-100" alt="...">
                     <div class="card-img-overlay d-flex justify-content-center align-items-center">
                         <h3 class="card-title">Mis Certificaciones</h3>
                     </div>
                 </div>
-                <div class="card text-bg-dark" style="height: 37.5%;">
+                <div class="card text-bg-dark" style="height: 30%;">
                     <img src="paisaje4.jpg" class="card-img object-fit-cover h-100" alt="...">
                     <div class="card-img-overlay d-flex justify-content-center align-items-center" style="height: 404px;">
                         <h3 class="card-title">Mis Colegas</h3>
@@ -58,18 +58,22 @@
             </article>
         </div>
     </article>
+    <article class="position-absolute bottom-0 w-100" style="height: 150px; overflow: hidden;">
+        <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+            <path d="M-59.59,56.59 C228.21,229.81 -91.19,19.19 571.33,108.75 L500.00,149.60 L-1.46,151.07 Z" style="stroke: none; fill: #212529;"></path>
+        </svg>
+    </article>
 </section>
 
-
-<div class="bg-projects">
-    <div class="container">
-        <section id="proyectos" class="row" style="padding-top: 120px;">
-            <article class="col">
+<section class="bg-projects">
+    <article class="container">
+        <div id="proyectos" class="row" style="padding-top: 72px; padding-bottom: 96px;">
+            <div class="col">
                 <Projects Alias="@(Alias)"></Projects>
-            </article>
-        </section>
-    </div>
-</div>
+            </div>
+        </div>
+    </article>
+</section>
 
 @code {
     [Parameter]

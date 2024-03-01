@@ -1,5 +1,5 @@
 ﻿.fs {
-    font-size: 1.1rem !important;
+    font-size: 1.05rem !important;
 }
 
 .border-nav {
@@ -51,7 +51,7 @@
 
 @media screen and (min-width: 576px) {
     .fs-sm {
-        font-size: 1.20rem !important;
+        font-size: 1.15rem !important;
     }
 
     .border-sm-nav {
