@@ -6,40 +6,41 @@
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <section class="modal fade" id="addProject" tabindex="-1" aria-labelledby="addProjectLabel" aria-hidden="true">
         <article class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark text-white">
-                <div class="modal-header" data-bs-theme="dark">
-                    <h1 class="modal-title fs-5" id="addProjectLabel">Agregar Proyecto</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetModel()"></button>
+            <div class="modal-content bg-dark text-white p-2">
+                <div class="modal-header border-0 m-3 mb-2 p-0 position-relative" data-bs-theme="dark">
+                    <h4 class="modal-title w-100 pb-2" id="addProjectLabel" style="font-size: 1.60rem; border-bottom: 0.1875rem solid #1B5DC2;">Agregar Proyecto</h4>
+                    <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetModel()"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="projectName">Project</label>
+                <div class="modal-body" style="font-size: 1.15rem;">
+                    <div class="form-group pb-3">
+                        <label for="projectName" class="pb-1">Proyecto</label>
                         <InputText id="projectName" class="form-control" @bind-Value="_projectDTO.Name" />
                         <ValidationMessage For="() => _projectDTO.Name"></ValidationMessage>
                     </div>
-                    <div class="form-group">
-                        <label for="startDate">Start Date</label>
+                    <div class="form-group pb-3">
+                        <label for="images" class="pb-1">Imágenes</label>
+                        <InputText id="images" class="form-control" @bind-Value="_projectDTO.Images" />
+                    </div>
+                    <div class="form-group pb-3">
+                        <label for="url" class="pb-1">Repositorio</label>
+                        <InputText id="url" class="form-control" @bind-Value="_projectDTO.URL" />
+                    </div>
+                    <div class="form-group pb-3">
+                        <label for="startDate" class="pb-1">Fecha de Ingreso</label>
                         <InputDate id="startDate" class="form-control" @bind-Value="_projectDTO.StartDate" />
                         <ValidationMessage For="() => _projectDTO.StartDate"></ValidationMessage>
-
-                        <label for="finshDate">Finish Date</label>
+                    </div>
+                    <div class="form-group pb-3">
+                        <label for="finshDate" class="pb-1">Fecha de Egreso</label>
                         <InputDate id="finshDate" class="form-control" @bind-Value="_projectDTO.FinishDate" />
                     </div>
                     <div class="form-group">
-                        <label for="description">Description</label>
+                        <label for="description" class="pb-1">Descripción</label>
                         <InputTextArea id="description" class="form-control" @bind-Value="_projectDTO.Description" />
                     </div>
-                    <div class="form-group">
-                        <label for="images">Images</label>
-                        <InputText id="images" class="form-control" @bind-Value="_projectDTO.Images" />
-                    </div>
-                    <div class="form-group">
-                        <label for="url">Repository</label>
-                        <InputText id="url" class="form-control" @bind-Value="_projectDTO.URL" />
-                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
+                <div class="modal-footer border-0">
+                    <button type="submit" class="btn text-white" style="background: #1B5DC2;" data-bs-dismiss="modal">Agregar</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => ResetModel()">Cancelar</button>
                 </div>
             </div>

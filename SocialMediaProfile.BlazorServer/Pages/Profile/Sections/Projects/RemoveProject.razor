@@ -4,16 +4,16 @@
 
 <section class="modal fade" id="removeProject" tabindex="-1" aria-labelledby="removeProjectLabel" aria-hidden="true">
     <article class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark text-white">
-            <div class="modal-header" data-bs-theme="dark">
-                <h1 class="modal-title fs-5" id="removeProjectLabel">Eliminar Proyecto</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content bg-dark text-white p-2">
+            <div class="modal-header border-0 m-3 mb-2 p-0 position-relative" data-bs-theme="dark">
+                <h4 class="modal-title  w-100 pb-2" id="removeProjectLabel" style="font-size: 1.60rem; border-bottom: 0.1875rem solid #1B5DC2;">Eliminar Proyecto</h4>
+                <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="font-size: 1.15rem;">
                 ¿Estás seguro?
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => DeleteProject(_projectId)">Eliminar</button>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn text-white" style="background: #1B5DC2;"  data-bs-dismiss="modal" @onclick="() => DeleteProject(_projectId)">Eliminar</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
