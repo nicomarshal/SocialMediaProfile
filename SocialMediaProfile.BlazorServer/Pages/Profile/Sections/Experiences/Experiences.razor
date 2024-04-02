@@ -1,6 +1,6 @@
 ﻿@inject IExperienceWebService ExperienceWebService;
 
-<section id="experiencia" class="experiences" style="padding-top: 120px;">
+<section id="experiencia" class="experiences" style="padding-top: 9rem;">
     <article class="d-flex flex-column">
         <div class="position-relative">
             <h2 class="text-center text-sm-start pb-3 mb-0">Experiencia Laboral</h2>
@@ -16,34 +16,40 @@
                 </Authorized>
             </AuthorizeView>
         </div>
-        <div class="d-flex flex-column row-gap-3 overflow-y-auto overflow-x-hidden pt-5" style="border-top: 3px solid #1B5DC2; max-height: 600px;">
+        <div class="d-flex flex-column overflow-y-auto overflow-x-hidden pt-5" style="border-top: 0.1875rem solid #1B5DC2; max-height: 40rem;">
             @foreach (var exp in _experiencesList)
             {
-                <div class="row">
-                    <div class="logo col-3 col-md-2 ps-0 position-relative">
-                        <img class="object-fit-cover rounded-circle position-absolute top-0 start-50 translate-middle-x" style="width: 70px; height: 70px;" src="efalcom.png" alt="Logo">
-                    </div>
-                    <div class="position-relative col-9 col-md-10 pe-0">
-                        <h4 class="companyName w-50 text-break">@(exp.Name)</h4>
-                        <h4 class="job">@(exp.Job)</h4>
-                        <h6 class="period">@(exp.StartDate.Date)-@(exp.FinishDate.Date)</h6>
-                        <p class="description" style="max-width:576px">@(exp.Description)</p>
-                        <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
-                            <Authorized>
-                                <div class="position-absolute top-0 end-0" style="margin-right: 18px;">
-                                    <button class="edit btn btn-primary rounded-circle p-2" style="background: #1B5DC2;" data-bs-toggle="modal" data-bs-target="#editExperience" @onclick="() => EditExperienceSelected(exp)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil" viewBox="0 0 16 16">
-                                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                                        </svg>
-                                    </button>
-                                    <button class="delete btn btn-primary rounded-circle p-2" style="background: #1B5DC2;" data-bs-toggle="modal" data-bs-target="#removeExperience" @onclick="() => RemoveExperienceSelected(exp.Id)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </Authorized>
-                        </AuthorizeView>
+                <div class="card mb-3 text-white border-0" style="background:#1A1C1D;">
+                    <div class="row g-0">
+                        <div class="col-md-2 d-flex justify-content-center align-items-start pt-3">
+                            <img src="efalcom.png" class="object-fit-cover rounded-circle" style="width: 5rem; height: 5rem;" alt="logo">
+                        </div>
+                        <div class="col-md-10">
+                            <div class="card-body position-relative">
+                                <h4 class="card-title" style="font-size: 1.60rem;">@(exp.Name.ToUpper())</h4>
+                                <h5 class="card-title" style="font-size: 1.35rem;">@(exp.Job)</h5>
+
+                                <p class="card-text lh-base" style="font-size: 1.17rem; max-width: 36rem;">@(exp.Description)</p>
+                                <p class="card-text"><small class="text-light">@(exp.StartDate.Date)-@(exp.FinishDate.Date)</small></p>
+
+                                <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
+                                    <Authorized>
+                                        <div class="position-absolute top-0 end-0" style="margin-right: 1.125rem;">
+                                            <button class="edit btn btn-primary rounded-circle p-2" style="background: #1B5DC2;" data-bs-toggle="modal" data-bs-target="#editExperience" @onclick="() => EditExperienceSelected(exp)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil" viewBox="0 0 16 16">
+                                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                                                </svg>
+                                            </button>
+                                            <button class="delete btn btn-primary rounded-circle p-2" style="background: #1B5DC2;" data-bs-toggle="modal" data-bs-target="#removeExperience" @onclick="() => RemoveExperienceSelected(exp.Id)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </Authorized>
+                                </AuthorizeView>
+                            </div>
+                        </div>
                     </div>
                 </div>
             }

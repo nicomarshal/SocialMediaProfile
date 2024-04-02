@@ -1,10 +1,9 @@
 ﻿@inject ISkillWebService SkillWebService;
 
 <section class="skills">
-    @*style="margin-top: -60px;"*@
-    <article class="d-flex flex-column row-gap-5">
+    <article class="d-flex flex-column">
         <div class="position-relative">
-            <h2 class="text-center text-sm-start pb-3 mb-3" style="border-bottom: 3px solid #1B5DC2">Tecnologìas</h2>
+            <h2 class="text-center text-sm-start pb-3 mb-3" style="border-bottom: 0.1875rem solid #1B5DC2">Tecnologìas</h2>
             <AuthorizeView Policy="AliasPolicy" Resource=@(Alias)>
                 <Authorized>
                     <div class="position-absolute top-0 end-0">
@@ -17,7 +16,7 @@
                 </Authorized>
             </AuthorizeView>
         </div>
-        <div id="carouselExample" class="carousel slide">
+        <div id="carouselExample" class="carousel slide pt-5">
             <div class="carousel-inner">
                 @{
                     bool isFirstIteration = true;

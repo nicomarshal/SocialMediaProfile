@@ -8,37 +8,38 @@
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <section class="modal fade" id="editExperience" tabindex="-1" aria-labelledby="editExperienceLabel" aria-hidden="true">
             <article class="modal-dialog modal-dialog-centered">
-                <div class="modal-content bg-dark text-white">
-                    <div class="modal-header" data-bs-theme="dark">
-                        <h1 class="modal-title fs-5" id="editExperienceLabel">Editar Experiencia</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetModel()"></button>
+                <div class="modal-content bg-dark text-white p-2">
+                    <div class="modal-header border-0 m-3 mb-2 p-0 position-relative" data-bs-theme="dark">
+                        <h4 class="modal-title w-100 pb-2" id="editExperienceLabel" style="font-size: 1.60rem; border-bottom: 0.1875rem solid #1B5DC2;">Editar Experiencia</h4>
+                        <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close" @onclick="() => ResetModel()"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="companyName">Company</label>
+                        <div class="form-group pb-3">
+                            <label for="companyName" class="pb-1">Empresa</label>
                             <InputText id="companyName" class="form-control" @bind-Value="_experienceDTO.Name" />
                             <ValidationMessage For="() => _experienceDTO.Name"></ValidationMessage>
                         </div>
-                        <div class="form-group">
-                            <label for="job">Job</label>
+                        <div class="form-group pb-3">
+                            <label for="job" class="pb-1">Puesto</label>
                             <InputText id="job" class="form-control" @bind-Value="_experienceDTO.Job" />
                             <ValidationMessage For="() => _experienceDTO.Job"></ValidationMessage>
                         </div>
-                        <div class="form-group">
-                            <label for="startDate">Start Date</label>
+                        <div class="form-group pb-3">
+                            <label for="startDate" class="pb-1">Fecha de Ingreso</label>
                             <InputDate id="startDate" class="form-control" @bind-Value="_experienceDTO.StartDate" />
                             <ValidationMessage For="() => _experienceDTO.StartDate"></ValidationMessage>
-
-                            <label for="finshDate">Finish Date</label>
+                        </div>
+                        <div class="form-group pb-3">
+                            <label for="finshDate" class="pb-1">Fecha de Egreso</label>
                             <InputDate id="finshDate" class="form-control" @bind-Value="_experienceDTO.FinishDate" />
                         </div>
                         <div class="form-group">
-                            <label for="description">Description</label>
+                            <label for="description" class="pb-1">Descripción</label>
                             <InputTextArea id="description" class="form-control" @bind-Value="_experienceDTO.Description" />
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Editar</button>
+                    <div class="modal-footer border-0">
+                        <button type="submit" class="btn text-white" style="background: #1B5DC2;" data-bs-dismiss="modal">Editar</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => ResetModel()">Cancelar</button>
                     </div>
                 </div>

@@ -50,6 +50,10 @@
 }
 
 @media screen and (min-width: 576px) {
+    html {
+        font-size: 15px;
+    }
+
     .fs-sm {
         font-size: 1.15rem !important;
     }
@@ -59,11 +63,11 @@
     }
 
     .banner-sm {
-        min-height: 70vh;
+        min-height: 75vh;
     }
 
     .personalInfo-sm {
-        min-height: 30vh;
+        min-height: 25vh;
     }
 
     .fixed-sm-top {
